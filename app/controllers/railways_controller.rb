@@ -37,7 +37,7 @@ class RailwaysController < ApplicationController
     post_params['method'] = 'webpurify.live.check'
     post_params['api_key'] = 'a924c915b693f7f4ad97da6deca0fc56'
     post_params['format'] = 'json'
-    post_params['lang'] = 'en'
+    post_params['lang'] = if params['lang'].blank? ? "en" : params['lang']
     data = post_params.map{|k,v| "#{k}=#{v}"}.join('&')
 
     uri = URI.parse('http://api1.webpurify.com/services/rest/')
