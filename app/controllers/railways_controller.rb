@@ -39,6 +39,7 @@ class RailwaysController < ApplicationController
     post_params['format'] = 'json'
     post_params['lang'] = if params['lang'].blank? ? "en" : params['lang']
     data = post_params.map{|k,v| "#{k}=#{v}"}.join('&')
+    Rails.logger.info(data)
 
     uri = URI.parse('http://api1.webpurify.com/services/rest/')
     initheader = {"Content-type"=> "application/x-www-form-urlencoded", "Accept"=> "text/json"}
