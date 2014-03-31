@@ -47,6 +47,8 @@ class RailwaysController < ApplicationController
     json = JSON.parse resp.body
     if json['rsp']['@attributes']['stat'] != "ok"
       return 'failure'
+    end
+      
     return json['rsp']['found']
   end
 
