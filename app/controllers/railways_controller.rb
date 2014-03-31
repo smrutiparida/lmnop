@@ -25,7 +25,7 @@ class RailwaysController < ApplicationController
         end
         @final_list.push(detail) unless detail[:berth].blank?
       end  
- 	rescue Exception=>e
+ 	  rescue Exception=>e
       Rails.logger.info(e)
     end    
     render :json => @final_list.to_json
@@ -46,10 +46,10 @@ class RailwaysController < ApplicationController
     resp = http.post(uri.path, data, initheader)
     json = JSON.parse resp.body
     if json['rsp']['@attributes']['stat'] != "ok"
-      return 'failure'
+      return :json =>'failure'
     end
       
-    return json['rsp']['found']
+    render :json => json['rsp']['found']
   end
 
   private
