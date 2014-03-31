@@ -2,6 +2,7 @@ require "uri"
 require "net/http"
 require 'nokogiri'
 require 'open-uri'
+require 'json'
 
 class RailwaysController < ApplicationController
   def pnr
@@ -30,7 +31,27 @@ class RailwaysController < ApplicationController
     render :json => @final_list.to_json
   end
 
+  def profanity
+    post_params = {}
+    post_params['text'] = params['q']
+    post_params['method'] = 'webpurify.live.check'
+    post_params['api_key'] = 'a924c915b693f7f4ad97da6deca0fc56'
+    post_params['format'] = 'json'
+    post_params['lang'] = 'en'
+    data = post_params.map{|k,v| "#{k}=#{v}"}.join('&')
+
+    uri = URI.parse('http://api1.webpurify.com/services/rest/')
+    initheader = {"Content-type"=> "application/x-www-form-urlencoded", "Accept"=> "text/json"}
+    http = Net::HTTP.new(uri.host,uri.port)
+    resp = http.post(uri.path, data, initheader)
+    json = JSON.parse resp.body
+    if json['rsp']['@attributes']['stat'] != "ok"
+      return 'failure'
+    return json['rsp']['found']
+  end
+
   private
+  
   
   def get_railway_data()
   	doc = Nokogiri::HTML(open('http://www.indianrail.gov.in/pnr_Enq.html'))
@@ -56,5 +77,8 @@ class RailwaysController < ApplicationController
     resp, body = http.post(uri.path, data, initheader)
     return resp.body
   end	
+
+
+  
 
 end

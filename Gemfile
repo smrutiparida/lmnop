@@ -38,6 +38,6 @@ gem 'jquery-rails'
 # gem 'debugger'
 
 gem 'nokogiri'
-
+gem 'json'
 
 
