@@ -1,6 +1,6 @@
 <script>
   $(function() {
-    $( "#slider" ).slider();
+    $( "#slider" ).slider({step:100,value:1,change:function(){alert($( "#slider" ).slider( "value" ));}});
   });
 </script>
 
