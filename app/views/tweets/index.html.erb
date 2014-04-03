@@ -8,7 +8,7 @@
    
   //$(document).on("click",'a.hashtagclick',  function(){
   function update(val){  
-    alert(val);
+
     var val_array =$( "#slider" ).slider( "values" );
     $("#tweetlist").empty();
     $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_search/low=" + val_array[0] + "&high=" + val_array[1] + "&size=50&top=0&q=" + encodeURIComponent(val) ,function( data ) {
