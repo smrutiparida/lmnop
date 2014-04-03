@@ -1,4 +1,20 @@
 <script>
+$( document ).ready(function() {
+   $('#viewselect').change(function() {
+    if($("#viewselect option:selected").text() == "Tweets"){
+      $("#tweetTime").fadeIn("slow").show();
+    }else{
+      $("#tweetTime").hide();
+    }
+  });
+});
+
+function changeColor(){
+  document.getElementById('prgressHighlight').style.width = rangeinput.value+"%";
+  document.getElementById('rangevalue').value = rangeinput.value+"%";
+}
+
+/*
   var markup = '<div class="content"><div class="stream-item-header"><a class="account-group js-account-group js-action-profile js-user-profile-link js-nav" target="_blank" href="http://www.twitter.com/${screen_name}"><img class="avatar js-action-profile-avatar" src="${profile_image_url}" alt=""><strong class="fullname js-action-profile-name show-popup-with-id">${name}</strong><span class="username js-action-profile-name"><s>@</s><b>${screen_name}</b></span></a><small class="time"><a target="_blank" href="http://www.twitter.com/status/{tweet_id}" class="tweet-timestamp js-permalink js-nav js-tooltip"><span class="_timestamp js-short-timestamp js-relative-timestamp" data-time="1396512393" data-long-form="true">4h</span></a></small></div><p class="js-tweet-text tweet-text">${tweet_text}</p></div>';
 
   var hashtag = "<div><a href='#' class='hashtagclick' onclick='update(\"${term}\");'>${term}</a></div>";
@@ -49,8 +65,88 @@
         }
     });
   });
-
+*/
 </script>
+  <div class="mainDiv">
+    <div id="slider">
+      <div class="heading">
+        <h1>Twitter Credibility Line</h1>
+        <h2>Drag the slider to start. <a id="modal-more" href="#modal-container-more" data-toggle="modal" style="border:0; outline:none">How it works?</a></h2>
+      </div>
+      <div class="nav_selcet">
+        <span style="padding-right:15px;">
+          <b>Country</b>
+          <span class="input-xlarge uneditable-input" style="width:200px; text-align:left">India</span>
+        </span>
+        <span style="padding-right:15px;">
+          <b>View</b>
+          <select id="viewselect">
+            <option>Accounts</option>
+            <option id="show">Tweets</option>
+          </select>
+        </span>
+        <span style="display:none" id="tweetTime">
+          <b>Topic</b>
+          <select>
+            <option>All</option>
+            <option>News</option>
+          </select>
+        </span>
+      </div>
+      <div class="progressMain">
+        <p class="rotateleft">verified a/c</p>
+        <p class="rotateright">general a/c</p>
+        <div class="progressbar">
+          <div class="progressbar_2" style="width:1%;" id="prgressHighlight"></div>
+        </div>
+        <input class="bar" type="range" id="rangeinput" value="0" onchange="changeColor();" style="border:0; outline:none;"/>
+        <span class="highlight"></span>
+        <output id="rangevalue">0</output>
+      </div>
+    </div>
+    <div class="tweetMainDiv">
+      <div class="tweetTags">
+        <span class="label label-info">tag 1</span>
+        <span class="label label-info">tag 2</span>
+        <span class="label label-info">tag 3</span>
+        <span class="label label-info">tag 4</span>
+      </div>
+      <div class="twitSec">
+        <div class="tw_img"><img src="images/tweet_pic.jpg" /></div>
+        <h1><a href="#">Sachin</a><span id="">@sachin</span>&nbsp;<span id="">Apr 4</span></h1>
+        <p>Please note this is the final set post which none of the recommendations will be accepted Please note this is the final set post which none!</p>
+      </div>
+      <div class="twitSec">
+        <div class="tw_img"><img src="images/tweet_pic.jpg" /></div>
+        <h1><a href="#">Sachin</a><span id="">@sachin</span>&nbsp;<span id="">Apr 4</span></h1>
+        <p>Please note this is the final set post which none of the recommendations will be accepted Please note this is the final set post which none!</p>
+      </div>
+      <div class="twitSec">
+        <div class="tw_img"><img src="images/tweet_pic.jpg" /></div>
+        <h1><a href="#">Sachin</a><span id="">@sachin</span>&nbsp;<span id="">Apr 4</span></h1>
+        <p>Please note this is the final set post which none of the recommendations will be accepted Please note this is the final set post which none!</p>
+      </div>
+      
+    </div>
+    <div id="modal-container-more" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">
+          How it works?
+        </h3>
+      </div>
+      <div class="modal-body">
+        <p>
+          We start with a set of verified accounts & then recursively find their followers with a belief that if a verified account A is following a non-verified account B, then B is credible too & pass on a % of A's credibility to B. If another verified account C follows B, then B's credibility gets further boost.
+        </p>
+        <p>This way, we figure out accounts which are credible but yet to be verified.</p>
+        
+      </div>
+      <div class="modal-footer">
+         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+  </div>
 
 <div id="slider"></div>
 <div id="trending">
