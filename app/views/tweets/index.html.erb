@@ -59,7 +59,7 @@ function addtoList(data){
     $("#trending").empty();
     $.tmpl( "twitterTemplate", data["data"]["tweets"] ).appendTo( "#tweetlist" );
     $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"]).appendTo( "#trending" );
-    $(".timeCal").each(function(index){ alert($(this).text()); $(this).innerHTML = timeSince($(this).innerHTML); alert($(this).innerHTML + "then");});
+    $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); });
   }
 
 
@@ -80,7 +80,7 @@ function addtoList(data){
     $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_search/low=" + score + "&high=800&size=50&top=0&q=" + encodeURIComponent(val) ,function( data ) {
       if (data["success"]) {
         $.tmpl( "twitterTemplate", data["data"]["tweets"] ).appendTo( "#tweetlist" );
-        $(".timeCal").each(function(index){$(this).innerHTML = timeSince($(this).innerHTML); });
+        $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); });
       }
       else {
         $( "#tweetlist" ).text("No tweet to show");
