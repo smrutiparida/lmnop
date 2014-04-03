@@ -49,9 +49,10 @@ function addtoList(data){
   //$(document).on("click",'a.hashtagclick',  function(){
   function update(val){  
 
-    var val_array =$( "#slider" ).slider( "values" );
+    //var val_array =$( "#slider" ).slider( "values" );
     $("#tweetlist").empty();
-    $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_search/low=" + val_array[0] + "&high=" + val_array[1] + "&size=50&top=0&q=" + encodeURIComponent(val) ,function( data ) {
+    var score = (100 - rangeinput.value) * 8;
+    $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_search/low=" + score + "&high=800&size=50&top=0&q=" + encodeURIComponent(val) ,function( data ) {
       if (data["success"]) {
         $.tmpl( "twitterTemplate", data["data"]["tweets"] ).appendTo( "#tweetlist" );
       }
@@ -104,8 +105,8 @@ function addtoList(data){
       </div>
     </div>
     <div class="tweetMainDiv">
-      <div id="trending"></div>
-      <div id="tweetlist" class="tweetTags"></div>  
+      <div id="trending" class="tweetTags"></div>
+      <div id="tweetlist"></div>  
     </div>
     <div id="modal-container-more" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-header">
