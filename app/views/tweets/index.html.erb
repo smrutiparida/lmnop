@@ -6,7 +6,7 @@
   $.template( "twitterTemplate", markup );
   $.template( "trendingTemplate", hashtag );
    
-  $('.hashtagclick').on("click",function(){
+  $(document).on("click",'a.hashtagclick',function(){
     
     var val_array =$( "#slider" ).slider( "values" );
     $("#tweetlist").empty();
