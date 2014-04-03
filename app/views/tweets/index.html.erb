@@ -4,8 +4,8 @@
       $("#newval").text($( "#slider" ).slider( "value" ));
       $.getJSON( "/100.json", function( data ) {
         var items = [];
-        $.each( data, function( key ) {
-          items.push( "<li id='" + key + "'>" + key + "</li>" );
+        $.each( data, function( key, val ) {
+          items.push( "<li id='" + key + "'>" + val + "</li>" );
         });
  
         $( "<ul/>", {
