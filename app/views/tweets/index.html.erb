@@ -1,8 +1,9 @@
 <script>
   $(function() {
-    $( "#slider" ).slider({step:100,value:300,min:0,max:800,change:function(){
+    $( "#slider" ).slider({step:100,value:800,min:0,max:800,change:function(){
       $("#newval").text($( "#slider" ).slider( "value" ));
-      $.getJSON( "/100.json", function( data ) {
+      $("#tweetlist").empty();
+      $.getJSON( "/" + $( "#slider" ).slider( "value" ) + ".json", function( data ) {
         var items = [];
         $.each( data, function( key, val ) {
           items.push( "<li id='" + key + "'>" + val + "</li>" );
@@ -15,8 +16,22 @@
       });
     }});
   });
+
+  $("#tweetlist").empty();
+  $.getJSON( "/800.json", function( data ) {
+        var items = [];
+        $.each( data, function( key, val ) {
+          items.push( "<li id='" + key + "'>" + val + "</li>" );
+        });
+ 
+        $( "<ul/>", {
+          "class": "my-new-list",
+          html: items.join( "" )
+        }).appendTo( "#tweetlist" );
+      });
 </script>
 
 <div id="slider"></div>
 <div id="newval"></div>
+<div id="tweetlist"></div>
 
