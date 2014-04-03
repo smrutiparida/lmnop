@@ -41,7 +41,7 @@ function addtoList(data){
   var markup = '<div class="twitSec"><div class="tw_img"><img src="${profile_image_url}" /></div><h1><a href="http://www.twitter.com/${screen_name}" target="_blank">${name}</a><span id="">@${screen_name}</span>&nbsp;<span id="">Apr 4</span></h1><p>${tweet_text}</p></div>';
   
 
-  var hashtag = "<span class='label label-info'><a href='#'' class='hashtagclick' onclick='update(\"${term}\");'>${term}</a></span>";
+  var hashtag = "<span class='label label-info' style='margin-right:5px;'><a href='#'' class='hashtagclick' onclick='update(\"${term}\");'>${term}</a></span>";
   
   $.template( "twitterTemplate", markup );
   $.template( "trendingTemplate", hashtag );
@@ -99,9 +99,9 @@ function addtoList(data){
         <div class="progressbar">
           <div class="progressbar_2" style="width:1%;" id="prgressHighlight"></div>
         </div>
-        <input class="bar" type="range" id="rangeinput" value="0" onchange="changeColor();" style="border:0; outline:none;"/>
+        <input class="bar" type="range" id="rangeinput" value="0" step="5" onchange="changeColor();" style="border:0; outline:none;"/>
         <span class="highlight"></span>
-        <output id="rangevalue">0</output>
+        <output id="rangevalue">800</output>
       </div>
     </div>
     <div class="tweetMainDiv">
