@@ -59,7 +59,7 @@ function addtoList(data){
     $("#trending").empty();
     $.tmpl( "twitterTemplate", data["data"]["tweets"] ).appendTo( "#tweetlist" );
     $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"]).appendTo( "#trending" );
-    $(".timeCal").each(function(index){ $(this).innerHTML = timeSince($(this).innerHTML); });
+    $(".timeCal").each(function(index){ alert($(this).innerHTML); $(this).innerHTML = timeSince($(this).innerHTML); alert($(this).innerHTML + "then");});
   }
 
 
