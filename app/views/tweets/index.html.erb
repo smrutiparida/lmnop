@@ -6,9 +6,23 @@
   $.template( "twitterTemplate", markup );
   $.template( "trendingTemplate", hashtag );
    
-
+  $('.hashtagclick').live("click",function(){
+    
+    var val_array =$( "#slider" ).slider( "values" );
+    $("#tweetlist").empty();
+    $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_search/low=" + val_array[0] + "&high=" + val_array[1] + "&size=50&top=0&q=" + $(this).text() ,function( data ) {
+      if (data["success"]) {
+        $.tmpl( "twitterTemplate", data["data"]["tweets"] ).appendTo( "#tweetlist" );
+      }
+      else {
+        $( "#tweetlist" ).text("No tweet to show");
+      }
+    });
+  });
   
   function addtoList(data){
+    $("#tweetlist").empty();
+    $("#trending").empty();
     $.tmpl( "twitterTemplate", data["data"]["tweets"] ).appendTo( "#tweetlist" );
     $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"]).appendTo( "#trending" );
   }
@@ -16,7 +30,7 @@
   $(function() {
     $( "#slider" ).slider({step:100,range:true,values:[600,750],min:0,max:800,change:function(){
       var val_array =$( "#slider" ).slider( "values" );
-      $("#tweetlist").empty();
+
       $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/low=" + val_array[0] + "&high=" + val_array[1] + "&size=50&top=0",function( data ) {
         if (data["success"]) {
           addtoList(data);
@@ -26,7 +40,6 @@
         }
       });
     }});
-    $("#tweetlist").empty();
     $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/low=600&high=750&size=50&top=0", 
       function( data ) {
         if (data["success"]) {
@@ -38,6 +51,8 @@
 </script>
 
 <div id="slider"></div>
-<div id="trending"></div>
+<div id="trending">
+  <a href="#" class="hashtagclick"></a>
+</div>
 <div id="tweetlist"></div>
 
