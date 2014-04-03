@@ -2,7 +2,7 @@
   $(function() {
     $( "#slider" ).slider({step:100,value:800,min:0,max:800,change:function(){
       $("#newval").text($( "#slider" ).slider( "value" ));
-      $("#tweetlist").empty();
+      //$("#tweetlist").empty();
       $.getJSON( "/" + $( "#slider" ).slider( "value" ) + ".json", function( data ) {
         var items = [];
         $.each( data, function( key, val ) {
@@ -12,7 +12,7 @@
         $( "<ul/>", {
           "class": "my-new-list",
           html: items.join( "" )
-        }).appendTo( "body" );
+        }).prependTo( "#tweetlist" );
       });
     }});
   });
