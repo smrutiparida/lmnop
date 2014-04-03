@@ -11,7 +11,7 @@
     alert(val);
     var val_array =$( "#slider" ).slider( "values" );
     $("#tweetlist").empty();
-    $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_search/low=" + val_array[0] + "&high=" + val_array[1] + "&size=50&top=0&q=" + val ,function( data ) {
+    $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_search/low=" + val_array[0] + "&high=" + val_array[1] + "&size=50&top=0&q=" + encodeURI(val) ,function( data ) {
       if (data["success"]) {
         $.tmpl( "twitterTemplate", data["data"]["tweets"] ).appendTo( "#tweetlist" );
       }
