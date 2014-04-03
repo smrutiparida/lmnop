@@ -15,6 +15,30 @@ $( document ).ready(function() {
   });
 */
 });
+function timeSince(date) {
+  var seconds = Math.floor((new Date().getUTCDate().getTime() - new Date(date)) / 1000);
+  var interval = Math.floor(seconds / 31536000);
+  if (interval > 1) {
+  return interval + "y ago";
+  }
+  interval = Math.floor(seconds / 2592000);
+  if (interval > 1) {
+  return interval + "mth ago";
+  }
+  interval = Math.floor(seconds / 86400);
+  if (interval > 1) {
+  return interval + "d ago";
+  }
+  interval = Math.floor(seconds / 3600);
+  if (interval > 1) {
+  return interval + "h ago";
+  }
+  interval = Math.floor(seconds / 60);
+  if (interval > 1) {
+  return interval + "m ago";
+  }
+  return Math.floor(seconds) + "s ago";
+}
 
 function changeColor(){
   document.getElementById('prgressHighlight').style.width = rangeinput.value+"%";
@@ -35,10 +59,11 @@ function addtoList(data){
     $("#trending").empty();
     $.tmpl( "twitterTemplate", data["data"]["tweets"] ).appendTo( "#tweetlist" );
     $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"]).appendTo( "#trending" );
+    $(".timeCal").each(function(index){$(this).text(timeSince($(this).text()));});
   }
 
 
-  var markup = '<div class="twitSec"><div class="tw_img"><img src="${profile_image_url}" /></div><h1><a href="http://www.twitter.com/${screen_name}" target="_blank">${name}</a><span id="">@${screen_name}</span>&nbsp;<span id="">Apr 4</span></h1><p>${tweet_text}</p></div>';
+  var markup = '<div class="twitSec"><div class="tw_img"><img src="${profile_image_url}" /></div><h1><a href="http://www.twitter.com/${screen_name}" target="_blank">${name}</a><span id="">@${screen_name}</span>&nbsp;<span class="timeCal">${created_at}</span></h1><p>${tweet_text}</p></div>';
   
 
   var hashtag = "<span class='label label-info' style='margin-right:5px;'><a href='#'' class='hashtagclick' onclick='update(\"${term}\");'>${term}</a></span>";
@@ -46,7 +71,7 @@ function addtoList(data){
   $.template( "twitterTemplate", markup );
   $.template( "trendingTemplate", hashtag );
    
-  //$(document).on("click",'a.hashtagclick',  function(){
+  //$(document).on("",'a.hashtagclick',  function(){});
   function update(val){  
 
     //var val_array =$( "#slider" ).slider( "values" );
@@ -55,6 +80,7 @@ function addtoList(data){
     $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_search/low=" + score + "&high=800&size=50&top=0&q=" + encodeURIComponent(val) ,function( data ) {
       if (data["success"]) {
         $.tmpl( "twitterTemplate", data["data"]["tweets"] ).appendTo( "#tweetlist" );
+        $(".timeCal").each(function(index){$(this).text(timeSince($(this).text()));});
       }
       else {
         $( "#tweetlist" ).text("No tweet to show");
