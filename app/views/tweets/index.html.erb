@@ -1,33 +1,43 @@
 <script>
+  var markup = '<div class="content"><div class="stream-item-header"><a class="account-group js-account-group js-action-profile js-user-profile-link js-nav" target="_blank" href="http://www.twitter.com/${screen_name}"><img class="avatar js-action-profile-avatar" src="${profile_image_url}" alt=""><strong class="fullname js-action-profile-name show-popup-with-id">${name}</strong><span class="username js-action-profile-name"><s>@</s><b>${screen_name}</b></span></a><small class="time"><a target="_blank" href="http://www.twitter.com/status/{tweet_id}" class="tweet-timestamp js-permalink js-nav js-tooltip"><span class="_timestamp js-short-timestamp js-relative-timestamp" data-time="1396512393" data-long-form="true">4h</span></a></small></div><p class="js-tweet-text tweet-text">${tweet_text}</p></div>'
+
+  $.template( "twitterTemplate", markup );
+
   $(function() {
-    $( "#slider" ).slider({step:100,value:800,min:0,max:800,change:function(){
-      $("#newval").text($( "#slider" ).slider( "value" ));
-      //$("#tweetlist").empty();
-      $.getJSON( "/" + $( "#slider" ).slider( "value" ) + ".json", function( data ) {
-        var items = [];
-        $.each( data, function( key, val ) {
-          items.push( "<li id='" + key + "'>" + val + "</li>" );
-        });
- 
-        $( "<ul/>", {
-          "class": "my-new-list",
-          html: items.join( "" )
-        }).prependTo( "#tweetlist" );
+    $( "#slider" ).slider({step:100,range:true,values:[600,750],min:0,max:800,change:function(){
+      var val_array =$( "#slider" ).slider( "values" );
+      $("#tweetlist").empty();
+      $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/low=" + val_array[0] + "&high=" + val_array[1] + "&size=50&top=0",function( data ) {
+        if (data["success"]) {
+          //var items = [];
+          //$.each( data["tweets"], function( key, val ) {
+            $.tmpl( "twitterTemplate", data["tweets"] ).appendTo( "#tweetlist" );
+            //items.push( "<li id='" + key + "'>" + val + "</li>" );
+          //});
+   
+          /*$( "<ul/>", {
+            "class": "my-new-list",
+            html: items.join( "" )
+          }).prependTo( "#tweetlist" );  
+          */
+        }
+        
       });
     }});
   });
 
+  
+  
+
   $("#tweetlist").empty();
-  $.getJSON( "/800.json", function( data ) {
-        var items = [];
-        $.each( data, function( key, val ) {
-          items.push( "<li id='" + key + "'>" + val + "</li>" );
-        });
- 
-        $( "<ul/>", {
-          "class": "my-new-list",
-          html: items.join( "" )
-        }).appendTo( "#tweetlist" );
+  $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/low=600&high=750&size=50&top=0", function( data ) {
+        if (data["success"]) {
+        //var items = [];
+         //$.each( data["tweets"], function( key, val ) {
+            $.tmpl( "twitterTemplate", data["tweets"] ).appendTo( "#tweetlist" );
+            //items.push( "<li id='" + key + "'>" + val + "</li>" );
+         //});
+        }
       });
 </script>
 
