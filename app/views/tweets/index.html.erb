@@ -17,9 +17,10 @@ $( document ).ready(function() {
 });
 
 function changeColor(){
-  document.getElementById('prgressHighlight').style.width = "Score " + rangeinput.value*8;
-  document.getElementById('rangevalue').value = "Score " + rangeinput.value;
-  $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/low=" + rangeinput.value*8 + "&high=800&size=50&top=0",function( data ) {
+  document.getElementById('prgressHighlight').style.width = rangeinput.value+"%";
+  var score = (100 - rangeinput.value) * 8;
+  document.getElementById('rangevalue').value = score;
+  $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/low=" + score + "&high=800&size=50&top=0",function( data ) {
         if (data["success"]) {
           addtoList(data);
         }
@@ -40,7 +41,7 @@ function addtoList(data){
   var markup = '<div class="twitSec"><div class="tw_img"><img src="${profile_image_url}" /></div><h1><a href="http://www.twitter.com/${screen_name}" target="_blank">${name}</a><span id="">@${screen_name}</span>&nbsp;<span id="">Apr 4</span></h1><p>${tweet_text}</p></div>';
   
 
-  var hashtag = "<span class='label label-info hashtagclick' onclick='update(\"${term}\");'>${term}</span>";
+  var hashtag = "<span class='label label-info'><a href='#'' class='hashtagclick' onclick='update(\"${term}\");'>${term}</a></span>";
   
   $.template( "twitterTemplate", markup );
   $.template( "trendingTemplate", hashtag );
@@ -104,7 +105,7 @@ function addtoList(data){
     </div>
     <div class="tweetMainDiv">
       <div id="trending"></div>
-      <div id="tweetlist"></div>  
+      <div id="tweetlist" class="tweetTags"></div>  
     </div>
     <div id="modal-container-more" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-header">
