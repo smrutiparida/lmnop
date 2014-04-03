@@ -1,7 +1,7 @@
 <script>
   var markup = '<div class="content"><div class="stream-item-header"><a class="account-group js-account-group js-action-profile js-user-profile-link js-nav" target="_blank" href="http://www.twitter.com/${screen_name}"><img class="avatar js-action-profile-avatar" src="${profile_image_url}" alt=""><strong class="fullname js-action-profile-name show-popup-with-id">${name}</strong><span class="username js-action-profile-name"><s>@</s><b>${screen_name}</b></span></a><small class="time"><a target="_blank" href="http://www.twitter.com/status/{tweet_id}" class="tweet-timestamp js-permalink js-nav js-tooltip"><span class="_timestamp js-short-timestamp js-relative-timestamp" data-time="1396512393" data-long-form="true">4h</span></a></small></div><p class="js-tweet-text tweet-text">${tweet_text}</p></div>';
 
-  var hashtag = "<div><a href='#' class='hashtagclick' onclick='update(\"${term}\");''>${term}</a></div>";
+  var hashtag = "<div><a href='#' class='hashtagclick' onclick='update(\"${term}\");'>${term}</a></div>";
   
   $.template( "twitterTemplate", markup );
   $.template( "trendingTemplate", hashtag );
