@@ -22,7 +22,8 @@
       if (data["success"]) {
           $("#tweetlist").empty();
           
-          $.tmpl( "twitterTemplate", data["data"]["tweets"] ).appendTo( "#tweetlist" );
+          var processed_tweets = urlify(data["data"]["tweets"])
+          $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
 
           if ( search_type == "tweet_search") {
             $("#trending").empty();
@@ -36,6 +37,16 @@
       }
     });
   }
+
+function urlify(all_tweets) {
+  var urlRegex = /(https?:\/\/[^\s]+)/g;
+  for ( var i=0; i < all_tweets.length; i++ ){
+      all_tweets[i]['tweet_text'] = all_tweets[i]['tweet_text'].replace(urlRegex, function(url) {
+          return '<a target="_blank" href="' + url + '">' + url + '</a>';
+        });
+  }
+  return all_tweets;  
+}
 
 $( document ).ready(function() {
 
