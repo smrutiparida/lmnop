@@ -21,7 +21,7 @@ $( document ).ready(function() {
       slide: function( event, ui ) {
         $( "#rangeSelectvalue" ).show();
         
-        changeColor();
+        changeColor(ui);
     }
     });
 /*   $('#viewselect').change(function() {
@@ -33,7 +33,7 @@ $( document ).ready(function() {
   });
 */
 });
-function changeColor(){
+function changeColor(ui){
   document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
   document.getElementById('blueColorScale').style.left = (ui.values[0])+"%";
   var startPoint = (100 - ui.values[0]) * 8;
@@ -92,7 +92,7 @@ function addtoList(data){
   }
 
 
-  var markup = '<div class="twitSec"><div class="tw_img"><img src="${profile_image_url}" /></div><h1><span><img src="/images/t_birrd_small.png" /></span><a href="http://www.twitter.com/${screen_name}" target="_blank">${name}</a><span id="">@${screen_name}</span>&nbsp;<span class="timeCal">${created_at}</span></h1>{{if rank==800}}<div class="verified_ac"><img src="images/verified_image.png" /></div>{{/if}}<p>${tweet_text}</p></div>';
+  var markup = '<div class="twitSec"><div class="tw_img"><img src="${profile_image_url}" /></div><h1><span><img src="/images/t_birrd_small.png" /></span><a href="http://www.twitter.com/${screen_name}" target="_blank">${name}</a><span id="">@${screen_name}</span>&nbsp;<span class="timeCal">${created_at}</span></h1>{{if rank==800}}<div class="verified_ac"><img src="/images/verified_image.png" /></div>{{/if}}<p>${tweet_text}</p></div>';
   
 
   var hashtag = "<span class='label label-info' style='margin-right:5px;'><a href='#'' class='hashtagclick' onclick='update(this,\"${term}\");'>${term}</a></span>";
