@@ -44,7 +44,7 @@ function changeColor(ui){
 
   document.getElementById('rangeSelectvalue').innerHTML = startPoint + "-" + endPoint;
   
-  document.getElementById('rangevalue').value = score;
+  
   $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/low=" + endPoint + "&high=" + startPoint + "&size=50&top=0",function( data ) {
         if (data["success"]) {
           addtoList(data);
