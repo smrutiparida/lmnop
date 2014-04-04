@@ -23,7 +23,7 @@
           $("#tweetlist").empty();
           
           var processed_tweets = urlify(data["data"]["tweets"])
-          $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
+          $.tmpl( "twitterTemplate", processed_tweets ).html().appendTo( "#tweetlist" );
 
           if ( search_type == "tweet_search") {
             $("#trending").empty();
