@@ -22,8 +22,8 @@
       if (data["success"]) {
           $("#tweetlist").empty();
           
-          var processed_tweets = urlify(data["data"]["tweets"])
-          $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
+          //var processed_tweets = urlify(data["data"]["tweets"])
+          $.tmpl( "twitterTemplate", data["data"]["tweets"] ).appendTo( "#tweetlist" );
 
           if ( search_type == "tweet_search") {
             $("#trending").empty();
