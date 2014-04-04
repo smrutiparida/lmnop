@@ -109,8 +109,9 @@ function addtoList(data){
       $(ele).addClass('active').siblings().removeClass('active');  
     }
     $("#tweetlist").empty();
-    var startPoint = (100 - ui.values[0]) * 8;
-    var endPoint = (100 - ui.values[1]) * 8;
+    var values = $( "#slider-range" ).slider( "values" );
+    var startPoint = (100 - values[0]) * 8;
+    var endPoint = (100 - values[1]) * 8;
     if (endPoint == 0){
       endPoint = 1;
     }
