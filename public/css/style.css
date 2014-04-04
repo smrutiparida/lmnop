@@ -1,6 +1,6 @@
 /* CSS Document */
 
-body {margin:0; padding:0; font-family: 'Open Sans',sans-serif; color:#000; font-weight: 300; font-size:15px; overflow-x:hidden; line-height:18px !important;}
+body {margin:0; padding:0; font: normal 12px Arial, Helvetica, sans-serif; color:#656565; overflow-x:hidden; line-height:17px !important;}
 .clr{clear:both}
 .flLt{float:left}
 .flRt{float:right}
@@ -10,23 +10,37 @@ body {margin:0; padding:0; font-family: 'Open Sans',sans-serif; color:#000; font
 a {cursor:pointer}
 img{ border:0}
 
-h1{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:36px; margin-bottom:0px; text-align:center; line-height:35px;}
+h1{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:36px; margin-bottom:0px; text-align:center; line-height:35px; position:relative;}
 h2{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:13px; margin-bottom:0px; text-align:center;}
 h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:26px; margin-bottom:0px; text-align:left; line-height:35px;}
 .nav_selcet{width:100%; margin:0 auto; text-align:center; margin:10px 0 44px 0;}
 .heading{width:100%; margin:0 auto; margin-bottom:50px;}
-.progressMain{width:90%; height:86px; margin:0 auto; position:relative;}
-.twitSec{width:30.1%; padding:6px; float:left; border:1px solid #eee; margin:0 4px 4px 0;}
+.progressMain{width:90%; height:81px; margin:0 auto; position:relative;}
+.twitSec{width:31.3%; padding:6px; float:left; border:1px solid #eee; margin:0 4px 4px 0; position:relative; border-radius:3px;}
+.twitSec:hover{ background-color:#f4f4f4; -webkit-transition:all 0.5s ease; -moz-transition:all 0.5s ease; -o-transition:all 0.5s ease;}
 .tw_img{width:60px; height:60px; float:left; padding:0 10px 10px 0;}
 .tw_img img{width:60px; height:60px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;}
 .twitSec h1{ font: bold 15px Arial, Helvetica, sans-serif; text-decoration:none; color:#00a8ff; text-align:left; line-height:normal; margin:0 0 6px 0;}
 .twitSec h1 a{text-decoration:none;}
 .twitSec h1 a:hover{text-decoration:none;}
 .twitSec h1 span{ font:normal 13px Arial, Helvetica, sans-serif; color:#999 !important; margin-left:4px;}
+.twitSec a{ margin-left:4px;}
+
+.active{ background-color:#ff0000 !important;}
+.more{float:right;}
+.more a{ font:bold 11px Arial, Helvetica, sans-serif; color:#0b8dc0; text-decoration:none;}
+.blue{ color:#0b8dc0;}
 
 .mainDiv{width:100%; margin:0 auto;}
 .tweetMainDiv{width:90%; margin:0 auto;}
-.tweetTags{width:100%; margin:0 auto; margin-bottom:20px;}
+.tweetTags{width:100%; margin:0 auto; margin-bottom:17px;}
+.verified_ac{width:21px; position:absolute; right:3px; top:3px;}
+.slider_range_comment{width:100%; margin:0 auto; text-align:center; margin-top:4px;}
+.slider_range_commentEach{width:24%; float:left; font:normal 10px Arial, Helvetica, sans-serif; color:#cecece; text-align:center;}
+
+.label-info a{ font:normal 12px Arial, Helvetica, sans-serif; color:#fff;}
+.label-info a:hover{ font:normal 12px Arial, Helvetica, sans-serif; color:#fff;}
+
 .hashtagclick{text-decoration: none;color: white;}
 
 .rotateleft {
@@ -87,8 +101,21 @@ color:#a8a8a8;
   height: 4px;
 }
 
+#rangeSelectvalue{
+width:122px; 
+height:28px;
+padding-top:20px;
+background:url(../images/t_birrd_big.png) no-repeat center;
+text-align:center;
+position:absolute; 
+z-index:99999;
+top:-40px;
+left: 45%; font:normal 10px Arial, Helvetica, sans-serif;
+
+}
+
 .progressbar{width:100%; height:23px; margin:0 auto; background:url(../images/progress_bar.png) repeat-x; margin-top:20px; margin-bottom:10px;}
-.progressbar_2{height:23px; text-align:left; background:url(../images/progress_bar_highlight.png) repeat-x; margin-top:20px; margin-bottom:10px;}
+.progressbar_2{height:23px; text-align:left; background:url(../images/progress_bar_highlight.png) repeat-x; margin-bottom:10px;}
 #slider .highlight {
 	height: 2px;
 	position: absolute;
@@ -200,8 +227,8 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
   display: block;
   position: fixed;
   z-index: 2000;
-  top: 15px;
-  right: 15px;
+  top: 15%;
+  left: 50%;
   width: 14px;
   height: 14px;
   border: solid 2px transparent;

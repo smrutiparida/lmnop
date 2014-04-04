@@ -1,11 +1,29 @@
 <script>
 $( document ).ready(function() {
+
+  $( "#rangeSelectvalue" ).hide();
+  document.getElementById('blueColorScale').style.width = (10)+"%";
+  document.getElementById('blueColorScale').style.left = (0)+"%";
+  document.getElementById('rangeSelectvalue').innerHTML = "800-720";
+
   $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/low=700&high=800&size=50&top=0", 
       function( data ) {
         if (data["success"]) {
           addtoList(data);
         }
   });
+  $( "#slider-range" ).slider({
+      range: true,
+      min: 0,
+      max: 100,
+      values: [ 0, 10 ],
+      steps:10,
+      slide: function( event, ui ) {
+        $( "#rangeSelectvalue" ).show();
+        
+        changeColor();
+    }
+    });
 /*   $('#viewselect').change(function() {
     if($("#viewselect option:selected").text() == "Tweets"){
       $("#tweetTime").fadeIn("slow").show();
@@ -15,6 +33,28 @@ $( document ).ready(function() {
   });
 */
 });
+function changeColor(){
+  document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
+  document.getElementById('blueColorScale').style.left = (ui.values[0])+"%";
+  var startPoint = (100 - ui.values[0]) * 8;
+  var endPoint = (100 - ui.values[1]) * 8;
+  if (endPoint == 0){
+    endPoint = 1;
+  }
+
+  document.getElementById('rangeSelectvalue').innerHTML = startPoint + "-" + endPoint;
+  
+  document.getElementById('rangevalue').value = score;
+  $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/low=" + endPoint + "&high=" + startPoint + "&size=50&top=0",function( data ) {
+        if (data["success"]) {
+          addtoList(data);
+        }
+        else {
+          $( "#tweetlist" ).text("No tweet to show");
+        }
+  });
+}
+
 function timeSince(date) {
   var curTime = new Date();
   var timezoneDiff = curTime.getTimezoneOffset() * 60000;
@@ -42,19 +82,6 @@ function timeSince(date) {
   return Math.floor(seconds) + "s ago";
 }
 
-function changeColor(){
-  document.getElementById('prgressHighlight').style.width = rangeinput.value+"%";
-  var score = (100 - rangeinput.value) * 8;
-  document.getElementById('rangevalue').value = score;
-  $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/low=" + score + "&high=800&size=50&top=0",function( data ) {
-        if (data["success"]) {
-          addtoList(data);
-        }
-        else {
-          $( "#tweetlist" ).text("No tweet to show");
-        }
-  });
-}
 
 function addtoList(data){
     $("#tweetlist").empty();
@@ -65,21 +92,31 @@ function addtoList(data){
   }
 
 
-  var markup = '<div class="twitSec"><div class="tw_img"><img src="${profile_image_url}" /></div><h1><a href="http://www.twitter.com/${screen_name}" target="_blank">${name}</a><span id="">@${screen_name}</span>&nbsp;<span class="timeCal">${created_at}</span></h1><p>${tweet_text}</p></div>';
+  var markup = '<div class="twitSec"><div class="tw_img"><img src="${profile_image_url}" /></div><h1><span><img src="/images/t_birrd_small.png" /></span><a href="http://www.twitter.com/${screen_name}" target="_blank">${name}</a><span id="">@${screen_name}</span>&nbsp;<span class="timeCal">${created_at}</span></h1>{{if rank==800]}}<div class="verified_ac"><img src="images/verified_image.png" /></div>{{/if}}<p>${tweet_text}</p></div>';
   
 
-  var hashtag = "<span class='label label-info' style='margin-right:5px;'><a href='#'' class='hashtagclick' onclick='update(\"${term}\");'>${term}</a></span>";
+  var hashtag = "<span class='label label-info' style='margin-right:5px;'><a href='#'' class='hashtagclick' onclick='update(this,\"${term}\");'>${term}</a></span>";
   
   $.template( "twitterTemplate", markup );
   $.template( "trendingTemplate", hashtag );
    
   //$(document).on("",'a.hashtagclick',  function(){});
-  function update(val){  
-
+  function update(ele, val){  
+    alert($(ele).attra('class'));
     //var val_array =$( "#slider" ).slider( "values" );
+    if($(ele).attr('class') == "label label-info active"){
+      $(ele).removeClass('active');
+    }else{
+      $(ele).addClass('active').siblings().removeClass('active');  
+    }
     $("#tweetlist").empty();
-    var score = (100 - rangeinput.value) * 8;
-    $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_search/low=" + score + "&high=800&size=50&top=0&q=" + encodeURIComponent(val) ,function( data ) {
+    var startPoint = (100 - ui.values[0]) * 8;
+    var endPoint = (100 - ui.values[1]) * 8;
+    if (endPoint == 0){
+      endPoint = 1;
+    }
+    
+    $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_search/low=" + startPoint + "&high=" + endPoint + "&size=50&top=0&q=" + encodeURIComponent(val) ,function( data ) {
       if (data["success"]) {
         $.tmpl( "twitterTemplate", data["data"]["tweets"] ).appendTo( "#tweetlist" );
         $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); });
@@ -90,7 +127,12 @@ function addtoList(data){
     });
   }
   //});
-  
+  function bringBird(){
+  $( "#rangeSelectvalue" ).show();
+  }
+  function hideBird(){
+  $( "#rangeSelectvalue" ).hide();
+  }
   
   
 
@@ -98,7 +140,7 @@ function addtoList(data){
   <div class="mainDiv">
     <div id="slider">
       <div class="heading">
-        <h1>Twitter Credibility Line</h1>
+        <h1>Twitter Simplified<img src="/images/beta.png" style="position:absolute; padding-left:3px;" /></h1>
         <h2>Drag the slider to start. <a id="modal-more" href="#modal-container-more" data-toggle="modal" style="border:0; outline:none">How it works?</a></h2>
       </div>
       <div class="nav_selcet">
@@ -125,14 +167,20 @@ function addtoList(data){
         </span>
       </div>
       <div class="progressMain">
-        <p class="rotateleft">verified a/c</p>
-        <p class="rotateright">general a/c</p>
+        <div id="rangeSelectvalue"><p>800 - 700</p></div>
         <div class="progressbar">
           <div class="progressbar_2" style="width:1%;" id="prgressHighlight"></div>
         </div>
-        <input class="bar" type="range" id="rangeinput" value="0" step="5" onchange="changeColor();" style="border:0; outline:none;"/>
-        <span class="highlight"></span>
-        <output id="rangevalue">800</output>
+        <div class="progressbar" id="grayColorScale">
+          <div class="progressbar_2" style="width:1%;position:absolute;left:0%;" id="blueColorScale"></div>
+        </div>
+        <div id="slider-range"  onmouseup="hideBird();" onselect="bringBird();"></div>
+        <div class="slider_range_comment">
+          <div class="slider_range_commentEach" style="border-right:1px solid #e5e5e5">Big Shots</div>
+          <div class="slider_range_commentEach" style="border-right:1px solid #e5e5e5">ThinkTanks</div>
+          <div class="slider_range_commentEach" style="border-right:1px solid #e5e5e5">The Risers</div>
+          <div class="slider_range_commentEach">Wish I was here</div>
+        </div>
       </div>
     </div>
     <div class="tweetMainDiv">
@@ -143,15 +191,16 @@ function addtoList(data){
       <div class="modal-header">
          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h3 id="myModalLabel">
-          How it works?
+          Tweets sorted by <span class="blue">UserRank</span>
         </h3>
       </div>
       <div class="modal-body">
         <p>
-          We start with a set of verified accounts & then recursively find their followers with a belief that if a verified account A is following a non-verified account B, then B is credible too & pass on a % of A's credibility to B. If another verified account C follows B, then B's credibility gets further boost.
+          Just like Google's PageRank simplified accessing web for masses, we thought of building UserRank for all those who love Twitter for what it offers but get overwhelmed by the sheer volume.
         </p>
-        <p>This way, we figure out accounts which are credible but yet to be verified.</p>
-        
+        <p>So We built a completely new <span class="blue">UserRank</span> system that ranks accounts, arranges tweets according to the tweeter's rank & lets user navigate through them through a line - our <span class="blue">UserRank</span> Line.</p>
+        <p>Welcome to the new world of tweets where you dont have to search again ! Enjoy the coolest Tweet Show on Earth.</p>
+        <p>Write to us at <a href="mailto:amar@brizzlabs.com">amar@brizzlabs.com</a> & get to know of cool features  (more countries, more events) straight from us. Some feedback & love in the email will go a long way too.</p>
       </div>
       <div class="modal-footer">
          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
