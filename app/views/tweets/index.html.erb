@@ -7,7 +7,7 @@
   $.template( "twitterTemplate", markup );
   $.template( "trendingTemplate", hashtag );
  
-  function callSearchServer(search_type,low,high,size,top,query="") {
+  function callSearchServer(search_type,low,high,size,top,query) {
     var tweet_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/";
     var user_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_search/";
     var tweeter_url = "";
@@ -19,21 +19,21 @@
     }
 
     $.getJSON( tweeter_url, function( data ) {
-          if (data["success"]) {
-              $("#tweetlist").empty();
-              
-              $.tmpl( "twitterTemplate", data["data"]["tweets"] ).appendTo( "#tweetlist" );
+      if (data["success"]) {
+          $("#tweetlist").empty();
+          
+          $.tmpl( "twitterTemplate", data["data"]["tweets"] ).appendTo( "#tweetlist" );
 
-              if ( search_type == "tweet_search") {
-                $("#trending").empty();
-                $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"]).appendTo( "#trending" );
-              }
-              
-              $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
+          if ( search_type == "tweet_search") {
+            $("#trending").empty();
+            $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"]).appendTo( "#trending" );
           }
-          else {
-            $( "#tweetlist" ).text("No tweet to show");
-          }
+          
+          $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
+      }
+      else {
+        $( "#tweetlist" ).text("No tweet to show");
+      }
     });
   }
 
@@ -96,7 +96,7 @@ function timeSince(date) {
 
 
   function update(ele, val){  
-      
+
     var values = $( "#slider-range" ).slider( "values" );
     var startPoint = (100 - values[0]) * 8;
     var endPoint = (100 - values[1]) * 8;
