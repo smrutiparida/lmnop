@@ -1,17 +1,51 @@
 <script>
+  var markup = '<div class="twitSec"><div class="tw_img"><img src="${profile_image_url}" /></div><h1><span><img src="/images/t_birrd_small.png" /></span><a href="http://www.twitter.com/${screen_name}" target="_blank">${name}</a><span id="">@${screen_name}</span>&nbsp;<span class="timeCal">${created_at}</span></h1>{{if rank==800}}<div class="verified_ac"><img src="/images/verified_image.png" /></div>{{/if}}<p>${tweet_text}</p></div>';
+  
+
+  var hashtag = "<span class='label label-info' style='margin:0 5px 5px 0;'><a href='#'' class='hashtagclick' onclick='update(this,\"${term}\");'>${term}</a></span>";
+  
+  $.template( "twitterTemplate", markup );
+  $.template( "trendingTemplate", hashtag );
+ 
+  function callSearchServer(search_type,low,high,size,top,query="") {
+    var tweet_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/";
+    var user_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_search/";
+    var tweeter_url = "";
+    if (search_type == "tweet_search"){
+      tweeter_url = tweet_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top;
+    }
+    else {
+      tweeter_url = user_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&q=" + query;
+    }
+
+    $.getJSON( tweeter_url, function( data ) {
+          if (data["success"]) {
+              $("#tweetlist").empty();
+              
+              $.tmpl( "twitterTemplate", data["data"]["tweets"] ).appendTo( "#tweetlist" );
+
+              if ( search_type == "tweet_search") {
+                $("#trending").empty();
+                $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"]).appendTo( "#trending" );
+              }
+              
+              $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
+          }
+          else {
+            $( "#tweetlist" ).text("No tweet to show");
+          }
+    });
+  }
+
 $( document ).ready(function() {
 
   $( "#rangeSelectvalue" ).hide();
   document.getElementById('blueColorScale').style.width = (10)+"%";
   document.getElementById('blueColorScale').style.left = (0)+"%";
   document.getElementById('rangeSelectvalue').innerHTML = "800-720";
-
-  $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/low=700&high=800&size=50&top=0", 
-      function( data ) {
-        if (data["success"]) {
-          addtoList(data);
-        }
-  });
+  
+  callSearchServer("tweet_search", 700,800,50,0)
+  
   $( "#slider-range" ).slider({
       range: true,
       min: 0,
@@ -20,39 +54,18 @@ $( document ).ready(function() {
       slide: function( event, ui ) {
         $( "#rangeSelectvalue" ).show();
         
-        changeColor(ui);
-    }
+        document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
+        document.getElementById('blueColorScale').style.left = (ui.values[0])+"%";
+        var startPoint = (100 - ui.values[0]) * 8;
+        var endPoint = (100 - ui.values[1]) * 8;
+        if (endPoint == 0){
+          endPoint = 1;
+        }
+        document.getElementById('rangeSelectvalue').innerHTML = startPoint + "-" + endPoint;
+        callSearchServer("tweet_search", endPoint,startPoint,50,0);
+      }
     });
-/*   $('#viewselect').change(function() {
-    if($("#viewselect option:selected").text() == "Tweets"){
-      $("#tweetTime").fadeIn("slow").show();
-    }else{
-      $("#tweetTime").hide();
-    }
-  });
-*/
 });
-function changeColor(ui){
-  document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
-  document.getElementById('blueColorScale').style.left = (ui.values[0])+"%";
-  var startPoint = (100 - ui.values[0]) * 8;
-  var endPoint = (100 - ui.values[1]) * 8;
-  if (endPoint == 0){
-    endPoint = 1;
-  }
-
-  document.getElementById('rangeSelectvalue').innerHTML = startPoint + "-" + endPoint;
-  
-  
-  $.getJSON( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/low=" + endPoint + "&high=" + startPoint + "&size=50&top=0",function( data ) {
-        if (data["success"]) {
-          addtoList(data);
-        }
-        else {
-          $( "#tweetlist" ).text("No tweet to show");
-        }
-  });
-}
 
 function timeSince(date) {
   var curTime = new Date();
@@ -60,49 +73,30 @@ function timeSince(date) {
   var seconds = Math.floor((curTime.getTime() - (new Date(date)).getTime() + timezoneDiff) / 1000);
   var interval = Math.floor(seconds / 31536000);
   if (interval > 0) {
-  return interval + "y ago";
+    return interval + "y ago";
   }
   interval = Math.floor(seconds / 2592000);
   if (interval > 0) {
-  return interval + "mth ago";
+    return interval + "mth ago";
   }
   interval = Math.floor(seconds / 86400);
   if (interval > 0) {
-  return interval + "d ago";
+    return interval + "d ago";
   }
   interval = Math.floor(seconds / 3600);
   if (interval > 0) {
-  return interval + "h ago";
+    return interval + "h ago";
   }
   interval = Math.floor(seconds / 60);
   if (interval > 0) {
-  return interval + "m ago";
+    return interval + "m ago";
   }
   return Math.floor(seconds) + "s ago";
 }
 
 
-function addtoList(data){
-    $("#tweetlist").empty();
-    $("#trending").empty();
-    $.tmpl( "twitterTemplate", data["data"]["tweets"] ).appendTo( "#tweetlist" );
-    $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"]).appendTo( "#trending" );
-    $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); });
-  }
-
-
-  var markup = '<div class="twitSec"><div class="tw_img"><img src="${profile_image_url}" /></div><h1><span><img src="/images/t_birrd_small.png" /></span><a href="http://www.twitter.com/${screen_name}" target="_blank">${name}</a><span id="">@${screen_name}</span>&nbsp;<span class="timeCal">${created_at}</span></h1>{{if rank==800}}<div class="verified_ac"><img src="/images/verified_image.png" /></div>{{/if}}<p>${tweet_text}</p></div>';
-  
-
-  var hashtag = "<span class='label label-info' style='margin:0 5px 5px 0;'><a href='#'' class='hashtagclick' onclick='update(this,\"${term}\");'>${term}</a></span>";
-  
-  $.template( "twitterTemplate", markup );
-  $.template( "trendingTemplate", hashtag );
-   
-  //$(document).on("",'a.hashtagclick',  function(){});
   function update(ele, val){  
-    //alert($(ele).attra('class'));
-    //var val_array =$( "#slider" ).slider( "values" );
+      
     var values = $( "#slider-range" ).slider( "values" );
     var startPoint = (100 - values[0]) * 8;
     var endPoint = (100 - values[1]) * 8;
@@ -111,30 +105,23 @@ function addtoList(data){
     }
     var twitter_uri = "";
     if($(ele).parent().attr('class') == "label label-info active"){
+      
       $(ele).parent().removeClass('active');
-      twitter_uri = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/low=" + endPoint + "&high=" + startPoint + "&size=50&top=0";
+      callSearchServer("tweet_search", endPoint,startPoint,50,0);
+      
     }else{
       $(ele).parent().addClass('active').siblings().removeClass('active');  
-      twitter_uri = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_search/low=" + endPoint + "&high=" + startPoint + "&size=50&top=0&q=" + encodeURIComponent(val);
+      
+      callSearchServer("user_search", endPoint,startPoint,50,0,encodeURIComponent(val));
     }
-    $("#tweetlist").empty();
-        
-    $.getJSON( twitter_uri ,function( data ) {
-      if (data["success"]) {
-        $.tmpl( "twitterTemplate", data["data"]["tweets"] ).appendTo( "#tweetlist" );
-        $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); });
-      }
-      else {
-        $( "#tweetlist" ).text("No tweet to show");
-      }
-    });
   }
-  //});
+
   function bringBird(){
-  $( "#rangeSelectvalue" ).show();
+    $( "#rangeSelectvalue" ).show();
   }
+
   function hideBird(){
-  $( "#rangeSelectvalue" ).hide();
+    $( "#rangeSelectvalue" ).hide();
   }
   
   
