@@ -103,10 +103,10 @@ function addtoList(data){
   function update(ele, val){  
     //alert($(ele).attra('class'));
     //var val_array =$( "#slider" ).slider( "values" );
-    if($(ele).attr('class') == "label label-info active"){
-      $(ele).removeClass('active');
+    if($(ele).parent().attr('class') == "label label-info active"){
+      $(ele).parent().removeClass('active');
     }else{
-      $(ele).addClass('active').siblings().removeClass('active');  
+      $(ele).parent().addClass('active').siblings().removeClass('active');  
     }
     $("#tweetlist").empty();
     var values = $( "#slider-range" ).slider( "values" );
