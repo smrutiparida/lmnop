@@ -1,5 +1,5 @@
 <script>
-  var markup = '<div class="twitSec"><div class="tw_img"><img src="${profile_image_url}" /></div><h1><span><img src="/images/t_birrd_small.png" /></span><a href="http://www.twitter.com/${screen_name}" target="_blank">${name}</a><span id="">@${screen_name}</span>&nbsp;<span class="timeCal">${created_at}</span></h1><span>{{html tweet_text}}</span>{{if more_count>1}}<span class="more"><a href="#">more</a></span>{{/if}}</div>';
+  var markup = '<div class="twitSec"><div class="tw_img"><img src="${profile_image_url}" /></div><h1><span><img src="/images/t_birrd_small.png" /></span><a href="http://www.twitter.com/${screen_name}" target="_blank">${name}</a><span id="">@${screen_name}</span>&nbsp;<span class="timeCal">${created_at}</span></h1><span>{{html tweet_text}}</span>{{if more_count>1}}<span class="more"><a href="#" class="" onclick='expand(this,\"${screen_name}\");'>more</a></span>{{/if}}</div>';
   //${more_count}
   //{{if rank==800}}<div class="verified_ac"><img src="/images/verified_image.png" /></div>{{/if}}
 
@@ -15,19 +15,21 @@
 
     var tweeter_url = "";
     if (search_type == "tweet_search"){
+      $("#tweetlist").empty();
       tweeter_url = tweet_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&uniqueUser=true";
     }
     else if (search_type == "single_user_tweets") {
       tweeter_url = single_user_tweets_url + "size=" + size + "&top=" + top + "&screen_name=" + query;
     }
     else {
+      $("#tweetlist").empty();
       tweeter_url = user_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&q=" + query + "&uniqueUser=true";
     }
 
     $.getJSON( tweeter_url, function( data ) {
       if (data["success"]) {
         if(data["data"]["totalCount"] > 0){
-          $("#tweetlist").empty();
+          
           
           var processed_tweets = urlify(data["data"]["tweets"]);
           tweets_with_more = add_more_link(data["data"]["facets"]["user_tweet_frequency"]["terms"], processed_tweets);
@@ -61,7 +63,7 @@ function add_more_link(array_term_frequency, all_tweets){
   for ( var i=0; i < all_tweets.length; i++ ){
     
     if (all_tweets[i]["screen_name"] in term_obj){
-      all_tweets[i]["more_count"] = 5; //term_obj[all_tweets[i]["screen_name"]];
+      all_tweets[i]["more_count"] = term_obj[all_tweets[i]["screen_name"]];
     }
     else {
       all_tweets[i]["more_count"] = 0;
@@ -144,7 +146,20 @@ function timeSince(date) {
       endPoint = 1;
     } 
 
-    callSearchServer("user_search", endPoint,startPoint,50,0,encodeURIComponent(val));
+    
+
+    if($(ele).text() == "more"){
+      
+      callSearchServer("single_user_tweets", endPoint,startPoint,50,0,encodeURIComponent(val));  
+      $(ele).text("less");
+      
+    }else{
+      
+      
+      callSearchServer("tweet_search", endPoint,startPoint,50,0);
+      
+      $(ele).text("less");
+    }
   }
 
   function update(ele, val){  
