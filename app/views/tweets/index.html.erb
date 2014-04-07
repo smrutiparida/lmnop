@@ -138,7 +138,7 @@ function timeSince(date) {
   return Math.floor(seconds) + "s ago";
 }
 
-  function tweets_of_a_user(ele, val){
+  function expand(ele, val){
     var values = $( "#slider-range" ).slider( "values" );
     var startPoint = (100 - values[0]) * 8;
     var endPoint = (100 - values[1]) * 8;
