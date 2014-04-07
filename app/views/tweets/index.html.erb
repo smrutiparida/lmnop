@@ -52,7 +52,8 @@
   }
 
 function add_more_link(array_term_frequency, all_tweets){
-  var term_obj = {};
+  var term_obj = new Array();
+  alert("came here");
   for ( var i in array_term_frequency ){
     term_obj[array_term_frequency[i].term] = term_obj[array_term_frequency[i].count];
     alert(array_term_frequency[i].term);
