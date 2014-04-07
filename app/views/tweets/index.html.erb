@@ -56,12 +56,12 @@ function add_more_link(array_term_frequency, all_tweets){
   
   for ( var i in array_term_frequency ){
     term_obj[array_term_frequency[i].term] = term_obj[array_term_frequency[i].count];
-    alert(array_term_frequency[i].count);
+    //alert(array_term_frequency[i].count);
   }
   for ( var i=0; i < all_tweets.length; i++ ){
     
-    if (term_obj.hasOwnProperty(all_tweets[i]["screen_name"])){
-      all_tweets[i]["more_count"] = term_obj[all_tweets[i]["screen_name"]];
+    if (all_tweets[i]["screen_name"] in term_obj){
+      all_tweets[i]["more_count"] = 5; //term_obj[all_tweets[i]["screen_name"]];
     }
     else {
       all_tweets[i]["more_count"] = 0;
