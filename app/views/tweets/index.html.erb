@@ -33,9 +33,13 @@
           
           
           var processed_tweets = urlify(data["data"]["tweets"]);
-          var tweets_with_more = add_more_link(data["data"]["facets"]["user_tweet_frequency"]["terms"], processed_tweets);
-          
-          $.tmpl( "twitterTemplate", tweets_with_more ).appendTo( "#tweetlist" );
+          if (search_type == "tweet_search"){
+            processed_tweets = add_more_link(data["data"]["facets"]["user_tweet_frequency"]["terms"], processed_tweets);
+          }
+          else {
+            processed_tweets = add_more_link([], processed_tweets); 
+          }
+          $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
 
           if ( search_type == "tweet_search") {
             $("#trending").empty();
