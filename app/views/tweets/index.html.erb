@@ -52,10 +52,10 @@
   }
 
 function add_more_link(array_term_frequency, all_tweets){
-  var term_obj = new Array();
+  var term_obj = {};
   for ( var i=0; i < array_term_frequency.length; i++ ){
-    term_obj[array_term_frequency[i]["term"]] = term_obj[array_term_frequency[i]["count"]];
-    alert(term_obj[array_term_frequency[i]["term"]]);
+    term_obj[array_term_frequency[i].term = term_obj[array_term_frequency[i].count];
+    alert(array_term_frequency[i].term);
   }
   for ( var i=0; i < all_tweets.length; i++ ){
     
