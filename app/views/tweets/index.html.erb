@@ -1,6 +1,7 @@
 <script>
-  var markup = '<div class="twitSec"><div class="tw_img"><img src="${profile_image_url}" /></div><h1><span><img src="/images/t_birrd_small.png" /></span><a href="http://www.twitter.com/${screen_name}" target="_blank">${name}</a><span id="">@${screen_name}</span>&nbsp;<span class="timeCal">${created_at}</span></h1>{{if rank==800}}<div class="verified_ac"><img src="/images/verified_image.png" /></div>{{/if}}<span>{{html tweet_text}}</span></div>';
+  var markup = '<div class="twitSec"><div class="tw_img"><img src="${profile_image_url}" /></div><h1><span><img src="/images/t_birrd_small.png" /></span><a href="http://www.twitter.com/${screen_name}" target="_blank">${name}</a><span id="">@${screen_name}</span>&nbsp;<span class="timeCal">${created_at}</span></h1><span>{{html tweet_text}}</span></div>';
   
+  //{{if rank==800}}<div class="verified_ac"><img src="/images/verified_image.png" /></div>{{/if}}
 
   var hashtag = "<span class='label label-info' style='margin:0 5px 5px 0;'><a href='#'' class='hashtagclick' onclick='update(this,\"${term}\");'>${term}</a></span>";
   
