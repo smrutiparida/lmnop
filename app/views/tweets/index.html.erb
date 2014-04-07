@@ -54,7 +54,8 @@
   }
 
 function add_more_link(array_term_frequency, all_tweets){
-  var term_obj = {};
+  term_obj = {};
+  my_shit = all_tweets;
   
   for ( var i in array_term_frequency ){
     term_obj[array_term_frequency[i].term] = term_obj[array_term_frequency[i].count];
