@@ -30,8 +30,8 @@
           $("#tweetlist").empty();
           
           var processed_tweets = urlify(data["data"]["tweets"]);
-          var tweets_with_more = add_more_link(data["data"]["facets"]["user_tweet_frequency"]["terms"], processed_tweets);
-          alert("came");
+          tweets_with_more = add_more_link(data["data"]["facets"]["user_tweet_frequency"]["terms"], processed_tweets);
+          
           $.tmpl( "twitterTemplate", tweets_with_more ).appendTo( "#tweetlist" );
 
           if ( search_type == "tweet_search") {
@@ -53,10 +53,10 @@
 
 function add_more_link(array_term_frequency, all_tweets){
   var term_obj = new Array();
-  alert("came here");
+  
   for ( var i in array_term_frequency ){
     term_obj[array_term_frequency[i].term] = term_obj[array_term_frequency[i].count];
-    alert(array_term_frequency[i].term);
+    //alert(array_term_frequency[i].term);
   }
   for ( var i=0; i < all_tweets.length; i++ ){
     
