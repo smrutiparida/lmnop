@@ -112,6 +112,16 @@ function timeSince(date) {
   return Math.floor(seconds) + "s ago";
 }
 
+  function tweets_of_a_user(ele, val){
+    var values = $( "#slider-range" ).slider( "values" );
+    var startPoint = (100 - values[0]) * 8;
+    var endPoint = (100 - values[1]) * 8;
+    if (endPoint == 0){
+      endPoint = 1;
+    }
+    
+    callSearchServer("user_search", endPoint,startPoint,50,0,encodeURIComponent(val));
+  }
 
   function update(ele, val){  
 
@@ -121,7 +131,7 @@ function timeSince(date) {
     if (endPoint == 0){
       endPoint = 1;
     }
-    var twitter_uri = "";
+    
     if($(ele).parent().attr('class') == "label label-info active"){
       
       $(ele).parent().removeClass('active');
