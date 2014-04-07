@@ -1,6 +1,6 @@
 <script>
-  var markup = '<div class="twitSec"><div class="tw_img"><img src="${profile_image_url}" /></div><h1><span><img src="/images/t_birrd_small.png" /></span><a href="http://www.twitter.com/${screen_name}" target="_blank">${name}</a><span id="">@${screen_name}</span>&nbsp;<span class="timeCal">${created_at}</span></h1><span>{{html tweet_text}}</span>{{if more_count>800}}<span class="more"><a href="#">${more_count} more</a></span></div>{{/if}}';
-  
+  var markup = '<div class="twitSec"><div class="tw_img"><img src="${profile_image_url}" /></div><h1><span><img src="/images/t_birrd_small.png" /></span><a href="http://www.twitter.com/${screen_name}" target="_blank">${name}</a><span id="">@${screen_name}</span>&nbsp;<span class="timeCal">${created_at}</span></h1><span>{{html tweet_text}}</span>{{if more_count>1}}<span class="more"><a href="#">more</a></span>{{/if}}</div>';
+  //${more_count}
   //{{if rank==800}}<div class="verified_ac"><img src="/images/verified_image.png" /></div>{{/if}}
 
   var hashtag = "<span class='label label-info' style='margin:0 5px 5px 0;'><a href='#'' class='hashtagclick' onclick='update(this,\"${term}\");'>${term}</a></span>";
@@ -64,6 +64,7 @@ function add_more_link(array_term_frequency, all_tweets){
     else {
       all_tweets[i]["more_count"] = 0;
     }
+    alert(all_tweets[i]["more_count"]);
   }
   return all_tweets;
 }
