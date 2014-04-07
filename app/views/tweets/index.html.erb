@@ -19,6 +19,7 @@
       tweeter_url = tweet_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&uniqueUser=true";
     }
     else if (search_type == "single_user_tweets") {
+      $("#tweetlist").empty();
       tweeter_url = single_user_tweets_url + "size=" + size + "&top=" + top + "&screen_name=" + query;
     }
     else {
@@ -32,7 +33,7 @@
           
           
           var processed_tweets = urlify(data["data"]["tweets"]);
-          tweets_with_more = add_more_link(data["data"]["facets"]["user_tweet_frequency"]["terms"], processed_tweets);
+          var tweets_with_more = add_more_link(data["data"]["facets"]["user_tweet_frequency"]["terms"], processed_tweets);
           
           $.tmpl( "twitterTemplate", tweets_with_more ).appendTo( "#tweetlist" );
 
@@ -54,8 +55,8 @@
   }
 
 function add_more_link(array_term_frequency, all_tweets){
-  term_obj = {};
-  my_shit = all_tweets;
+  var term_obj = {};
+  //my_shit = all_tweets;
   
   for ( var i in array_term_frequency ){
     term_obj[array_term_frequency[i].term] = array_term_frequency[i].count;
