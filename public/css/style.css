@@ -27,7 +27,7 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 .twitSec a{ margin-left:4px;}
 
 .active{ background-color:#ff0000 !important;}
-.more{float:right;}
+.more{float:right;position: relative;bottom: -20px;}
 .more a{ font:bold 11px Arial, Helvetica, sans-serif; color:#0b8dc0; text-decoration:none;}
 .blue{ color:#0b8dc0;}
 

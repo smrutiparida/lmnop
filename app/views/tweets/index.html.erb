@@ -1,5 +1,5 @@
 <script>
-  var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span>@${screen_name}</span>&nbsp;<span class='timeCal'>${created_at}</span></h1><span>{{html tweet_text}}</span>{{if more_count>1}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'>more</a></span>{{else more_count == -999}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'>less</a></span>{{/if}}</div>";
+  var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span>@${screen_name}</span>&nbsp;<span class='timeCal'>${created_at}</span></h1><span>{{html tweet_text}}</span>{{if more_count>1}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'>${more_count} more tweets</a></span>{{else more_count == -999}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'>show less</a></span>{{/if}}</div>";
   //${more_count}
   //{{if rank==800}}<div class="verified_ac"><img src="/images/verified_image.png" /></div>{{/if}}
 
@@ -157,17 +157,17 @@ function timeSince(date) {
 
     
 
-    if($(ele).text() == "more"){
+    if($(ele).text().indexOf("more") != -1 ){
       
       callSearchServer("single_user_tweets", endPoint,startPoint,50,0,encodeURIComponent(val));  
-      $(ele).text("less");
+      $(ele).text("show less");
       
     }else{
       
       
       callSearchServer("tweet_search", endPoint,startPoint,50,0);
       
-      $(ele).text("less");
+      $(ele).text("show more");
     }
   }
 
