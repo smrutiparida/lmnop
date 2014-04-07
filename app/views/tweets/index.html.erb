@@ -20,10 +20,11 @@
 
     $.getJSON( tweeter_url, function( data ) {
       if (data["success"]) {
+        if(data["data"]["totalCount"] > 0){
           $("#tweetlist").empty();
           
-          //var processed_tweets = urlify(data["data"]["tweets"])
-          $.tmpl( "twitterTemplate", data["data"]["tweets"] ).appendTo( "#tweetlist" );
+          var processed_tweets = urlify(data["data"]["tweets"])
+          $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
 
           if ( search_type == "tweet_search") {
             $("#trending").empty();
@@ -31,9 +32,13 @@
           }
           
           $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
+        }
+        else {
+             $( "#tweetlist" ).html("<p>Sorry, There are no tweets from people with UserRank range " + low + " - " + high + " - because they didn't tweet in the last 24 hours. Please change the range in the slider to see tweet.<p><br><p>Or if you think there is a bug, please do send us a screenshot at <a href='mailto:amar@brizzlabs.com'>amar@brizzlabs.com</a> & we will try fixing it.</p>");
+        }
       }
       else {
-        $( "#tweetlist" ).text("No tweet to show");
+        $( "#tweetlist" ).text("Oops! Something went wrong. Please check us again.");
       }
     });
   }
@@ -42,7 +47,7 @@ function urlify(all_tweets) {
   var urlRegex = /(https?:\/\/[^\s]+)/g;
   for ( var i=0; i < all_tweets.length; i++ ){
       all_tweets[i]['tweet_text'] = all_tweets[i]['tweet_text'].replace(urlRegex, function(url) {
-          return unescape('<a target="_blank" href="' + url + '">' + url + '</a>');
+          return '\<a target="_blank" href="' + url + '"\>' + url + '\<\/a\>';
         });
   }
   return all_tweets;  
@@ -62,7 +67,7 @@ $( document ).ready(function() {
       min: 0,
       max: 100,
       values: [ 0, 10 ],
-      slide: function( event, ui ) {
+      change: function( event, ui ) {
         $( "#rangeSelectvalue" ).show();
         
         document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
@@ -178,7 +183,7 @@ function timeSince(date) {
           <div class="slider_range_commentEach" style="border-right:1px solid #e5e5e5">Big Shots</div>
           <div class="slider_range_commentEach" style="border-right:1px solid #e5e5e5">ThinkTanks</div>
           <div class="slider_range_commentEach" style="border-right:1px solid #e5e5e5">The Risers</div>
-          <div class="slider_range_commentEach">Wish I was here</div>
+          <div class="slider_range_commentEach">Underdogs</div>
         </div>
       </div>
     </div>
