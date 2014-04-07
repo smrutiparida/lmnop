@@ -1,5 +1,5 @@
 <script>
-  var markup = '<div class="twitSec"><div class="tw_img"><img src="${profile_image_url}" /></div><h1><span><img src="/images/t_birrd_small.png" /></span><a href="http://www.twitter.com/${screen_name}" target="_blank">${name}</a><span id="">@${screen_name}</span>&nbsp;<span class="timeCal">${created_at}</span></h1><span>{{html tweet_text}}</span></div>';
+  var markup = '<div class="twitSec"><div class="tw_img"><img src="${profile_image_url}" /></div><h1><span><img src="/images/t_birrd_small.png" /></span><a href="http://www.twitter.com/${screen_name}" target="_blank">${name}</a><span id="">@${screen_name}</span>&nbsp;<span class="timeCal">${created_at}</span></h1><span>{{html tweet_text}}</span>{{if more_count>800}}<span class="more"><a href="#">${more_count} more</a></span></div>{{/if}}';
   
   //{{if rank==800}}<div class="verified_ac"><img src="/images/verified_image.png" /></div>{{/if}}
 
@@ -11,12 +11,17 @@
   function callSearchServer(search_type,low,high,size,top,query) {
     var tweet_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/";
     var user_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_search/";
+    var single_user_tweets_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user_tweets/";
+
     var tweeter_url = "";
     if (search_type == "tweet_search"){
-      tweeter_url = tweet_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top;
+      tweeter_url = tweet_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&uniqueUser=true";
+    }
+    else if (search_type == "single_user_tweets") {
+      tweeter_url = single_user_tweets_url + "size=" + size + "&top=" + top + "&screen_name=" + query;
     }
     else {
-      tweeter_url = user_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&q=" + query;
+      tweeter_url = user_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&q=" + query + "&uniqueUser=true";
     }
 
     $.getJSON( tweeter_url, function( data ) {
@@ -25,6 +30,7 @@
           $("#tweetlist").empty();
           
           var processed_tweets = urlify(data["data"]["tweets"]);
+          var tweets_with_more = add_more_link(data["data"]["facets"]["user_tweet_frequency"]["terms"], processed_tweets)
           //alert(processed_tweets);
           $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
 
@@ -45,6 +51,22 @@
     });
   }
 
+function add_more_link(array_term_frequency, all_tweets){
+  var term_obj = {};
+  for ( var i=0; i < array_term_frequency.length; i++ ){
+    term_obj[array_term_frequency[i]["term"]] = term_obj[array_term_frequency[i]["count"]]
+  }
+  for ( var i=0; i < all_tweets.length; i++ ){
+    
+    if (all_tweets[i]["screen_name"] in term_obj){
+      all_tweets[i]["more_count"] = term_obj[all_tweets[i]["screen_name"]]
+    }
+    else {
+      all_tweets[i]["more_count"] = 0;
+    }
+  }
+  return all_tweets;
+}
 function urlify(all_tweets) {
   var urlRegex = /(https?:\/\/[^\s]+)/g;
   for ( var i=0; i < all_tweets.length; i++ ){
@@ -118,8 +140,8 @@ function timeSince(date) {
     var endPoint = (100 - values[1]) * 8;
     if (endPoint == 0){
       endPoint = 1;
-    }
-    
+    } 
+
     callSearchServer("user_search", endPoint,startPoint,50,0,encodeURIComponent(val));
   }
 
