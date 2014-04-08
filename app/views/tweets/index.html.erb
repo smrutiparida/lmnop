@@ -125,6 +125,7 @@ $( document ).ready(function() {
     country = $(this).text();
     var values = $( "#slider-range" ).slider( "values" );
     values = processValues(values);
+    //alert(country);
     callSearchServer("tweet_search", values[1],values[0],50,0);
     
   });
@@ -160,8 +161,8 @@ function timeSince(date) {
   function processValues(values){
     values[0] = (100 - values[0]) * 10;
     values[1] = (100 - values[1]) * 10;
-    if (endPoint == 0){
-      endPoint = 1;
+    if (values[0] == 0){
+      values[0] = 1;
     }
     return values;
   }
