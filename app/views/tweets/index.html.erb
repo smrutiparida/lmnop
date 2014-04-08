@@ -28,8 +28,9 @@
       tweeter_url = user_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&q=" + query + "&uniqueUser=true";
     }
 
-    if(country == "US")
-      tweeter_url += "&country=us";
+    if(country == "US"){
+      tweeter_url = tweeter_url + "&country=us";
+    }
 
     $.getJSON( tweeter_url, function( data ) {
       if (data["success"]) {
@@ -121,11 +122,10 @@ $( document ).ready(function() {
     });
 
   $( "#viewCountry" ).change(function() {
-    alert("came");
     country = $(this).text();
     var values = $( "#slider-range" ).slider( "values" );
     values = processValues(values);
-    callSearchServer("tweet_search", values[1],values[0],50,0)
+    callSearchServer("tweet_search", values[1],values[0],50,0);
     
   });
 });
@@ -173,7 +173,7 @@ function timeSince(date) {
       callSearchServer("single_user_tweets", values[1],values[0],50,0,encodeURIComponent(val));  
       $(ele).text("show less");
     }else{
-      callSearchServer("tweet_search", endPoint,startPoint,50,0);      
+      callSearchServer("tweet_search", values[1],values[0],50,0);      
       $(ele).text("show more");
     }
   }
