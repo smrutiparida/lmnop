@@ -30,7 +30,7 @@
 
     if(country == "US")
       tweeter_url += "&country=us";
-    
+
     $.getJSON( tweeter_url, function( data ) {
       if (data["success"]) {
         if(data["data"]["totalCount"] > 0){
@@ -121,6 +121,7 @@ $( document ).ready(function() {
     });
 
   $( "#viewCountry" ).change(function() {
+    alert("came");
     country = $(this).text();
     var values = $( "#slider-range" ).slider( "values" );
     values = processValues(values);
@@ -216,7 +217,7 @@ function timeSince(date) {
         <span style="padding-right:15px;">
           <b>Country</b>
           <select id="viewCountry">
-            <option selected="selected"></option>>India</option>
+            <option selected="selected">India</option>
             <option>US</option>
           </select>  
         </span>
