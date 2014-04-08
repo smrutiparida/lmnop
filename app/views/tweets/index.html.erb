@@ -15,22 +15,21 @@
     var single_user_tweets_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user_tweets/";
 
     var tweeter_url = "";
+    var country = $("#viewCountry option:selected").attr('value');
     if (search_type == "tweet_search"){
       $("#tweetlist").empty();
-      tweeter_url = tweet_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&uniqueUser=true";
+      tweeter_url = tweet_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&uniqueUser=true&country=" + country;
     }
     else if (search_type == "single_user_tweets") {
       $("#tweetlist").empty();
-      tweeter_url = single_user_tweets_url + "size=" + size + "&top=" + top + "&screen_name=" + query;
+      tweeter_url = single_user_tweets_url + "size=" + size + "&top=" + top + "&screen_name=" + query + "&country=" + country;
     }
     else {
       $("#tweetlist").empty();
-      tweeter_url = user_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&q=" + query + "&uniqueUser=true";
+      tweeter_url = user_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&q=" + query + "&uniqueUser=true&country=" + country;
     }
 
-    if($("#viewCountry option:selected").text() == "US"){
-      tweeter_url = tweeter_url + "&country=us";
-    }
+  
 
     $.getJSON( tweeter_url, function( data ) {
       if (data["success"]) {
@@ -218,8 +217,8 @@ function timeSince(date) {
         <span style="padding-right:15px;">
           <b>Country</b>
           <select id="viewCountry">
-            <option selected="selected">India</option>
-            <option>US</option>
+            <option selected="selected" value="in">India</option>
+            <option value="us">US</option>
           </select>  
         </span>
         <!--<span style="padding-right:15px;">
