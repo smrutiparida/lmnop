@@ -1,5 +1,5 @@
 <script>
-  country = "";
+  
   var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span>@${screen_name}</span>&nbsp;<span class='timeCal'>${created_at}</span></h1><span>{{html tweet_text}}</span>{{if more_count>1}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'>${more_count} more tweets</a></span>{{else more_count == -999}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'>show less</a></span>{{/if}}</div>";
   //${more_count}
   //{{if rank==800}}<div class="verified_ac"><img src="/images/verified_image.png" /></div>{{/if}}
@@ -28,7 +28,7 @@
       tweeter_url = user_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&q=" + query + "&uniqueUser=true";
     }
 
-    if(country == "US"){
+    if($("#viewCountry option:selected").text() == "US"){
       tweeter_url = tweeter_url + "&country=us";
     }
 
@@ -122,10 +122,10 @@ $( document ).ready(function() {
     });
 
   $( "#viewCountry" ).change(function() {
-    country = $(this).text();
+    
     var values = $( "#slider-range" ).slider( "values" );
     values = processValues(values);
-    //alert(country);
+    
     callSearchServer("tweet_search", values[1],values[0],50,0);
     
   });
