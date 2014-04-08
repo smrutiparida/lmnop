@@ -1,4 +1,5 @@
 <script>
+  country = "";
   var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span>@${screen_name}</span>&nbsp;<span class='timeCal'>${created_at}</span></h1><span>{{html tweet_text}}</span>{{if more_count>1}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'>${more_count} more tweets</a></span>{{else more_count == -999}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'>show less</a></span>{{/if}}</div>";
   //${more_count}
   //{{if rank==800}}<div class="verified_ac"><img src="/images/verified_image.png" /></div>{{/if}}
@@ -27,6 +28,9 @@
       tweeter_url = user_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&q=" + query + "&uniqueUser=true";
     }
 
+    if(country == "US")
+      tweeter_url += "&country=us";
+    
     $.getJSON( tweeter_url, function( data ) {
       if (data["success"]) {
         if(data["data"]["totalCount"] > 0){
@@ -95,9 +99,9 @@ $( document ).ready(function() {
   $( "#rangeSelectvalue" ).hide();
   document.getElementById('blueColorScale').style.width = (10)+"%";
   document.getElementById('blueColorScale').style.left = (0)+"%";
-  document.getElementById('rangeSelectvalue').innerHTML = "800-720";
+  document.getElementById('rangeSelectvalue').innerHTML = "1000-750";
   
-  callSearchServer("tweet_search", 700,800,50,0)
+  callSearchServer("tweet_search", 750,1000,50,0)
   
   $( "#slider-range" ).slider({
       range: true,
@@ -109,15 +113,20 @@ $( document ).ready(function() {
         
         document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
         document.getElementById('blueColorScale').style.left = (ui.values[0])+"%";
-        var startPoint = (100 - ui.values[0]) * 8;
-        var endPoint = (100 - ui.values[1]) * 8;
-        if (endPoint == 0){
-          endPoint = 1;
-        }
-        document.getElementById('rangeSelectvalue').innerHTML = startPoint + "-" + endPoint;
-        callSearchServer("tweet_search", endPoint,startPoint,50,0);
+        var values = processValues(ui.values);
+        
+        document.getElementById('rangeSelectvalue').innerHTML = values[0] + "-" + values[1];
+        callSearchServer("tweet_search", values[1], values[0],50,0);
       }
     });
+
+  $( "#viewCountry" ).change(function() {
+    country = $(this).text();
+    var values = $( "#slider-range" ).slider( "values" );
+    values = processValues(values);
+    callSearchServer("tweet_search", values[1],values[0],50,0)
+    
+  });
 });
 
 function timeSince(date) {
@@ -146,27 +155,24 @@ function timeSince(date) {
   }
   return Math.floor(seconds) + "s ago";
 }
+  
+  function processValues(values){
+    values[0] = (100 - values[0]) * 10;
+    values[1] = (100 - values[1]) * 10;
+    if (endPoint == 0){
+      endPoint = 1;
+    }
+    return values;
+  }
 
   function expand(ele, val){
     var values = $( "#slider-range" ).slider( "values" );
-    var startPoint = (100 - values[0]) * 8;
-    var endPoint = (100 - values[1]) * 8;
-    if (endPoint == 0){
-      endPoint = 1;
-    } 
-
-    
-
-    if($(ele).text().indexOf("more") != -1 ){
-      
-      callSearchServer("single_user_tweets", endPoint,startPoint,50,0,encodeURIComponent(val));  
+    values = processValues(values);
+    if($(ele).text().indexOf("more") != -1 ){      
+      callSearchServer("single_user_tweets", values[1],values[0],50,0,encodeURIComponent(val));  
       $(ele).text("show less");
-      
     }else{
-      
-      
-      callSearchServer("tweet_search", endPoint,startPoint,50,0);
-      
+      callSearchServer("tweet_search", endPoint,startPoint,50,0);      
       $(ele).text("show more");
     }
   }
@@ -174,21 +180,18 @@ function timeSince(date) {
   function update(ele, val){  
 
     var values = $( "#slider-range" ).slider( "values" );
-    var startPoint = (100 - values[0]) * 8;
-    var endPoint = (100 - values[1]) * 8;
-    if (endPoint == 0){
-      endPoint = 1;
-    }
+    values = processValues(values);
+
     
     if($(ele).parent().attr('class') == "label label-info active"){
       
       $(ele).parent().removeClass('active');
-      callSearchServer("tweet_search", endPoint,startPoint,50,0);
+      callSearchServer("tweet_search", values[1],values[0],50,0);
       
     }else{
       $(ele).parent().addClass('active').siblings().removeClass('active');  
       
-      callSearchServer("user_search", endPoint,startPoint,50,0,encodeURIComponent(val));
+      callSearchServer("user_search", values[1], values[0], 50,0,encodeURIComponent(val));
     }
   }
 
@@ -212,7 +215,10 @@ function timeSince(date) {
       <div class="nav_selcet">
         <span style="padding-right:15px;">
           <b>Country</b>
-          <span class="input-xlarge uneditable-input" style="width:200px; text-align:left">India</span>
+          <select id="viewCountry">
+            <option selected="selected"></option>>India</option>
+            <option>US</option>
+          </select>  
         </span>
         <!--<span style="padding-right:15px;">
           <b>View</b>
@@ -233,7 +239,7 @@ function timeSince(date) {
         </span>
       </div>
       <div class="progressMain">
-        <div id="rangeSelectvalue"><p>800 - 700</p></div>
+        <div id="rangeSelectvalue"><p>1000 - 750</p></div>
         
         <div class="progressbar" id="grayColorScale">
           <div class="progressbar_2" style="width:1%;position:absolute;left:0%;" id="blueColorScale"></div>
