@@ -41,7 +41,7 @@
           
           
           var processed_tweets = urlify(data["data"]["tweets"]);
-          if (search_type == "tweet_search" && search_type == "user_search"){
+          if (search_type == "tweet_search" || search_type == "user_search"){
             processed_tweets = add_more_link(data["data"]["facets"]["user_tweet_frequency"]["terms"], processed_tweets);
           }
           else {
