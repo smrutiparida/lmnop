@@ -16,7 +16,7 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 .nav_selcet{width:100%; margin:0 auto; text-align:center; margin:10px 0 44px 0;}
 .heading{width:100%; margin:0 auto; margin-bottom:50px;}
 .progressMain{width:90%; height:81px; margin:0 auto; position:relative;}
-.twitSec{width:31.3%; padding:6px; float:left; border:1px solid #eee; margin:0 4px 4px 0; position:relative; border-radius:3px;min-height: 90px;}
+.twitSec{width:31.3%; padding:6px; float:left; border:1px solid #eee; margin:0 4px 4px 0; position:relative; border-radius:3px;min-height: 110px;}
 .twitSec:hover{ background-color:#f4f4f4; -webkit-transition:all 0.5s ease; -moz-transition:all 0.5s ease; -o-transition:all 0.5s ease;}
 .tw_img{width:60px; height:60px; float:left; padding:0 10px 10px 0;}
 .tw_img img{width:60px; height:60px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;}
