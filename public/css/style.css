@@ -13,21 +13,26 @@ img{ border:0}
 h1{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:36px; margin-bottom:0px; text-align:center; line-height:35px; position:relative;}
 h2{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:13px; margin-bottom:0px; text-align:center;}
 h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:26px; margin-bottom:0px; text-align:left; line-height:35px;}
-.nav_selcet{width:100%; margin:0 auto; text-align:center; margin:10px 0 44px 0;}
-.heading{width:100%; margin:0 auto; margin-bottom:50px;}
+.nav_selcet{width:100%; margin:0 auto; text-align:center; margin:10px 0 21px 0;}
+.heading{width:100%; margin:0 auto; margin-bottom:34px;}
 .progressMain{width:90%; height:81px; margin:0 auto; position:relative;}
-.twitSec{width:31.3%; padding:6px; float:left; border:1px solid #eee; margin:0 4px 4px 0; position:relative; border-radius:3px;min-height: 110px;}
-.twitSec:hover{ background-color:#f4f4f4; -webkit-transition:all 0.5s ease; -moz-transition:all 0.5s ease; -o-transition:all 0.5s ease;}
-.tw_img{width:60px; height:60px; float:left; padding:0 10px 10px 0;}
-.tw_img img{width:60px; height:60px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;}
-.twitSec h1{ font: bold 15px Arial, Helvetica, sans-serif; text-decoration:none; color:#00a8ff; text-align:left; line-height:normal; margin:0 0 6px 0;}
+.twitSec{width:31.3%; min-height:110px; padding:6px; display: inline-block; vertical-align:top !important; border:1px solid #eee; margin:0 4px 4px 0; position:relative; border-radius:3px;}
+
+.twitSec:hover{ background-color:#eee; -webkit-transition:all 0.5s ease; -moz-transition:all 0.5s ease; -o-transition:all 0.5s ease; border:1px solid #ccc;}
+.tw_img{width:40px; height:40px; float:left; padding:0 10px 0px 0;}
+.tw_img img{width:40px; height:40px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;}
+.twitSec h1{ font: bold 12px Arial, Helvetica, sans-serif; text-decoration:none; color:#00a8ff; text-align:left; line-height:normal; margin:0 0 2px 0;}
 .twitSec h1 a{text-decoration:none;}
 .twitSec h1 a:hover{text-decoration:none;}
-.twitSec h1 span{ font:normal 13px Arial, Helvetica, sans-serif; color:#999 !important; margin-left:4px;}
+.twitSec span{ font:normal 13px Arial, Helvetica, sans-serif; color:#999 !important; margin-left:4px;}
 .twitSec a{ margin-left:4px;}
+.twitSec p{ padding-top:4px;}
+.twitSec span img{ padding-bottom:4px;}
+
+.tweetlist{width:90%; margin:0 auto; text-align:center; border:1px solid #d7d7d7; border-radius:4px; padding:10px; margin-bottom:10px; background:#daeffd;}
 
 .active{ background-color:#ff0000 !important;}
-.more{float:right;position: relative;bottom: -20px;}
+.more{ position:absolute; bottom:4px; right:4px;}
 .more a{ font:bold 11px Arial, Helvetica, sans-serif; color:#0b8dc0; text-decoration:none;}
 .blue{ color:#0b8dc0;}
 

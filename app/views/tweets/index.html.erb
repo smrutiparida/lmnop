@@ -1,6 +1,6 @@
 <script>
-  
-  var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span>@${screen_name}</span>&nbsp;<span class='timeCal'>${created_at}</span></h1><span>{{html tweet_text}}</span>{{if more_count>10}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'>10+ tweets</a></span>{{else more_count > 1}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'>${more_count} more tweets</a></span>{{else more_count == -999}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'>show less</a></span>{{/if}}</div>";
+  global_hashtag = ""
+  var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span class='timeCal flRt'>${created_at}</span></h1><span>@${screen_name}</span><div class="clr"></div><p>{{html tweet_text}}</p>{{if more_count>10}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'>10+ tweets</a></span>{{else more_count > 1}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'>${more_count} more tweets</a></span>{{else more_count == -999}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'>show less</a></span>{{/if}}</div>";
   //${more_count}
   //{{if rank==800}}<div class="verified_ac"><img src="/images/verified_image.png" /></div>{{/if}}
 
@@ -23,6 +23,10 @@
     else if (search_type == "single_user_tweets") {
       $("#tweetlist").empty();
       tweeter_url = single_user_tweets_url + "size=" + size + "&top=" + top + "&screen_name=" + query + "&country=" + country;
+      if(global_hashtag != ""){
+        tweeter_url = tweeter_url + "&q=" + encodeURIComponent(global_hashtag);
+      }
+
     }
     else {
       $("#tweetlist").empty();
@@ -53,11 +57,11 @@
           $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
         }
         else {
-             $( "#tweetlist" ).html("<p>Sorry, There are no tweets from people with UserRank range " + low + " - " + high + " - because they didn't tweet in the last 24 hours. Please change the range in the slider to see tweet.<p><br><p>Or if you think there is a bug, please do send us a screenshot at <a href='mailto:amar@brizzlabs.com'>amar@brizzlabs.com</a> & we will try fixing it.</p>");
+             $( "#tweetlist" ).html("<div class='tweetlist'><p>Sorry, There are no tweets from people with UserRank range " + low + " - " + high + " - because they didn't tweet in the last 24 hours. Please change the range in the slider to see tweet.<p><br><p>Or if you think there is a bug, please do send us a screenshot at <a href='mailto:amar@brizzlabs.com'>amar@brizzlabs.com</a> & we will try fixing it.</p></div>");
         }
       }
       else {
-        $( "#tweetlist" ).text("Oops! Something went wrong. Please check us again.");
+        $( "#tweetlist" ).text("<div class='tweetlist'><p>Oops! Something went wrong. Please check us again.</p></div>");
       }
     });
   }
@@ -107,7 +111,7 @@ $( document ).ready(function() {
       range: true,
       min: 0,
       max: 100,
-      values: [ 0, 10 ],
+      values: [ 0, 30 ],
       change: function( event, ui ) {
         $( "#rangeSelectvalue" ).show();
         
@@ -185,13 +189,13 @@ function timeSince(date) {
 
     
     if($(ele).parent().attr('class') == "label label-info active"){
-      
+      global_hashtag = "";
       $(ele).parent().removeClass('active');
       callSearchServer("tweet_search", values[1],values[0],50,0);
       
     }else{
       $(ele).parent().addClass('active').siblings().removeClass('active');  
-      
+      global_hashtag = val;
       callSearchServer("user_search", values[1], values[0], 50,0,encodeURIComponent(val));
     }
   }
