@@ -173,7 +173,7 @@ function timeSince(date) {
   function expand(ele, val){
     var values = $( "#slider-range" ).slider( "values" );
     values = processValues(values);
-    if($(ele).text().indexOf("more") != -1 ){      
+    if($(ele).text().indexOf("tweets") != -1 ){      
       callSearchServer("single_user_tweets", values[1],values[0],50,0,encodeURIComponent(val));  
       $(ele).text("show less");
     }else{
