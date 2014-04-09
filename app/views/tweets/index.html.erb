@@ -1,6 +1,6 @@
 <script>
   global_hashtag = "";
-  var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span class='timeCal flRt'>${created_at}</span></h1><span>@${screen_name}</span><div class='clr'></div><p>{{html tweet_text}}</p>{{if more_count>10}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'>10+ tweets</a></span>{{else more_count > 1}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'>${more_count} tweets</a></span>{{else more_count == -999}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'>show less</a></span>{{/if}}</div>";
+  var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span class='timeCal flRt'>${created_at}</span></h1><span>@${screen_name}</span><div class='clr'></div><p>{{html tweet_text}}</p>{{if more_count>10}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /></a></span>{{else more_count == -999}}<span class='less'><a href='#' onclick='expand(this,\"${screen_name}\");'>show less</a></span>{{/if}}</div>";
   //${more_count}
   //{{if rank==800}}<div class="verified_ac"><img src="/images/verified_image.png" /></div>{{/if}}
 
@@ -173,12 +173,12 @@ function timeSince(date) {
   function expand(ele, val){
     var values = $( "#slider-range" ).slider( "values" );
     values = processValues(values);
-    if($(ele).text().indexOf("tweets") != -1 ){      
-      callSearchServer("single_user_tweets", values[1],values[0],50,0,encodeURIComponent(val));  
-      $(ele).text("show less");
-    }else{
+    if($(ele).text().indexOf("less") != -1 ){      
       callSearchServer("tweet_search", values[1],values[0],50,0);      
-      $(ele).text("show more");
+      //$(ele).text("show more");
+    }else{
+      callSearchServer("single_user_tweets", values[1],values[0],50,0,encodeURIComponent(val));  
+      //$(ele).text("show less");
     }
   }
 
@@ -208,7 +208,16 @@ function timeSince(date) {
     $( "#rangeSelectvalue" ).hide();
   }
   
+  <!--for coming soon popup-->
+ function showDivTag(){
+  var myselect = document.getElementById("selectOpt");
+    var selectOption = myselect.options[myselect.selectedIndex].value;
   
+  if(selectOption != "All"){
+    $("#modal-container-coming").modal('show');
+  }
+  }
+  <!--for coming soon popup-->
 
 </script>
   <div class="mainDiv">
@@ -234,7 +243,7 @@ function timeSince(date) {
         </span>-->
         <span style="padding-right:15px;" id="tweetTime">
           <b>Topic</b>
-          <select>
+          <select onchange="showDivTag()" id="selectOpt">
             <option>All</option>
             <option>News</option>
             <option>IPL7</option>
@@ -266,7 +275,7 @@ function timeSince(date) {
       <div class="modal-header">
          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
         <h3 id="myModalLabel">
-          Tweets sorted by <span class="blue">UserRank</span>
+          <span class="blue">PageRank</span> for Twitter
         </h3>
       </div>
       <div class="modal-body">
@@ -281,6 +290,25 @@ function timeSince(date) {
          <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
       </div>
     </div>
+    <!--coming soon popup-->
+      <div id="modal-container-coming" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="myModalLabel">
+            Coming Soon
+          </h3>
+        </div>
+        <div class="modal-body">
+          <p>
+            Trained monkeys are on job. Please come back soon to check this feature out
+          </p>
+          <p>Currently only "all" filter is working.</p>
+        </div>
+        <div class="modal-footer">
+           <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+      </div>
+    <!--coming soon popup-->
   </div>
 
 
