@@ -31,9 +31,19 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 
 .tweetlist{width:90%; margin:0 auto; text-align:center; border:1px solid #d7d7d7; border-radius:4px; padding:10px; margin-bottom:10px; background:#daeffd;}
 
-.active{ background-color:#ff0000 !important;}
-.more{ position:absolute; bottom:4px; right:4px;}
-.more a{ font:bold 11px Arial, Helvetica, sans-serif; color:#0b8dc0; text-decoration:none;}
+.more a{ font:bold 20px Arial, Helvetica, sans-serif; color:#f06760; text-decoration:none;}
+.more a:hover{ text-decoration:none; -webkit-transition: all 1s ease;
+     -moz-transition: all 1s ease;
+       -o-transition: all 1s ease;
+      -ms-transition: all 1s ease;
+          transition: all 1s ease;
+  -webkit-filter: grayscale(1);}
+.more a img{ margin-right:2px; padding:0;}
+
+.less{ position:absolute; bottom:6px; right:8px;}
+.less a{ font:normal 11px Arial, Helvetica, sans-serif; color:#fff; text-decoration:none; background:#f06760; border-radius:10px; padding:1px 8px 1px 8px;
+-moz-box-shadow: inset 0 1px 0 0 #cd453f, 0 1px 2px 0 #cd453f; -webkit-box-shadow: inset 0 1px 0 0 #cd453f, 0 1px 2px 0 #cd453f;}
+.less a:hover{ color:#fff !important;}
 .blue{ color:#0b8dc0;}
 
 .mainDiv{width:100%; margin:0 auto;}
