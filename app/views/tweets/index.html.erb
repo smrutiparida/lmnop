@@ -135,9 +135,9 @@ $( document ).ready(function() {
 });
 
 function timeSince(date) {
-  //var split_data = date.split(' ');
-  //var date_info  = split_data[0].split('-');
-  //var time_info  = split_data[1].split(':');
+  var split_data = date.split(" ");
+  var date_info  = split_data[0].split("-");
+  var time_info  = split_data[1].split(":");
   var curTime = new Date();
   var timezoneDiff = curTime.getTimezoneOffset() * 60000;
   var seconds = Math.floor((curTime.getTime() - (new Date(date)).getTime() + timezoneDiff) / 1000);
