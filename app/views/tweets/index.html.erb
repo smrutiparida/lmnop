@@ -123,6 +123,12 @@ $( document ).ready(function() {
             if_sliding = false;
             //store_values = ui.values;
           }
+          else if(ui.values[1] == store_values[1] && ui.values[0] < store_values[0]){
+            ui.values[1] = ui.values[0] + 30;
+            $( "#slider-range" ).slider( "option", "values", [ ui.values[0], ui.values[1] ] );
+            if_sliding = false;
+            //store_values = ui.values;
+          }
 
         }
         document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
@@ -134,7 +140,10 @@ $( document ).ready(function() {
         
       },
       slide:function(event,ui){
-        if_sliding = false;
+        if(ui.values[0] - ui.value  <5 || ui.value - ui.values[1] < 5){
+          if_sliding = true;  
+        }
+        
       },
       start:function(event, ui){
         store_values = ui.values;
