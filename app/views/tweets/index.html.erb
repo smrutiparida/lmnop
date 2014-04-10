@@ -115,11 +115,11 @@ $( document ).ready(function() {
       change: function( event, ui ) {
         $( "#rangeSelectvalue" ).show();
         
-        document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
-        document.getElementById('blueColorScale').style.left = (ui.values[0])+"%";
+        //document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
+        //document.getElementById('blueColorScale').style.left = (ui.values[0])+"%";
         var values = processValues(ui.values);
         
-        document.getElementById('rangeSelectvalue').innerHTML = values[0] + "-" + values[1];
+        //document.getElementById('rangeSelectvalue').innerHTML = values[0] + "-" + values[1];
         callSearchServer("tweet_search", values[1], values[0],50,0);
       }
     });
