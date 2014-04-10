@@ -141,6 +141,7 @@ $( document ).ready(function() {
       },
       slide:function(event,ui){
         if(ui.values[0] - ui.value  <5 || ui.value - ui.values[1] < 5){
+          alert(ui.value);
           if_sliding = true;  
         }
         
