@@ -1,7 +1,5 @@
 <script>
   global_hashtag = "";
-  if_sliding = false;
-  store_values = [0,30];
   var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span class='timeCal flRt'>${created_at}</span></h1><span>@${screen_name}</span><div class='clr'></div><p>{{html tweet_text}}</p>{{if more_count>10}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /></a></span>{{else more_count == -999}}<span class='less'><a href='#' onclick='expand(this,\"${screen_name}\");'>show less</a></span>{{/if}}</div>";
   //${more_count}
   //{{if rank==800}}<div class="verified_ac"><img src="/images/verified_image.png" /></div>{{/if}}
@@ -116,40 +114,14 @@ $( document ).ready(function() {
       values: [ 0, 30 ],
       change: function( event, ui ) {
         $( "#rangeSelectvalue" ).show();
-        if(!if_sliding){
-          if(ui.values[1] > store_values[1] && ui.values[0] == store_values[0]){
-            ui.values[0] = ui.values[1] - 30;
-            $( "#slider-range" ).slider( "option", "values", [ ui.values[0], ui.values[1] ] );
-            if_sliding = false;
-            //store_values = ui.values;
-          }
-          else if(ui.values[1] == store_values[1] && ui.values[0] < store_values[0]){
-            ui.values[1] = ui.values[0] + 30;
-            $( "#slider-range" ).slider( "option", "values", [ ui.values[0], ui.values[1] ] );
-            if_sliding = false;
-            //store_values = ui.values;
-          }
-
-        }
+        
         document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
         document.getElementById('blueColorScale').style.left = (ui.values[0])+"%";
         var values = processValues(ui.values);
         
         document.getElementById('rangeSelectvalue').innerHTML = values[0] + "-" + values[1];
         callSearchServer("tweet_search", values[1], values[0],50,0);
-        
-      },
-      slide:function(event,ui){
-        if(ui.values[0] - ui.value  <5 || ui.value - ui.values[1] < 5){
-          alert(ui.value);
-          if_sliding = true;  
-        }
-        
-      },
-      start:function(event, ui){
-        store_values = ui.values;
-      },
-      stop:function(event, ui){}
+      }
     });
 
   $( "#viewCountry" ).change(function() {
@@ -174,7 +146,7 @@ function timeSince(date) {
   var curTime = new Date();
   var timezoneDiff = curTime.getTimezoneOffset() * 60000;
   //var seconds = Math.floor((curTime.getTime() - (new Date(date)).getTime() + timezoneDiff) / 1000);
-  var seconds = Math.floor((curTime.getTime() - (new Date(date_info[0],date_info[1] - 1,date_info[2],time_info[0],time_info[1],time_info[2])).getTime() + timezoneDiff) / 1000);
+  var seconds = Math.floor((curTime.getTime() - (new Date(date_info[0],date_info[1] -1,date_info[2],time_info[0],time_info[1],time_info[2])).getTime() + timezoneDiff) / 1000);
   var interval = Math.floor(seconds / 31536000);
   if (interval > 0) {
     return interval + "y ago";
