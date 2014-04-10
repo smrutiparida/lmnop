@@ -115,11 +115,11 @@ $( document ).ready(function() {
       change: function( event, ui ) {
         $( "#rangeSelectvalue" ).show();
         
-        //document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
-        //document.getElementById('blueColorScale').style.left = (ui.values[0])+"%";
+        document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
+        document.getElementById('blueColorScale').style.left = (ui.values[0])+"%";
         var values = processValues(ui.values);
         
-        //document.getElementById('rangeSelectvalue').innerHTML = values[0] + "-" + values[1];
+        document.getElementById('rangeSelectvalue').innerHTML = values[0] + "-" + values[1];
         callSearchServer("tweet_search", values[1], values[0],50,0);
       }
     });
@@ -135,9 +135,13 @@ $( document ).ready(function() {
 });
 
 function timeSince(date) {
+  split_data = date.split(' ');
+  date_info = split_data[0]('-');
+  time_info = split_data[1](':');
   var curTime = new Date();
   var timezoneDiff = curTime.getTimezoneOffset() * 60000;
-  var seconds = Math.floor((curTime.getTime() - (new Date(date)).getTime() + timezoneDiff) / 1000);
+  //var seconds = Math.floor((curTime.getTime() - (new Date(date)).getTime() + timezoneDiff) / 1000);
+  var seconds = Math.floor((curTime.getTime() - (new Date(parseInt(date_info[0]),parseInt(date_info[2]),parseInt(date_info[1]),parseInt(time_info[0]),parseInt(time_info[1]),parseInt(time_info[2])).getTime() + timezoneDiff) / 1000);
   var interval = Math.floor(seconds / 31536000);
   if (interval > 0) {
     return interval + "y ago";
