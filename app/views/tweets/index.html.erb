@@ -136,12 +136,17 @@ $( document ).ready(function() {
 
 function timeSince(date) {
   var split_data = date.split(" ");
-  var date_info  = split_data[0].split("-");
-  var time_info  = split_data[1].split(":");
+  var date_info  = split_data[0].split("-").map(function(item) {
+                                                                 return parseInt(item, 10);
+      });;
+  var time_info  = split_data[1].split(":").map(function(item) {
+                                                                  return parseInt(item, 10);
+                                                              });;
+  
   var curTime = new Date();
   var timezoneDiff = curTime.getTimezoneOffset() * 60000;
-  var seconds = Math.floor((curTime.getTime() - (new Date(date)).getTime() + timezoneDiff) / 1000);
-  //var seconds = Math.floor((curTime.getTime() - (new Date(parseInt(date_info[0]),parseInt(date_info[2]),parseInt(date_info[1]),parseInt(time_info[0]),parseInt(time_info[1]),parseInt(time_info[2])).getTime() + timezoneDiff) / 1000);
+  //var seconds = Math.floor((curTime.getTime() - (new Date(date)).getTime() + timezoneDiff) / 1000);
+  var seconds = Math.floor((curTime.getTime() - (new Date(date_info[0],date_info[2],date_info[1],time_info[0],time_info[1],time_info[2])).getTime() + timezoneDiff) / 1000);
   var interval = Math.floor(seconds / 31536000);
   if (interval > 0) {
     return interval + "y ago";
