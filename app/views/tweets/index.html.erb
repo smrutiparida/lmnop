@@ -1,5 +1,5 @@
 <script>
-  global_hashtag = "";
+  //global_hashtag = "";
   var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span class='timeCal flRt'>${created_at}</span></h1><span>@${screen_name}</span><div class='clr'></div><p>{{html tweet_text}}</p>{{if more_count>10}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /></a></span>{{else more_count == -999}}<span class='less'><a href='#' onclick='expand(this,\"${screen_name}\");'>show less</a></span>{{/if}}</div>";
   //${more_count}
   //{{if rank==800}}<div class="verified_ac"><img src="/images/verified_image.png" /></div>{{/if}}
@@ -8,40 +8,45 @@
   
   $.template( "twitterTemplate", markup );
   $.template( "trendingTemplate", hashtag );
+
+  var search_params = {"low":750,"high":1000,"size":50,top:0,q:"",uniqueUser=true,country="IN",screen_name=""};
+  var search_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/get?"
+
  
   function callSearchServer(search_type,low,high,size,top,query) {
-    var tweet_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/";
-    var user_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_search/";
-    var single_user_tweets_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user_tweets/";
+    //var tweet_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/";
+    //var user_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_search/";
+    //var single_user_tweets_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user_tweets/";
 
-    var tweeter_url = "";
-    var country = $("#viewCountry option:selected").attr('value');
-    if (search_type == "tweet_search"){
-      $("#tweetlist").empty();
-      tweeter_url = tweet_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&uniqueUser=true&country=" + country;
-    }
-    else if (search_type == "single_user_tweets") {
-      $("#tweetlist").empty();
-      tweeter_url = single_user_tweets_url + "size=" + size + "&top=" + top + "&screen_name=" + query + "&country=" + country;
-      if(global_hashtag != ""){
-        tweeter_url = tweeter_url + "&q=" + encodeURIComponent(global_hashtag);
-      }
+    //var tweeter_url = "";
+    //var search_params["country"] = $("#viewCountry option:selected").attr('value');
+    $("#tweetlist").empty();
+    //if (search_type == "tweet_search"){
+    //  $("#tweetlist").empty();
+    //  tweeter_url = tweet_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&uniqueUser=true&country=" + country;
+    //}
+    //else if (search_type == "single_user_tweets") {
+    //  $("#tweetlist").empty();
+    //  tweeter_url = single_user_tweets_url + "size=" + size + "&top=" + top + "&screen_name=" + query + "&country=" + country;
+    //  if(global_hashtag != ""){
+    //    tweeter_url = tweeter_url + "&q=" + encodeURIComponent(global_hashtag);
+    //  }
 
-    }
-    else {
-      $("#tweetlist").empty();
-      tweeter_url = user_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&q=" + query + "&uniqueUser=true&country=" + country;
-    }
+    //}
+    //else {
+    //  $("#tweetlist").empty();
+    //  tweeter_url = user_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&q=" + query + "&uniqueUser=true&country=" + country;
+    //}
 
   
 
-    $.getJSON( tweeter_url, function( data ) {
+    $.getJSON( tweeter_url, search_params, function( data ) {
       if (data["success"]) {
         if(data["data"]["totalCount"] > 0){
           
           
           var processed_tweets = urlify(data["data"]["tweets"]);
-          if (search_type == "tweet_search" || search_type == "user_search"){
+          if (search_params["screen_name"] == ""){
             processed_tweets = add_more_link(data["data"]["facets"]["user_tweet_frequency"]["terms"], processed_tweets);
           }
           else {
@@ -49,7 +54,7 @@
           }
           $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
 
-          if ( search_type == "tweet_search") {
+          if ( search_params["q"] == "" && search_params["screen_name"] == "") {
             $("#trending").empty();
             $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"]).appendTo( "#trending" );
           }
@@ -83,7 +88,7 @@ function add_more_link(array_term_frequency, all_tweets, search_type){
       all_tweets[i]["more_count"] = 0;
     }
   }
-  if(search_type == "single_user_tweets"){
+  if(search_params["screen_name"] != ""){
     all_tweets[0]["more_count"] = -999;
   }
   return all_tweets;
@@ -105,7 +110,7 @@ $( document ).ready(function() {
   document.getElementById('blueColorScale').style.left = (0)+"%";
   document.getElementById('rangeSelectvalue').innerHTML = "1000-750";
   
-  callSearchServer("tweet_search", 750,1000,50,0)
+  callSearchServer();
   
   $( "#slider-range" ).slider({
       range: true,
@@ -120,16 +125,20 @@ $( document ).ready(function() {
         var values = processValues(ui.values);
         
         document.getElementById('rangeSelectvalue').innerHTML = values[0] + "-" + values[1];
-        callSearchServer("tweet_search", values[1], values[0],50,0);
+        search_params["low"] = values[1];
+        search_params["high"] = values[0];
+        callSearchServer();
       }
     });
 
   $( "#viewCountry" ).change(function() {
-    
-    var values = $( "#slider-range" ).slider( "values" );
-    values = processValues(values);
-    
-    callSearchServer("tweet_search", values[1],values[0],50,0);
+    search_params["country"] = $("#viewCountry option:selected").attr('value');
+    //var values = $( "#slider-range" ).slider( "values" );
+    //values = processValues(values);
+    //search_params["low"] = values[1];
+    //search_params["high"] = values[0];
+    //callSearchServer("tweet_search", values[1],values[0],50,0);
+    callSearchServer();
     
   });
 });
@@ -180,32 +189,38 @@ function timeSince(date) {
   }
 
   function expand(ele, val){
-    var values = $( "#slider-range" ).slider( "values" );
-    values = processValues(values);
+    //var values = $( "#slider-range" ).slider( "values" );
+    //values = processValues(values);
     if($(ele).text().indexOf("less") != -1 ){      
-      callSearchServer("tweet_search", values[1],values[0],50,0);      
+      //callSearchServer("tweet_search", values[1],values[0],50,0);      
       //$(ele).text("show more");
+      search_params["screen_name"] = "";
     }else{
-      callSearchServer("single_user_tweets", values[1],values[0],50,0,encodeURIComponent(val));  
+      search_params["screen_name"] = encodeURIComponent(val);
+      //callSearchServer("single_user_tweets", values[1],values[0],50,0,encodeURIComponent(val));  
+
       //$(ele).text("show less");
     }
+    callSearchServer();
   }
 
   function update(ele, val){  
 
-    var values = $( "#slider-range" ).slider( "values" );
-    values = processValues(values);
+    //var values = $( "#slider-range" ).slider( "values" );
+    //values = processValues(values);
 
     
     if($(ele).parent().attr('class') == "label label-info active"){
-      global_hashtag = "";
+      //global_hashtag = "";
+      search_params["q"] = "";
       $(ele).parent().removeClass('active');
-      callSearchServer("tweet_search", values[1],values[0],50,0);
+      callSearchServer();
       
     }else{
       $(ele).parent().addClass('active').siblings().removeClass('active');  
-      global_hashtag = val;
-      callSearchServer("user_search", values[1], values[0], 50,0,encodeURIComponent(val));
+      //global_hashtag = val;
+      search_params["q"] = encodeURIComponent(val);
+      callSearchServer();//"user_search", values[1], values[0], 50,0,encodeURIComponent(val));
     }
   }
 
