@@ -1,8 +1,6 @@
 <script>
-  //global_hashtag = "";
+
   var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span class='timeCal flRt'>${created_at}</span></h1><span>@${screen_name}</span><div class='clr'></div><p>{{html tweet_text}}</p>{{if more_count>10}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /></a></span>{{else more_count == -999}}<span class='less'><a href='#' onclick='expand(this,\"${screen_name}\");'>show less</a></span>{{/if}}</div>";
-  //${more_count}
-  //{{if rank==800}}<div class="verified_ac"><img src="/images/verified_image.png" /></div>{{/if}}
 
   var hashtag = "<span class='label label-info' style='margin:0 5px 5px 0;'><a href='#'' class='hashtagclick' onclick='update(this,\"${term}\");'>${term}</a></span>";
   
@@ -14,29 +12,7 @@
 
  
   function callSearchServer() {
-    //var tweet_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_user/";
-    //var user_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/prio_search/";
-    //var single_user_tweets_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user_tweets/";
-
-    //var tweeter_url = "";
-    //var search_params["country"] = $("#viewCountry option:selected").attr('value');
     $("#tweetlist").empty();
-    //if (search_type == "tweet_search"){
-    //  $("#tweetlist").empty();
-    //  tweeter_url = tweet_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&uniqueUser=true&country=" + country;
-    //}
-    //else if (search_type == "single_user_tweets") {
-    //  $("#tweetlist").empty();
-    //  tweeter_url = single_user_tweets_url + "size=" + size + "&top=" + top + "&screen_name=" + query + "&country=" + country;
-    //  if(global_hashtag != ""){
-    //    tweeter_url = tweeter_url + "&q=" + encodeURIComponent(global_hashtag);
-    //  }
-
-    //}
-    //else {
-    //  $("#tweetlist").empty();
-    //  tweeter_url = user_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&q=" + query + "&uniqueUser=true&country=" + country;
-    //}
 
     ///this is temporary due to a server bug, if q and screen_name is passed empty, the result coming is null
     var temp_params = JSON.parse(JSON.stringify(search_params));
@@ -144,13 +120,7 @@ $( document ).ready(function() {
 
   $( "#viewCountry" ).change(function() {
     search_params["country"] = $("#viewCountry option:selected").attr('value');
-    //var values = $( "#slider-range" ).slider( "values" );
-    //values = processValues(values);
-    //search_params["low"] = values[1];
-    //search_params["high"] = values[0];
-    //callSearchServer("tweet_search", values[1],values[0],50,0);
-    callSearchServer();
-    
+    callSearchServer();    
   });
 });
 
@@ -233,6 +203,8 @@ function timeSince(date) {
       $(ele).parent().addClass('active').siblings().removeClass('active');  
       //global_hashtag = val;
       search_params["q"] = val;//encodeURIComponent(val);
+      search_params["screen_name"] = "";
+      search_params["uniqueUser"] = true;
       callSearchServer();//"user_search", values[1], values[0], 50,0,encodeURIComponent(val));
     }
   }
