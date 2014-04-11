@@ -39,7 +39,7 @@
     //}
 
     ///this is temporary due to a server bug, if q and screen_name is passed empty, the result coming is null
-    var temp_params = JSON.parse(JSON.stringify(x));
+    var temp_params = JSON.parse(JSON.stringify(search_params));
     if(temp_params["q"] == ""){
       delete temp_params["q"];
     }
