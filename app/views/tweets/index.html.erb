@@ -40,7 +40,7 @@
 
   
 
-    $.getJSON( tweeter_url, search_params, function( data ) {
+    $.getJSON( search_url, search_params, function( data ) {
       if (data["success"]) {
         if(data["data"]["totalCount"] > 0){
           
