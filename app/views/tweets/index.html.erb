@@ -206,8 +206,10 @@ function timeSince(date) {
       //callSearchServer("tweet_search", values[1],values[0],50,0);      
       //$(ele).text("show more");
       search_params["screen_name"] = "";
+      search_params["uniqueUser"] = true;
     }else{
       search_params["screen_name"] = encodeURIComponent(val);
+      search_params["uniqueUser"] = false;
       //callSearchServer("single_user_tweets", values[1],values[0],50,0,encodeURIComponent(val));  
 
       //$(ele).text("show less");
