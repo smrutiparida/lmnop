@@ -280,7 +280,7 @@ function timeSince(date) {
         </span>-->
         <span style="padding-right:15px;" id="tweetTime">
           <b>Topic</b>
-          <select onchange="showDivTag()$(this).val('all');" id="selectOpt">
+          <select onchange="showDivTag();$('#selectOpt').val('all');" id="selectOpt">
             <option value="all">All</option>
             <option value="mytweets">My Tweets</option>
             <option value="ipl7">IPL7</option>
