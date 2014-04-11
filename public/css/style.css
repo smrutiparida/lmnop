@@ -31,6 +31,8 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 
 .tweetlist{width:90%; margin:0 auto; text-align:center; border:1px solid #d7d7d7; border-radius:4px; padding:10px; margin-bottom:10px; background:#daeffd;}
 
+.active{ background-color:#f06760 !important;}
+.more{ position:absolute; bottom:4px; right:6px; }
 .more a{ font:bold 20px Arial, Helvetica, sans-serif; color:#f06760; text-decoration:none;}
 .more a:hover{ text-decoration:none; -webkit-transition: all 1s ease;
      -moz-transition: all 1s ease;
