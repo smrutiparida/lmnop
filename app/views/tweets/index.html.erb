@@ -38,10 +38,18 @@
     //  tweeter_url = user_url + "low=" + low + "&high=" + high + "&size=" + size + "&top=" + top + "&q=" + query + "&uniqueUser=true&country=" + country;
     //}
 
-  
+    ///this is temporary due to a server bug, if q and screen_name is passed empty, the result coming is null
+    var temp_params = search_params;
+    if(temp_params["q"] == ""){
+      delete temp_params["q"];
+    }
+    if(temp_params["screen_name"] == ""){
+      delete temp_params["screen_name"];
+    }
+    //temp ends
 
-    $.getJSON( search_url, search_params, function( data ) {
-      if (data["success"]) {
+    $.getJSON( search_url, search_params).done(function( data ) {
+      
         if(data["data"]["totalCount"] > 0){
           
           
@@ -62,13 +70,16 @@
           $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
         }
         else {
-             $( "#tweetlist" ).html("<div class='tweetlist'><p>Sorry, There are no tweets from people with UserRank range " + low + " - " + high + " - because they didn't tweet in the last 24 hours. Please change the range in the slider to see tweet.<p><p>Or if you think there is a bug, please do send us a screenshot at <a href='mailto:amar@brizzlabs.com'>amar@brizzlabs.com</a> & we will try fixing it.</p></div>");
+             $( "#tweetlist" ).html("<div class='tweetlist'><p>Sorry, There are no tweets from people with UserRank range " + search_params["low"] + " - " + search_params["high"] + " - because they didn't tweet in the last 24 hours. Please change the range in the slider to see tweet.<p><p>Or if you think there is a bug, please do send us a screenshot at <a href='mailto:amar@brizzlabs.com'>amar@brizzlabs.com</a> & we will try fixing it.</p></div>");
         }
-      }
-      else {
+      }).fail( function(){
         $( "#tweetlist" ).html("<div class='tweetlist'><p>Oops! Something went wrong. Please check us again.</p></div>");
-      }
-    });
+      });
+
+      
+        
+      
+    //});
   }
 
 function add_more_link(array_term_frequency, all_tweets, search_type){
