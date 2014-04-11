@@ -9,7 +9,7 @@
   $.template( "twitterTemplate", markup );
   $.template( "trendingTemplate", hashtag );
 
-  var search_params = {"low":750,"high":1000,"size":50,"top":0,"q":"","uniqueUser":true,"country":"IN","screen_name":""};
+  var search_params = {"low":750,"high":1000,"size":50,"top":0,"q":"","uniqueUser":true,"country":"in","screen_name":""};
   var search_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/get?"
 
  
@@ -58,7 +58,7 @@
             processed_tweets = add_more_link(data["data"]["facets"]["user_tweet_frequency"]["terms"], processed_tweets);
           }
           else {
-            processed_tweets = add_more_link([], processed_tweets,search_type); 
+            processed_tweets = add_more_link([], processed_tweets); 
           }
           $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
 
@@ -82,7 +82,7 @@
     //});
   }
 
-function add_more_link(array_term_frequency, all_tweets, search_type){
+function add_more_link(array_term_frequency, all_tweets){
   var term_obj = {};
   //my_shit = all_tweets;
   
