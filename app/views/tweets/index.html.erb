@@ -208,7 +208,7 @@ function timeSince(date) {
       search_params["screen_name"] = "";
       search_params["uniqueUser"] = true;
     }else{
-      search_params["screen_name"] = encodeURIComponent(val);
+      search_params["screen_name"] = val;//encodeURIComponent(val);
       search_params["uniqueUser"] = false;
       //callSearchServer("single_user_tweets", values[1],values[0],50,0,encodeURIComponent(val));  
 
@@ -232,7 +232,7 @@ function timeSince(date) {
     }else{
       $(ele).parent().addClass('active').siblings().removeClass('active');  
       //global_hashtag = val;
-      search_params["q"] = encodeURIComponent(val);
+      search_params["q"] = val;//encodeURIComponent(val);
       callSearchServer();//"user_search", values[1], values[0], 50,0,encodeURIComponent(val));
     }
   }
