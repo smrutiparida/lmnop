@@ -7,19 +7,45 @@ require 'json'
 class TweetsController < ApplicationController
   def index
   end
+  
+  def my
+    twitter_url = "https://api.twitter.com/oauth/access_token"
+    post_params = get_params()
+    post_params["oauth_token"] = params["oauth_token"]
+    post_params["oauth_verifier"] = params["oauth_verifier"]
+    
+    signature_base_string = signature_base_string("POST", twitter_url, post_params)
 
+    logger.info(signature_base_string) 
+
+    post_params['oauth_signature'] = url_encode(sign(consumer_secret + '&' + post_params["oauth_token"] , signature_base_string))
+    
+    post_params.delete("oauth_verifier")
+
+    data = "OAuth " + post_params.map{|k,v| "#{k}=\"#{v}\""}.join(', ')
+
+    logger.info(data)
+    
+    uri = URI.parse(twitter_url)
+
+    initheader = {"Content-type"=> "application/x-www-form-urlencoded","Accept"=> "*/*","Authorization" => data}
+    http = Net::HTTP.new(uri.host,uri.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE # read into this
+    
+    resp = http.post(uri.path, "oauth_verifier=" + params["oauth_verifier"] , initheader)
+
+    logger.info(resp.body)
+
+  end  
+  
   def auth
     #send a post request
     consumer_secret = "Fhtou0sRRMw5jaGd6TDNAY25q0pvX0kuWhUG12SuZZIg7sVcA9"
-    auth_token_secret ="TWgjxFgp7T0T6GwEv7jAO3FlXLuKKtjPOoaKRYeOWmTSG"
+    #auth_token_secret ="TWgjxFgp7T0T6GwEv7jAO3FlXLuKKtjPOoaKRYeOWmTSG"
     twitter_url = "https://api.twitter.com/oauth/request_token"
-    post_params = {}
-    post_params['oauth_version'] = "1.0"
-    post_params['oauth_timestamp'] = Time.now.to_i.to_s
-    post_params['oauth_signature_method'] = 'HMAC-SHA1'
+    post_params = get_params()
     post_params['oauth_callback'] = url_encode('http://lmnopapp.com/tweets/my')
-    post_params['oauth_consumer_key'] = "bNEQCVbQ5G5fm1x0TTuWhCYAR"
-    post_params['oauth_nonce'] = rand(10 ** 30).to_s.rjust(30,'0')
     
     signature_base_string = signature_base_string("POST", twitter_url, post_params)
 
@@ -29,12 +55,12 @@ class TweetsController < ApplicationController
 
     data = "OAuth " + post_params.map{|k,v| "#{k}=\"#{v}\""}.join(', ')
 
+    
     logger.info(data)
     
     uri = URI.parse(twitter_url)
 
     initheader = {"Accept"=> "*/*","Authorization" => data}
-
     http = Net::HTTP.new(uri.host,uri.port)
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE # read into this
@@ -54,6 +80,16 @@ class TweetsController < ApplicationController
     
   end
   
+  def get_params()
+    post_params = {}
+    post_params['oauth_version'] = "1.0"
+    post_params['oauth_timestamp'] = Time.now.to_i.to_s
+    post_params['oauth_signature_method'] = 'HMAC-SHA1'
+    post_params['oauth_consumer_key'] = "bNEQCVbQ5G5fm1x0TTuWhCYAR"
+    post_params['oauth_nonce'] = rand(10 ** 30).to_s.rjust(30,'0')
+    
+    post_params
+  end  
   def url_encode(string)
     CGI::escape(string)
   end

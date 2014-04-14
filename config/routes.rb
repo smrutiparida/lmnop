@@ -3,6 +3,7 @@ Lmnop::Application.routes.draw do
   get "railways/profanity"
   get "tweets/index"
   get "tweets/auth"
+  get "tweets/my"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
