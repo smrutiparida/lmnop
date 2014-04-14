@@ -44,7 +44,7 @@ class TweetsController < ApplicationController
     logger.info(resp.body)
  
     #check if secret is fine and data is not compromised
-    name_val = res.body.split('&')
+    name_val = resp.body.split('&')
     my_map = {}
     name_val.each do |x|
       output_params = x.split('=')
