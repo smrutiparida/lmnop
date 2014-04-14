@@ -40,4 +40,5 @@ gem 'jquery-rails'
 gem 'nokogiri'
 gem 'json'
 
+gem 'twitter'
 
