@@ -41,7 +41,7 @@ class TweetsController < ApplicationController
     
     resp = http.post(uri.path, "" , initheader)
 
-    logger.info(resp.to_s)  logger.info(resp.body)
+    logger.info(resp.body)
  
     #check if secret is fine and data is not compromised
     name_val = res.body.split('&')
