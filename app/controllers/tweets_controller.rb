@@ -32,6 +32,7 @@ class TweetsController < ApplicationController
     
     resp = http.post(uri.path, data, initheader)
 
+    logger.info(resp.body)
     print resp.body
 
     #https://api.twitter.com/oauth/authenticate?oauth_token=NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0
