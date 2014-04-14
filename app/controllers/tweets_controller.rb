@@ -39,7 +39,7 @@ class TweetsController < ApplicationController
     http.use_ssl = true
     http.verify_mode = OpenSSL::SSL::VERIFY_NONE # read into this
     
-    resp = http.post(uri.path, data, initheader)
+    resp = http.post(uri.path, "" , initheader)
 
     logger.info(resp.to_s)
     logger.info(resp.body)
