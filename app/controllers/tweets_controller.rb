@@ -5,6 +5,8 @@ require 'open-uri'
 require 'json'
 
 class TweetsController < ApplicationController
+  @@consumer_secret = "Fhtou0sRRMw5jaGd6TDNAY25q0pvX0kuWhUG12SuZZIg7sVcA9"
+
   def index
   end
   
@@ -18,7 +20,7 @@ class TweetsController < ApplicationController
 
     logger.info(signature_base_string) 
 
-    post_params['oauth_signature'] = url_encode(sign(consumer_secret + '&' + post_params["oauth_token"] , signature_base_string))
+    post_params['oauth_signature'] = url_encode(sign(@@consumer_secret + '&' + post_params["oauth_token"] , signature_base_string))
     
     post_params.delete("oauth_verifier")
 
@@ -38,10 +40,10 @@ class TweetsController < ApplicationController
     logger.info(resp.body)
 
   end  
-  
+
   def auth
     #send a post request
-    consumer_secret = "Fhtou0sRRMw5jaGd6TDNAY25q0pvX0kuWhUG12SuZZIg7sVcA9"
+    
     #auth_token_secret ="TWgjxFgp7T0T6GwEv7jAO3FlXLuKKtjPOoaKRYeOWmTSG"
     twitter_url = "https://api.twitter.com/oauth/request_token"
     post_params = get_params()
@@ -51,7 +53,7 @@ class TweetsController < ApplicationController
 
     logger.info(signature_base_string)
 
-    post_params['oauth_signature'] = url_encode(sign(consumer_secret + '&'  , signature_base_string))
+    post_params['oauth_signature'] = url_encode(sign(@@consumer_secret + '&'  , signature_base_string))
 
     data = "OAuth " + post_params.map{|k,v| "#{k}=\"#{v}\""}.join(', ')
 
