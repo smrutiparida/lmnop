@@ -17,7 +17,7 @@ class TweetsController < ApplicationController
     post_params['oauth_version'] = "1.0"
     post_params['oauth_timestamp'] = Time.now.to_i.to_s
     post_params['oauth_signature_method'] = 'HMAC-SHA1'
-    post_params['oauth_callback'] = URI::encode('http://lmnopapp.com/tweets/my/')
+    post_params['oauth_callback'] = url_encode('http://lmnopapp.com/tweets/my/')
     post_params['oauth_consumer_key'] = "bNEQCVbQ5G5fm1x0TTuWhCYAR"
     post_params['oauth_nonce'] = rand(10 ** 30).to_s.rjust(30,'0')
     
