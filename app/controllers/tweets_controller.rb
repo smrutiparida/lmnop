@@ -25,7 +25,7 @@ class TweetsController < ApplicationController
 
     logger.info(signature_base_string)
 
-    post_params['oauth_signature'] = url_encode(sign(consumer_secret + '&' + auth_token_secret, signature_base_string))
+    post_params['oauth_signature'] = url_encode(sign(consumer_secret + '&'  , signature_base_string))
 
     data = "OAuth " + post_params.map{|k,v| "#{k}=\"#{v}\""}.join(', ')
 
@@ -41,8 +41,9 @@ class TweetsController < ApplicationController
     
     resp = http.post(uri.path, data, initheader)
 
+    logger.info(resp)
     logger.info(resp.body)
-    print resp.body
+ 
 
     #https://api.twitter.com/oauth/authenticate?oauth_token=NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0
     
