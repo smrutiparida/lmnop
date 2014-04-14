@@ -53,9 +53,7 @@ class TweetsController < ApplicationController
 
     @tweet_list = client.home_timeline({:count => 200})
 
-    tweet_list.each do |tweet|
-      
-    end
+ 
 
 
     
