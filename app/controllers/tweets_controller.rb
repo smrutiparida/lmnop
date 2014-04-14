@@ -21,7 +21,7 @@ class TweetsController < ApplicationController
     post_params['oauth_consumer_key'] = "bNEQCVbQ5G5fm1x0TTuWhCYAR"
     post_params['oauth_nonce'] = rand(10 ** 30).to_s.rjust(30,'0')
     
-    signature_base_string = signature_base_string("POST", twitter_url, {})
+    signature_base_string = signature_base_string("POST", twitter_url, post_params)
 
     logger.info(signature_base_string)
 
@@ -41,7 +41,7 @@ class TweetsController < ApplicationController
     
     resp = http.post(uri.path, data, initheader)
 
-    logger.info(resp)
+    logger.info(resp.to_s)
     logger.info(resp.body)
  
 
