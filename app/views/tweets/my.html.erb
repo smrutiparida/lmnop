@@ -1,0 +1,270 @@
+<script>
+
+
+ 
+  
+function add_more_link(array_term_frequency, all_tweets){
+  var term_obj = {};
+  //my_shit = all_tweets;
+  
+  for ( var i in array_term_frequency ){
+    term_obj[array_term_frequency[i].term] = array_term_frequency[i].count;
+    //alert(array_term_frequency[i].count);
+  }
+  for ( var i=0; i < all_tweets.length; i++ ){
+    
+    if (all_tweets[i]["screen_name"] in term_obj){
+      all_tweets[i]["more_count"] = term_obj[all_tweets[i]["screen_name"]];
+    }
+    else {
+      all_tweets[i]["more_count"] = 0;
+    }
+  }
+  if(search_params["screen_name"] != ""){
+    all_tweets[0]["more_count"] = -999;
+  }
+  return all_tweets;
+}
+
+function urlify(tweet) {
+  var urlRegex = /(https?:\/\/[^\s]+)/g;
+  
+  return tweet.replace(urlRegex, function(url) {
+          return '\<a target="_blank" href="' + url + '"\>' + url + '\<\/a\>';
+        });
+  
+  
+}
+
+$( document ).ready(function() {
+
+  
+  //$(".tweets-content").each(function(index){ $(this).text(urlify($(this).text())); }); 
+  $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
+ 
+  $( "#viewCountry" ).change(function() {
+    search_params["country"] = $("#viewCountry option:selected").attr('value');
+    callSearchServer();    
+  });
+});
+
+function timeSince(date) {
+  var split_data = date.split(" ");
+  var date_info  = split_data[0].split("-").map(function(item) {
+                                                                 return parseInt(item, 10);
+      });;
+  var time_info  = split_data[1].split(":").map(function(item) {
+                                                                  return parseInt(item, 10);
+                                                              });;
+  
+  var curTime = new Date();
+  var timezoneDiff = curTime.getTimezoneOffset() * 60000;
+  //var seconds = Math.floor((curTime.getTime() - (new Date(date)).getTime() + timezoneDiff) / 1000);
+  var seconds = Math.floor((curTime.getTime() - (new Date(date_info[0],date_info[1] -1,date_info[2],time_info[0],time_info[1],time_info[2])).getTime() + timezoneDiff) / 1000);
+  var interval = Math.floor(seconds / 31536000);
+  if (interval > 0) {
+    return interval + "y ago";
+  }
+  interval = Math.floor(seconds / 2592000);
+  if (interval > 0) {
+    return interval + "mth ago";
+  }
+  interval = Math.floor(seconds / 86400);
+  if (interval > 0) {
+    return interval + "d ago";
+  }
+  interval = Math.floor(seconds / 3600);
+  if (interval > 0) {
+    return interval + "h ago";
+  }
+  interval = Math.floor(seconds / 60);
+  if (interval > 0) {
+    return interval + "m ago";
+  }
+  return Math.floor(seconds) + "s ago";
+}
+  
+  function processValues(values){
+    values[0] = (100 - values[0]) * 10;
+    values[1] = (100 - values[1]) * 10;
+    if (values[0] == 0){
+      values[0] = 1;
+    }
+    return values;
+  }
+
+  function expand(ele, val){
+    //var values = $( "#slider-range" ).slider( "values" );
+    //values = processValues(values);
+    if($(ele).text().indexOf("less") != -1 ){      
+      //callSearchServer("tweet_search", values[1],values[0],50,0);      
+      //$(ele).text("show more");
+      search_params["screen_name"] = "";
+      search_params["uniqueUser"] = true;
+    }else{
+      search_params["screen_name"] = val;//encodeURIComponent(val);
+      search_params["uniqueUser"] = false;
+      //callSearchServer("single_user_tweets", values[1],values[0],50,0,encodeURIComponent(val));  
+
+      //$(ele).text("show less");
+    }
+    callSearchServer();
+  }
+
+  function update(ele, val){  
+
+    //var values = $( "#slider-range" ).slider( "values" );
+    //values = processValues(values);
+
+    
+    if($(ele).parent().attr('class') == "label label-info active"){
+      //global_hashtag = "";
+      search_params["q"] = "";
+      $(ele).parent().removeClass('active');
+      callSearchServer();
+      
+    }else{
+      $(ele).parent().addClass('active').siblings().removeClass('active');  
+      //global_hashtag = val;
+      search_params["q"] = val;//encodeURIComponent(val);
+      search_params["screen_name"] = "";
+      search_params["uniqueUser"] = true;
+      callSearchServer();//"user_search", values[1], values[0], 50,0,encodeURIComponent(val));
+    }
+  }
+
+  function bringBird(){
+    $( "#rangeSelectvalue" ).show();
+  }
+
+  function hideBird(){
+    $( "#rangeSelectvalue" ).hide();
+  }
+  
+  <!--for coming soon popup-->
+ function showDivTag(){
+  selectOption = $('#selectOpt').val();
+//  var myselect = document.getElementById("selectOpt");
+  //  var selectOption = myselect.options[myselect.selectedIndex].value;
+    
+    if(selectOption == "mytweets"){
+      window.location.href = '/tweets/auth';  
+    }
+    else if(selectOption != "all"){
+      $("#modal-container-coming").modal('show');
+      $('#selectOpt').val('all');
+    }
+  }
+  <!--for coming soon popup-->
+
+</script>
+  <div class="mainDiv">
+    <div id="slider">
+      <div class="heading">
+        <h1>Twitter Simplified<img src="/images/beta.png" style="position:absolute; padding-left:3px;" /></h1>
+        <h2>Drag the slider to start. <a id="modal-more" href="#modal-container-more" data-toggle="modal" style="border:0; outline:none">How it works?</a></h2>
+      </div>
+      <div class="nav_selcet">
+        <span style="padding-right:15px;">
+          <b>Country</b>
+          <select id="viewCountry">
+            <option selected="selected" value="in">India</option>
+            <option value="us">US</option>
+          </select>  
+        </span>
+        <!--<span style="padding-right:15px;">
+          <b>View</b>
+          <select id="viewselect">
+            <option>Accounts</option> 
+            <option id="show">Tweets</option>
+          </select>
+        </span>-->
+        <span style="padding-right:15px;" id="tweetTime">
+          <b>Topic</b>
+          <select onchange="showDivTag();" id="selectOpt">
+            <option value="all">All</option>
+            <option value="mytweets" selected="selected">My Tweets</option>
+            <option value="ipl7">IPL7</option>
+            <option value="elections2014">Election2014</option>
+          </select>
+        </span>
+      </div>
+      <div class="progressMain">
+        <div id="rangeSelectvalue"><p>1000 - 750</p></div>
+        
+        <div class="progressbar" id="grayColorScale">
+          <div class="progressbar_2" style="width:1%;position:absolute;left:0%;" id="blueColorScale"></div>
+        </div>
+        <div id="slider-range"  onmouseup="hideBird();" onselect="bringBird();"></div>
+        <div class="slider_range_comment">
+          <div class="slider_range_commentEach" style="border-right:1px solid #e5e5e5">Big Shots</div>
+          <div class="slider_range_commentEach" style="border-right:1px solid #e5e5e5">ThinkTanks</div>
+          <div class="slider_range_commentEach" style="border-right:1px solid #e5e5e5">The Risers</div>
+          <div class="slider_range_commentEach">Underdogs</div>
+        </div>
+      </div>
+    </div>
+    <div class="tweetMainDiv">
+      <div id="trending" class="tweetTags"></div>
+      <div id="tweetlist">
+        <% @tweet_list.each do |tweet| %>
+          <div class='twitSec'>
+            <div class='tw_img'>
+              <img src='<%= tweet.user.profile_image_url%>'/>
+            </div>
+            <h1>
+              <span>
+                <img src='/images/t_birrd_small.png'/>
+              </span>
+              <a href='http://www.twitter.com/<%= tweet.screen_name %>' target='_blank'><%=  tweet.user.name %></a>
+              <span class='timeCal flRt'><%= tweet.created_at %></span>
+            </h1>
+            <span>@<%= tweet.screen_name %></span>
+            <div class='clr'></div>
+            <p><%= tweet.text %></p>
+        </div>
+      <% end %>    
+    </div>
+    <div id="modal-container-more" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel">
+          <span class="blue">PageRank</span> for Twitter
+        </h3>
+      </div>
+      <div class="modal-body">
+        <p>
+          Just like Google's PageRank simplified accessing web for masses, we thought of building UserRank for all those who love Twitter for what it offers but get overwhelmed by the sheer volume.
+        </p>
+        <p>So We built a completely new <span class="blue">UserRank</span> system that ranks accounts, arranges tweets according to the tweeter's rank & lets user navigate through them through a line - our <span class="blue">UserRank</span> Line.</p>
+        <p>Welcome to the new world of tweets where you dont have to search again ! Enjoy the coolest Tweet Show on Earth.</p>
+        <p>Write to us at <a href="mailto:amar@brizzlabs.com">amar@brizzlabs.com</a> & get to know of cool features  (more countries, more events) straight from us. Some feedback & love in the email will go a long way too.</p>
+      </div>
+      <div class="modal-footer">
+         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
+    </div>
+    <!--coming soon popup-->
+      <div id="modal-container-coming" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h3 id="myModalLabel">
+            Coming Soon
+          </h3>
+        </div>
+        <div class="modal-body">
+          <p>
+            Trained monkeys are on job. Please come back soon to check this feature out
+          </p>
+          <p>Currently only "all" filter is working.</p>
+        </div>
+        <div class="modal-footer">
+           <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+        </div>
+      </div>
+    <!--coming soon popup-->
+  </div>
+
+
+
+
