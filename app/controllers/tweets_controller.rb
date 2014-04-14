@@ -41,11 +41,16 @@ class TweetsController < ApplicationController
     
     resp = http.post(uri.path, "" , initheader)
 
-    logger.info(resp.to_s)
-    logger.info(resp.body)
+    logger.info(resp.to_s)  logger.info(resp.body)
  
-
-    #https://api.twitter.com/oauth/authenticate?oauth_token=NPcudxy0yU5T3tBzho7iCotZ3cnetKwcTIRlX0iwRl0
+    #check if secret is fine and data is not compromised
+    name_val = res.body.split('&')
+    my_map = {}
+    name_val.each do |x|
+      output_params = x.split('=')
+      my_map[output_params[0]] = output_params[1]
+    end 
+    redirect_to "https://api.twitter.com/oauth/authenticate?oauth_token=" + my_map["oauth_token"]
     
   end
   
