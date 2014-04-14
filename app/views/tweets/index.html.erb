@@ -219,12 +219,17 @@ function timeSince(date) {
   
   <!--for coming soon popup-->
  function showDivTag(){
-  var myselect = document.getElementById("selectOpt");
-    var selectOption = myselect.options[myselect.selectedIndex].value;
-  
-  if(selectOption != "All"){
-    $("#modal-container-coming").modal('show');
-  }
+  selectOption = $('#selectOpt').val();
+//  var myselect = document.getElementById("selectOpt");
+  //  var selectOption = myselect.options[myselect.selectedIndex].value;
+    
+    if(selectOption == "mytweets"){
+      window.location.href = '/tweets/auth';  
+    }
+    else if(selectOption != "all"){
+      $("#modal-container-coming").modal('show');
+      $('#selectOpt').val('all');
+    }
   }
   <!--for coming soon popup-->
 
@@ -252,7 +257,7 @@ function timeSince(date) {
         </span>-->
         <span style="padding-right:15px;" id="tweetTime">
           <b>Topic</b>
-          <select onchange="showDivTag();$('#selectOpt').val('all');" id="selectOpt">
+          <select onchange="showDivTag();" id="selectOpt">
             <option value="all">All</option>
             <option value="mytweets">My Tweets</option>
             <option value="ipl7">IPL7</option>
