@@ -216,10 +216,10 @@ function timeSince(date) {
               <span>
                 <img src='/images/t_birrd_small.png'/>
               </span>
-              <a href='http://www.twitter.com/<%= tweet.screen_name %>' target='_blank'><%=  tweet.user.name %></a>
+              <a href='http://www.twitter.com/<%= tweet.user.screen_name %>' target='_blank'><%=  tweet.user.name %></a>
               <span class='timeCal flRt'><%= tweet.created_at %></span>
             </h1>
-            <span>@<%= tweet.screen_name %></span>
+            <span>@<%= tweet.user.screen_name %></span>
             <div class='clr'></div>
             <p><%= tweet.text %></p>
         </div>
