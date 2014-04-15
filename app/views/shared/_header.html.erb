@@ -286,6 +286,7 @@ $( document ).ready(function() {
 });
 
 function processServerDate(data){
+  console.log(data);
   var processed_tweets = urlify(data["data"]["tweets"]);
   if (search_params["screen_name"] == ""){
     processed_tweets = add_more_link(data["data"]["facets"]["user_tweet_frequency"]["terms"], processed_tweets);
