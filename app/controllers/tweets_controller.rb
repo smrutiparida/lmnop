@@ -13,36 +13,44 @@ class TweetsController < ApplicationController
   end
   
   def my
-    twitter_url = "https://api.twitter.com/oauth/access_token"
-    post_params = get_params()
-    post_params["oauth_token"] = params["oauth_token"]
-    post_params["oauth_verifier"] = params["oauth_verifier"]
-    
-    signature_base_string = signature_base_string("POST", twitter_url, post_params)
+    if session[:user]
+      output_params = session[:user]
+    else  
+     
+      twitter_url = "https://api.twitter.com/oauth/access_token"
+      post_params = get_params()
+      post_params["oauth_token"] = params["oauth_token"]
+      post_params["oauth_verifier"] = params["oauth_verifier"]
+      
+      signature_base_string = signature_base_string("POST", twitter_url, post_params)
 
-    logger.info(signature_base_string) 
+      logger.info(signature_base_string) 
 
-    post_params['oauth_signature'] = url_encode(sign(@@consumer_secret + '&' + post_params["oauth_token"] , signature_base_string))
-    
-    post_params.delete("oauth_verifier")
+      post_params['oauth_signature'] = url_encode(sign(@@consumer_secret + '&' + post_params["oauth_token"] , signature_base_string))
+      
+      post_params.delete("oauth_verifier")
 
-    data = "OAuth " + post_params.map{|k,v| "#{k}=\"#{v}\""}.join(', ')
+      data = "OAuth " + post_params.map{|k,v| "#{k}=\"#{v}\""}.join(', ')
 
-    logger.info(data)
-    
-    uri = URI.parse(twitter_url)
+      logger.info(data)
+      
+      uri = URI.parse(twitter_url)
 
-    initheader = {"Content-type"=> "application/x-www-form-urlencoded","Accept"=> "*/*","Authorization" => data}
-    http = Net::HTTP.new(uri.host,uri.port)
-    http.use_ssl = true
-    http.verify_mode = OpenSSL::SSL::VERIFY_NONE # read into this
-    
-    resp = http.post(uri.path, "oauth_verifier=" + params["oauth_verifier"] , initheader)
+      initheader = {"Content-type"=> "application/x-www-form-urlencoded","Accept"=> "*/*","Authorization" => data}
+      http = Net::HTTP.new(uri.host,uri.port)
+      http.use_ssl = true
+      http.verify_mode = OpenSSL::SSL::VERIFY_NONE # read into this
+      
+      resp = http.post(uri.path, "oauth_verifier=" + params["oauth_verifier"] , initheader)
 
-    logger.info(resp.body)
+      logger.info(resp.body)
 
-    ##now set a infinite cookie and get the tweeer timeline
-    output_params = split_params(resp.body)
+      ##now set a infinite cookie and get the tweeer timeline
+      output_params = split_params(resp.body)
+
+      session["user"]= output_params 
+      
+    end
 
     client = Twitter::REST::Client.new do |config|
       config.consumer_key        = @@consumer_key
@@ -53,7 +61,7 @@ class TweetsController < ApplicationController
 
     @tweet_list = client.home_timeline({:count => 200})
 
- 
+    
 
 
     
@@ -62,6 +70,12 @@ class TweetsController < ApplicationController
 
   end  
   
+  def logout
+    reset_session
+    flash[:notice] = "You have successfully logged out."
+    redirect_to "/tweets/index"
+  end  
+
   def split_params(str)
     name_val = str.split('&')
     my_map = {}
@@ -73,6 +87,9 @@ class TweetsController < ApplicationController
   end
 
   def auth
+    if session[:user]
+      redirect_to "/tweets/my"
+    end  
     #send a post request
     
     #auth_token_secret ="TWgjxFgp7T0T6GwEv7jAO3FlXLuKKtjPOoaKRYeOWmTSG"
