@@ -44,7 +44,6 @@ var markup = "<div class='twitSec'><div user_id='${user_id}' class='tw_img dragg
           
           $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
 
-          doDragDrop();
         }
         else {
              $( "#tweetlist" ).html("<div class='tweetlist'><p>Sorry, There are no tweets from people with UserRank range " + search_params["low"] + " - " + search_params["high"] + " - because they didn't tweet in the last 24 hours. Please change the range in the slider to see tweet.<p><p>Or if you think there is a bug, please do send us a screenshot at <a href='mailto:amar@brizzlabs.com'>amar@brizzlabs.com</a> & we will try fixing it.</p></div>");
@@ -206,9 +205,8 @@ selectOption = $('#selectOpt').val();
 
     window.location.href = '/tweets/index';
   }
-  $('#selectOpt').val('mytweets');
-//$(".tweets-content").each(function(index){ $(this).text(urlify($(this).text())); }); 
-$(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
+
+
 
 }
 <!--for coming soon popup-->

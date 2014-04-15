@@ -1,4 +1,11 @@
-
+<script>
+  $( document ).ready(function() {
+    $('#selectOpt').val('mytweets');
+    //$(".tweets-content").each(function(index){ $(this).text(urlify($(this).text())); }); 
+    $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
+    doDragDrop();
+}
+</script>
   <div class="mainDiv">
     <%= render 'shared/header' %>
     <div class="tweetMainDiv">
