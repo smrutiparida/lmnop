@@ -6,9 +6,9 @@ var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image
   $.template( "twitterTemplate", markup );
   $.template( "trendingTemplate", hashtag );
 
-  var replyTemp = "<div class='tweet_reply tweet_reply_reply'><img src='/images/reply_arrow.png' style='position:absolute; top:-10px;'><textarea rows='3' name='myfield' id='myfield' maxlength='140' style='width:96%;'></textarea><div class='reply_action'><a href='#' class='btn btn-small' style='float:right;' onclick='return closeContainer_reply();' id='hide'>Cancel</a><a href='#' class='btn btn-info btn-small' style='float:right;'><i class='icon-white icon-hdd'></i> Tweet</a><div id='CharCountLabel1'></div></div></div>";
+  //var replyTemp = "<div class='tweet_reply tweet_reply_reply'><img src='/images/reply_arrow.png' style='position:absolute; top:-10px;'><textarea rows='3' name='myfield' id='myfield' maxlength='140' style='width:96%;'></textarea><div class='reply_action'><a href='#' class='btn btn-small' style='float:right;' onclick='return closeContainer_reply();' id='hide'>Cancel</a><a href='#' class='btn btn-info btn-small' style='float:right;'><i class='icon-white icon-hdd'></i> Tweet</a><div id='CharCountLabel1'></div></div></div>";
 
-  $.template("replyTemplate", replyTemp);
+  //$.template("replyTemplate", replyTemp);
 
   var conversationTemplate = '<div class="tweet_conv"><div class="tw_img"><img src="${profile_image_url}"></div><h1><span><img src="/images/t_birrd_small.png"></span><a href="#">${name}</a><span id="" class="flRt modalCal">${created_at}</span></h1><span id="">@${screen_name}</span><div class="clr"></div><p>{{html tweet_text}}</p></div>';
 
@@ -252,7 +252,7 @@ function set_url(tweet) {
 }
 
 $( document ).ready(function() {
-  $('#modal-container-conv').modal('hide');
+  //$('#modal-container-conv').modal('hide');
   $( "#rangeSelectvalue" ).hide();
   document.getElementById('blueColorScale').style.width = (30)+"%";
   document.getElementById('blueColorScale').style.left = (0)+"%";
@@ -366,13 +366,12 @@ function callServer()
       <div class="slider_range_commentEach">Underdogs</div>
     </div>
   </div>
-  <div id="modal-container-conv" class="modal hide fade in" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="display: block;">
-      <div class="modal-body" id="modal-content-id">            
-        <p></p>
-      </div>
-      <div class="modal-footer">
-         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-      </div>
+  <div id="modal-container-conv" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-body">  
+    </div>
+    <div class="modal-footer">
+       <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+    </div>
   </div>
 </div>
 
