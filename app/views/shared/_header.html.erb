@@ -132,6 +132,8 @@ function timeSince(date) {
         per = Math.floor(100 - per);
         user_id = $(ui.draggable).attr('user_id');
 
+        console.log(per + "\t" + user_id);
+
         $( "#slider-range" ).slider( "enable" );
         $( this )
           .removeClass( "ui-state-highlight" );
