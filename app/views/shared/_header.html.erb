@@ -12,6 +12,8 @@ var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image
 
   var conversationTemplate = '<div class="tweet_conv"><div class="tw_img"><img src="${profile_image_url}"></div><h1><span><img src="/images/t_birrd_small.png"></span><a href="#">${name}</a><span id="" class="flRt modalCal">${created_at}</span></h1><span id="">@${screen_name}</span><div class="clr"></div><p>{{html tweet_text}}</p></div>';
 
+  $.template("conversationTemplate", conversationTemplate);
+  
   var search_params = {"low":750,"high":1000,"size":50,"top":0,"q":"","uniqueUser":true,"country":"in","screen_name":"","topic":"","in_reply_to_status_id":""};
   var search_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/get?"
 
@@ -21,8 +23,9 @@ var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image
     var processed_tweets = urlify(data["data"]["tweets"]);
     $.tmpl( "conversationTemplate", processed_tweets ).appendTo( "#modal-content-id" );
     $(".modalCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
-    $('#modal-container-conv').modal(options)
+    $('#modal-container-conv').modal('show');
   }
+
   function callSearchServer() {
     $("#tweetlist").empty();
 
@@ -249,7 +252,7 @@ function set_url(tweet) {
 }
 
 $( document ).ready(function() {
-
+  $('#modal-container-conv').modal('hide');
   $( "#rangeSelectvalue" ).hide();
   document.getElementById('blueColorScale').style.width = (30)+"%";
   document.getElementById('blueColorScale').style.left = (0)+"%";
