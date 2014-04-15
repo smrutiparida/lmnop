@@ -61,8 +61,17 @@ class TweetsController < ApplicationController
       config.access_token_secret = output_params["oauth_token_secret"]
     end
 
-    @tweet_list = client.home_timeline({:count => 200})
+    @all_tweets = client.home_timeline({:count => 200})
 
+    //all_tweets = all_tweets.slice("id", "user", "created_at", "text")
+
+    //tweet_map = all_tweets.group_by{ |s| s.user.screen_name }
+    
+    //@tweet_list = []
+    //tweet_map.each |screen_name, tweet| do
+    //  @tweet_list.push({ :count => tweet.length, :id=> tweet[0].id ,:profile_image_url => tweet.user.profile_image_url, :name => tweet[0].user.name, :screen_name => tweet[0].user.screen_name, :created_at => tweet[0].created_at, :text => tweet[0].text})
+    //end
+    
     
 
 
@@ -72,6 +81,12 @@ class TweetsController < ApplicationController
 
   end  
   
+  def retweet
+  end
+  
+  def favorite
+  end
+     
   def logout
     reset_session
     flash[:notice] = "You have successfully logged out."

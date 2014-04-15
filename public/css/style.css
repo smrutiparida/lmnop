@@ -20,6 +20,15 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 .progressMain{width:90%; height:81px; margin:0 auto; position:relative;}
 .twitSec{width:31.3%; min-height:110px; padding:6px; display: inline-block; vertical-align:top !important; border:1px solid #eee; margin:0 4px 4px 0; position:relative; border-radius:3px;}
 
+.moreOptions{opacity:0.3; position:absolute; bottom:2px; right:1%;}
+.moreOptions ul{ margin:0; padding:0;}
+.moreOptions ul li{ display:inline; text-decoration:none;}
+
+.tweet_reply{width:97.8%; height:110px; padding:10px 4px 4px 4px; position:absolute; left:0; top:124px; z-index:999999; background-color:#e5f2f7; border:1px solid #ccc; border-radius:3px; display:none;}
+.reply_action{width:96%; margin:0 auto; text-align:right;}
+.retwet_action{width:96%; margin:0 auto; text-align:center;}
+#tweet_retweet h3{font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:20px; margin-bottom:10px; text-align:center; line-height:20px;}
+
 .twitSec:hover{ background-color:#eee; -webkit-transition:all 0.5s ease; -moz-transition:all 0.5s ease; -o-transition:all 0.5s ease; border:1px solid #ccc;}
 .tw_img{width:40px; height:40px; float:left; padding:0 10px 0px 0;}
 .tw_img img{width:40px; height:40px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;}

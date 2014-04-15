@@ -13,14 +13,14 @@
       <div id="tweetlist">
         <% @tweet_list.each do |tweet| %>
           <div class='twitSec'>
-            <div user_id='<%= tweet.id %>' class='tw_img draggable'>
+            <div user_id='${user_id}' class='tw_img draggable'>
               <img src='<%= tweet.user.profile_image_url%>'/>
             </div>
             <h1>
               <span>
                 <img src='/images/t_birrd_small.png'/>
               </span>
-              <a class='draggable' user_id='<%= tweet.id %>' href='http://www.twitter.com/<%= tweet.user.screen_name %>' target='_blank'><%=  tweet.user.name %></a>
+              <a user_id='${user_id}' class='draggable' href='http://www.twitter.com/<%= tweet.user.screen_name %>' target='_blank'><%=  tweet.user.name %></a>
               <span class='timeCal flRt'><%= tweet.created_at %></span>
             </h1>
             <span>@<%= tweet.user.screen_name %></span>

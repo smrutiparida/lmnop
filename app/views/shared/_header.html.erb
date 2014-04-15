@@ -1,48 +1,38 @@
 <script>
-var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span class='timeCal flRt'>${created_at}</span></h1><span>@${screen_name}</span><div class='clr'></div><p>{{html tweet_text}}</p>{{if more_count>10}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /></a></span>{{else more_count == -999}}<span class='less'><a href='#' onclick='expand(this,\"${screen_name}\");'>show less</a></span>{{/if}}</div>";
+var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span class='timeCal flRt'>${created_at}</span></h1><span>@${screen_name}</span><div class='clr'></div><p>{{html tweet_text}}</p><div class='moreOptions'><ul>{{if in_reply_to_status_id != '' and in_reply_to_status_id != undefined}}<li><a class='modal-more' href='#' onclick='showModal(this,\"{in_reply_to_status_id}\");' style='border:0; outline:none'><img src='/images/conversation_icn.png'></a></li>{{/if}}<li><a href='#' class='showmenu_reply'><img src='/images/reply_icn.png'></a></li><li><a href='#' class='showmenu_retweet'><img src=/images/retweet_icn.png'></a></li><li><a href='#' class='make-favorite'><img src=/images/favorite_icn.png'></a></li></ul></div>{{if more_count>10}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /></a></span>{{else more_count == -999}}<span class='less'><a href='#' onclick='expand(this,\"${screen_name}\");'>show less</a></span>{{/if}}</div>";
 
   var hashtag = "<span class='label label-info' style='margin:0 5px 5px 0;'><a href='#'' class='hashtagclick' onclick='update(this,\"${term}\");'>${term}</a></span>";
   
   $.template( "twitterTemplate", markup );
   $.template( "trendingTemplate", hashtag );
 
-  var search_params = {"low":750,"high":1000,"size":50,"top":0,"q":"","uniqueUser":true,"country":"in","screen_name":"","topic":""};
+  var replyTemp = "<div class='tweet_reply tweet_reply_reply'><img src='/images/reply_arrow.png' style='position:absolute; top:-10px;'><textarea rows='3' name='myfield' id='myfield' maxlength='140' style='width:96%;'></textarea><div class='reply_action'><a href='#' class='btn btn-small' style='float:right;' onclick='return closeContainer_reply();' id='hide'>Cancel</a><a href='#' class='btn btn-info btn-small' style='float:right;'><i class='icon-white icon-hdd'></i> Tweet</a><div id='CharCountLabel1'></div></div></div>";
+
+  $.template("replyTemplate", replyTemp);
+
+  var conversationTemplate = '<div class="tweet_conv"><div class="tw_img"><img src="${profile_image_url}"></div><h1><span><img src="/images/t_birrd_small.png"></span><a href="#">${name}</a><span id="" class="flRt modalCal">${created_at}</span></h1><span id="">@${screen_name}</span><div class="clr"></div><p>{{html tweet_text}}</p></div>';
+
+  var search_params = {"low":750,"high":1000,"size":50,"top":0,"q":"","uniqueUser":true,"country":"in","screen_name":"","topic":"","in_reply_to_status_id":""};
   var search_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/get?"
 
- 
+  function showModal(ele, val){
+    search_params["in_reply_to_status_id"] = val;
+    var data = callSearchServer();
+    var processed_tweets = urlify(data["data"]["tweets"]);
+    $.tmpl( "conversationTemplate", processed_tweets ).appendTo( "#modal-content-id" );
+    $(".modalCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
+    $('#modal-container-conv').modal(options)
+  }
   function callSearchServer() {
     $("#tweetlist").empty();
-
-    ///this is temporary due to a server bug, if q and screen_name is passed empty, the result coming is null
-    var temp_params = JSON.parse(JSON.stringify(search_params));
-    if(temp_params["q"] == ""){
-      delete temp_params["q"];
-    }
-    if(temp_params["screen_name"] == ""){
-      delete temp_params["screen_name"];
-    }
-    //temp ends
 
     $.getJSON( search_url, temp_params).done(function( data ) {
       
         if(data["data"]["totalCount"] > 0){
           
+          return data;
           
-          var processed_tweets = urlify(data["data"]["tweets"]);
-          if (search_params["screen_name"] == ""){
-            processed_tweets = add_more_link(data["data"]["facets"]["user_tweet_frequency"]["terms"], processed_tweets);
-          }
-          else {
-            processed_tweets = add_more_link([], processed_tweets); 
-          }
-          $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
-
-          if ( search_params["q"] == "" && search_params["screen_name"] == "") {
-            $("#trending").empty();
-            $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"].slice(0,20)).appendTo( "#trending" );
-          }
-          
-          $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
+         
 
         }
         else {
@@ -292,13 +282,32 @@ $( document ).ready(function() {
   });
 });
 
+function processServerDate(data){
+  var processed_tweets = urlify(data["data"]["tweets"]);
+  if (search_params["screen_name"] == ""){
+    processed_tweets = add_more_link(data["data"]["facets"]["user_tweet_frequency"]["terms"], processed_tweets);
+  }
+  else {
+    processed_tweets = add_more_link([], processed_tweets); 
+  }
+  $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
+
+  if ( search_params["q"] == "" && search_params["screen_name"] == "") {
+    $("#trending").empty();
+    $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"].slice(0,20)).appendTo( "#trending" );
+  }
+  
+  $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
+}
+
 function callServer()
 {
   if(window.location.href.indexOf("/tweets/my") != -1){
     
   }
   else {
-    callSearchServer();
+    var data = callSearchServer();
+    processServerDate(data);
   }
 }
 </script>
@@ -353,6 +362,14 @@ function callServer()
       <div class="slider_range_commentEach" style="border-right:1px solid #e5e5e5">The Risers</div>
       <div class="slider_range_commentEach">Underdogs</div>
     </div>
+  </div>
+  <div id="modal-container-conv" class="modal hide fade in" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false" style="display: block;">
+      <div class="modal-body" id="modal-content-id">            
+        <p></p>
+      </div>
+      <div class="modal-footer">
+         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+      </div>
   </div>
 </div>
 
