@@ -106,10 +106,47 @@ function timeSince(date) {
       $('#selectOpt').val('all');
     }
     else {
-      callSearchServer();
-    }
+
+      window.location.href = '/tweets/index';
   }
   <!--for coming soon popup-->
+   $(function() {
+    $(".draggable").draggable({
+        helper: 'clone',
+        start: function(event, ui) {
+          
+        }
+    });
+    $( ".droppable" ).droppable({
+      drop: function( event, ui ) {
+        left = $( "#slider-range" ).position().left;
+        width = $( "#slider-range" ).width();
+        pos_drop = ui.offset.left - $(this).offset().left;
+        if (pos_drop <= 0 )
+          pos_drop = 0;
+        else if (pos_drop > width )
+          pos_drop = width;
+        per = (pos_drop / width).toPrecision(2) * 100;
+        per = Math.floor(100 - per);
+        user_id = $(ui.draggable).attr('user_id');
+
+        $( "#slider-range" ).slider( "enable" );
+        $( this )
+          .removeClass( "ui-state-highlight" );
+      },
+      over: function(event, ui) {
+        $( this )
+          .addClass( "ui-state-highlight" );
+          $( "#slider-range" ).slider( "disable" );
+      },
+      out: function(event, ui) {
+        $( this )
+          .removeClass( "ui-state-highlight" );
+        $( "#slider-range" ).slider( "enable" );
+      }
+    });
+  });
+  </script>
 </script>
 
 <div id="slider">
@@ -149,7 +186,7 @@ function timeSince(date) {
       </select>
     </span>
   </div>
-  <div class="progressMain">
+  <div class="progressMain droppable">
     <div id="rangeSelectvalue"><p>1000 - 750</p></div>
     
     <div class="progressbar" id="grayColorScale">
