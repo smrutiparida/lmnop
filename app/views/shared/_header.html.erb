@@ -32,7 +32,7 @@ var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image
     $.getJSON( search_url, search_params).done(function( data ) {
       
         if(data["data"]["totalCount"] > 0){
-          
+          console.log(data);
           return data;
           
          
