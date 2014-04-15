@@ -15,7 +15,7 @@ h2{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:26px; margin-bottom:0px; text-align:left; line-height:35px;}
 .nav_selcet{width:100%; margin:0 auto; text-align:center; margin:10px 0 21px 0;}
 .heading{width:100%; margin:0 auto; margin-bottom:34px;}
-.signin{width:100px; position:absolute; right:0; z-index:99999;}
+.signin{width:170px; position:absolute; right:0; z-index:99999;}
 .twitter_signin{wdth:310px; margin:10px 0 10px 0;}
 .progressMain{width:90%; height:81px; margin:0 auto; position:relative;}
 .twitSec{width:31.3%; min-height:110px; padding:6px; display: inline-block; vertical-align:top !important; border:1px solid #eee; margin:0 4px 4px 0; position:relative; border-radius:3px;}

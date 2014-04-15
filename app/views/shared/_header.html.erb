@@ -99,7 +99,7 @@ function timeSince(date) {
   //  var selectOption = myselect.options[myselect.selectedIndex].value;
     
     if(selectOption == "mytweets"){
-      window.location.href = '/tweets/auth';  
+      window.location.href = '/tweets/my';  
     }
     else if(selectOption != "all"){
       $("#modal-container-coming").modal('show');
@@ -118,7 +118,7 @@ function timeSince(date) {
       <% if session[:user] %>
         <a id="modal-more" href="/tweets/logout" style="border:0; outline:none">Logout</a>
       <% else %>  
-        <a id="modal-more" href="/tweets/auth" style="border:0; outline:none">Sign in with Twitter</a>
+        <a id="modal-more" href="/tweets/my" style="border:0; outline:none">Sign in with Twitter</a>
       <% end %>
     </div>
     <h1>Twitter Simplified<img src="/images/beta.png" style="position:absolute; padding-left:3px;" /></h1>

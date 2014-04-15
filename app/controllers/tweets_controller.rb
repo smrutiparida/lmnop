@@ -13,6 +13,8 @@ class TweetsController < ApplicationController
   end
   
   def my
+    redirect_to '/tweets/auth' unless session[:user] or (params["oauth_token"] and params["oauth_verifier"])
+    
     if session[:user]
       output_params = session[:user]
     else  
@@ -49,7 +51,7 @@ class TweetsController < ApplicationController
       output_params = split_params(resp.body)
 
       session["user"]= output_params 
-      
+
     end
 
     client = Twitter::REST::Client.new do |config|
@@ -87,9 +89,7 @@ class TweetsController < ApplicationController
   end
 
   def auth
-    if session[:user]
-      redirect_to "/tweets/my"
-    end  
+      
     #send a post request
     
     #auth_token_secret ="TWgjxFgp7T0T6GwEv7jAO3FlXLuKKtjPOoaKRYeOWmTSG"
