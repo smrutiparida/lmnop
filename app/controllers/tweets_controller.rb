@@ -13,8 +13,8 @@ class TweetsController < ApplicationController
   end
   
   def my
-    redirect_to '/tweets/auth' unless session[:user] or (params["oauth_token"] and params["oauth_verifier"])
-    
+    return redirect_to '/tweets/auth' unless session[:user] or (params["oauth_token"] and params["oauth_verifier"])
+
     if session[:user]
       output_params = session[:user]
     else  
