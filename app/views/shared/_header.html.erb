@@ -298,7 +298,9 @@ function processServerDate(data){
     processed_tweets = add_more_link([], processed_tweets); 
   }
   
+  console.log(processed_tweets)
   $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
+  console.log($.tmpl( "twitterTemplate", processed_tweets ))
   
   if ( search_params["q"] == "" && search_params["screen_name"] == "") {
     $("#trending").empty();
