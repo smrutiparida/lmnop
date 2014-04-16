@@ -62,7 +62,7 @@ class TweetsController < ApplicationController
       config.access_token_secret = output_params["oauth_token_secret"]
     end
 
-    @all_tweets = client.home_timeline({:count => 200})
+    @tweet_list = client.home_timeline({:count => 200})
 
     #all_tweets = all_tweets.slice("id", "user", "created_at", "text")
 
