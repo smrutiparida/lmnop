@@ -13,11 +13,11 @@ var markup = "<div class='twitSec' id='${tweet_id}'><div class='tw_img'><img src
   $.template( "twitterTemplate", markup );
   $.template( "trendingTemplate", hashtag );
 
-  var replyTemp = "<div class='tweet_reply tweet_reply_reply'><img src='/images/reply_arrow.png' style='display:none;'><textarea rows='3' name='myfield' id='myfield' maxlength='140' style='width:96%;'></textarea><div class='reply_action'><button href='#' class='btn btn-small' style='float:right;' onclick='return closeContainer_reply();' id='hide'>Cancel</button><button onclick='return post_reply_data(\"${tweet_id}\");' class='btn btn-info btn-small' style='float:right;'><i class='icon-white icon-hdd'></i> Tweet</button><div id='CharCountLabel1'></div></div></div>";
+  var replyTemp = "<form><div class='tweet_reply tweet_reply_reply'><img src='/images/reply_arrow.png' style='display:none;'><textarea rows='3' name='myfield' id='myfield' maxlength='140' style='width:96%;'></textarea><div class='reply_action'><button href='#' class='btn btn-small' style='float:right;' onclick='return closeContainer_reply();' id='hide'>Cancel</button><button type='submit' onclick='return post_reply_data(\"${tweet_id}\");' class='btn btn-info btn-small' style='float:right;'><i class='icon-white icon-hdd'></i> Tweet</button><div id='CharCountLabel1'></div></div></div></form>";
 
   $.template("replyTemplate", replyTemp);
 
-  var retweetTemplate = "<div class='tweet_reply tweet_reply_retweet'><img src='/images/reply_arrow.png'  style='position:absolute; top:-10px;'><h3>Retweet this to your followers?</h3><div class='retwet_action'><button onclick='return post_retweet_data(\"${tweet_id}\");' class='btn btn-info btn-small'><i class='icon-white icon-certificate'></i> Retweet</button><button class='btn btn-small' onclick='return closeContainer_retweet();'>Cancel</button></div></div>";
+  var retweetTemplate = "<form><div class='tweet_reply tweet_reply_retweet'><img src='/images/reply_arrow.png'  style='position:absolute; top:-10px;'><h3>Retweet this to your followers?</h3><div class='retwet_action'><button type='submit' onclick='return post_retweet_data(\"${tweet_id}\");' class='btn btn-info btn-small'><i class='icon-white icon-certificate'></i> Retweet</button><button class='btn btn-small' onclick='return closeContainer_retweet();'>Cancel</button></div></div></form>";
 
   $.template("retweetTemplate", retweetTemplate);
 
