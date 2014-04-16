@@ -83,7 +83,7 @@ class TweetsController < ApplicationController
   end  
 
   def reply
-    render :json => "we good!", :status => :ok
+    render :json => {:success => true }, :status => :ok
   end
   
   
