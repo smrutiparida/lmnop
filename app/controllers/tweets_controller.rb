@@ -77,7 +77,7 @@ class TweetsController < ApplicationController
     
     
     tweet_list = []
-    all_tweets.each{ |tweet| tweet_list.push({ :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
+    all_tweets.each{ |tweet| tweet_list.push({ :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
     highest_fc = 0
     lowest_fc = 100000000
     tweet_list.each do |x|
@@ -97,7 +97,7 @@ class TweetsController < ApplicationController
     #Rails.logger.info(@frequency_data.to_json.to_s)
     #Rails.logger.info(@tweet_list.to_s)
     #oauth_token=19981747-JZP0uTpY9vUh5Y1wWdJI5otV8HiQcxAekgLzwDiZB&oauth_token_secret=G9JmY9SxpG66ylmZfRegwZQZ3WcY6wnokSnbLMfLaNs3q&user_id=19981747&screen_name=smrutiparida
-    data = {:facets => frequency_data.to_json, :tweets => tweet_list.to_json}
+    data = {:facets => frequency_data, :tweets => tweet_list}
     render :json => data, :status => :ok
   end  
 
