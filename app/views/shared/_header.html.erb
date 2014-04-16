@@ -96,53 +96,22 @@
   }
   
 
-  function processOffline(searchData){
-    return searchData;
-  }
-
+  
   function callOfflineServer(func_call){
-    if(offlineData.length > 0){
-      $( "#tweetlist" ).html("<div class='tweetlist'><p>Sorry, There are no tweets from people with UserRank range " + search_params["low"] + " - " + search_params["high"] + " - because they didn't tweet in the last 24 hours. Please change the range in the slider to see tweet.<p><p>Or if you think there is a bug, please do send us a screenshot at <a href='mailto:amar@brizzlabs.com'>amar@brizzlabs.com</a> & we will try fixing it.</p></div>"); 
-      return false;
-    }
-
+  
   //frequency_info = JSON.parse('<%= @frequency_data.to_json.to_s %>');
   //offlineData = JSON.parse('<%= @tweet_list.to_json.to_s %>');  
-  if(offlineData == ''){
+  
     $.getJSON( '/tweets/offline', search_params, function( data ) {    
-      offlineData = data['tweets'];
-      frequency_info = data['facets']
-      func_call();
+      if(data['tweets'].length > 0) {
+        func_call(data);
+      }
+      else {
+        $( "#tweetlist" ).html("<div class='tweetlist'><p>Sorry, There are no tweets from people with UserRank range " + search_params["low"] + " - " + search_params["high"] + " - because they didn't tweet in the last 24 hours. Please change the range in the slider to see tweet.<p><p>Or if you think there is a bug, please do send us a screenshot at <a href='mailto:amar@brizzlabs.com'>amar@brizzlabs.com</a> & we will try fixing it.</p></div>"); 
+      }
     });
   }
-  else {
-    func_call();
-  }
-}
 
-var callOfflineFunc = function offline_after_call(){
-   //offlineJSONData  =  processOffline(offlineData)
-   var processed_tweets = urlify(offlineData);
-   
-    if (search_params["screen_name"] == ""){
-      processed_tweets = add_more_link(frequency_info , processed_tweets);
-    }
-    else {
-      processed_tweets = add_more_link([], processed_tweets); 
-    }
-    
-    console.log(processed_tweets)
-    $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
-    console.log($.tmpl( "twitterTemplate", processed_tweets ))
-    /*
-    if ( search_params["q"] == "" && search_params["screen_name"] == "") {
-      $("#trending").empty();
-      $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"].slice(0,20)).appendTo( "#trending" );
-    }
-    */
-    $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
-    doDragDrop();
-  }
 
   function callSearchServer(func_call) {
     
@@ -472,6 +441,29 @@ $( document ).ready(function() {
   });
 });
 
+var callOfflineFunc = function offline_after_call(data){
+   //offlineJSONData  =  processOffline(offlineData)
+   var processed_tweets = urlify(data["tweets"]);
+   
+    if (search_params["screen_name"] == ""){
+      processed_tweets = add_more_link(data["facets"] , processed_tweets);
+    }
+    else {
+      processed_tweets = add_more_link([], processed_tweets); 
+    }
+    
+    console.log(processed_tweets)
+    $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
+    console.log($.tmpl( "twitterTemplate", processed_tweets ))
+    /*
+    if ( search_params["q"] == "" && search_params["screen_name"] == "") {
+      $("#trending").empty();
+      $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"].slice(0,20)).appendTo( "#trending" );
+    }
+    */
+    $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
+    doDragDrop();
+  }
 
   var callServerFunc = function processServerDate(data){
     console.log(data);
