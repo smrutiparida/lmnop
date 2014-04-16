@@ -5,7 +5,7 @@
   var is_signed = false
 <% end %>
 
-var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span class='timeCal flRt'>${created_at}</span></h1><span>@${screen_name}</span><div class='clr'></div><p>{{html tweet_text}}</p><div class='moreOptions'><ul>{{if in_reply_to_status_id != ''}}<li><a class='modal-more' href='#' onclick='showModal(this,\"${in_reply_to_status_id}\");' style='border:0; outline:none'><img src='/images/conversation_icn.png'></a></li>{{/if}}<li><a href='#' class='showmenu_reply'><img src='/images/reply_icn.png'></a></li><li><a href='#' class='showmenu_retweet'><img src='/images/retweet_icn.png'></a></li><li><a href='#' class='make-favorite'><img src='/images/favorite_icn.png'></a></li></ul></div>{{if more_count>10}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /></a></span>{{else more_count == -999}}<span class='less'><a href='#' onclick='expand(this,\"${screen_name}\");'>show less</a></span>{{/if}}</div>";
+var markup = "<div class='twitSec' id='${tweet_id}'><div class='tw_img'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span class='timeCal flRt'>${created_at}</span></h1><span>@${screen_name}</span><div class='clr'></div><p>{{html tweet_text}}</p><div class='moreOptions'><ul>{{if in_reply_to_status_id != ''}}<li><a class='modal-more' href='#' onclick='showModal(this,\"${in_reply_to_status_id}\");' style='border:0; outline:none'><img src='/images/conversation_icn.png'></a></li>{{/if}}<li><a href='#' class='showmenu_reply'><img src='/images/reply_icn.png'></a></li><li><a href='#' class='showmenu_retweet'><img src='/images/retweet_icn.png'></a></li><li><a href='#' class='make-favorite'><img src='/images/favorite_icn.png'></a></li></ul></div>{{if more_count>10}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /></a></span>{{else more_count == -999}}<span class='less'><a href='#' onclick='expand(this,\"${screen_name}\");'>show less</a></span>{{/if}}</div>";
 
   
   var hashtag = "<span class='label label-info' style='margin:0 5px 5px 0;'><a href='#'' class='hashtagclick' onclick='update(this,\"${term}\");'>${term}</a></span>";
@@ -13,9 +13,17 @@ var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image
   $.template( "twitterTemplate", markup );
   $.template( "trendingTemplate", hashtag );
 
-  var replyTemp = "<div class='tweet_reply tweet_reply_reply'><img src='/images/reply_arrow.png' style='display:none;'><textarea rows='3' name='myfield' id='myfield' maxlength='140' style='width:96%;'></textarea><div class='reply_action'><a href='#' class='btn btn-small' style='float:right;' onclick='return closeContainer_reply();' id='hide'>Cancel</a><a href='#' class='btn btn-info btn-small' style='float:right;'><i class='icon-white icon-hdd'></i> Tweet</a><div id='CharCountLabel1'></div></div></div>";
+  var replyTemp = "<div class='tweet_reply tweet_reply_reply'><img src='/images/reply_arrow.png' style='display:none;'><textarea rows='3' name='myfield' id='myfield' maxlength='140' style='width:96%;'></textarea><div class='reply_action'><a href='#' class='btn btn-small' style='float:right;' onclick='return closeContainer_reply();' id='hide'>Cancel</a><a href='#' onclick='return post_reply_data(\"${tweet_id}\");' class='btn btn-info btn-small' style='float:right;'><i class='icon-white icon-hdd'></i> Tweet</a><div id='CharCountLabel1'></div></div></div>";
 
-  //$.template("replyTemplate", replyTemp);
+  $.template("replyTemplate", replyTemp);
+
+  var retweetTemplate = "<div class='tweet_reply tweet_reply_retweet'><img src='/images/reply_arrow.png'  style='position:absolute; top:-10px;'><h3>Retweet this to your followers?</h3><div class='retwet_action'><a href='#' onclick='return post_retweet_data(\"${tweet_id}\");' class='btn btn-info btn-small'><i class='icon-white icon-certificate'></i> Retweet</a><a href='#' class='btn btn-small' onclick='return closeContainer_retweet();'>Cancel</a></div></div>";
+
+  $.template("retweetTemplate", retweetTemp);
+
+  var doneTemplate = "<div class='done_reply'><img src='/images/reply_arrow.png'  style='position:absolute; top:-10px;'><h3>Posted to your Timeline.</h3><div class='retwet_action'><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>';
+
+    
 
   var conversationTemplate = '<div class="tweet_conv"><div class="tw_img"><img src="${profile_image_url}"></div><h1><span><img src="/images/t_birrd_small.png"></span><a href="#">${name}</a><span id="" class="flRt modalCal">${created_at}</span></h1><span id="">@${screen_name}</span><div class="clr"></div><p>{{html tweet_text}}</p></div>';
 
@@ -25,12 +33,26 @@ var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image
   var search_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/get?"
 
   function closeContainer_reply(){
-    $(".tweet_reply_reply").each(function(){$(this).hide().remove();});
+    $(".tweet_reply_reply").each(function(){$(this).find('#myfield').val(''); $(this).hide().remove();});
     return false;
   }
 
+  function post_reply_data(id){
+    $.post( "/tweets/reply", { 'text': $('#myfield').val(), 'id': id } ,function(){
 
+    });
+    return false;
+  }
 
+  function post_retweet_data(){
+    $.post( "/tweets/retweet", { 'text': $('#myfield').val() } );
+    return false;
+  }
+
+  function post_favorite_data(){
+    $.post( "/tweets/favorite", { 'id': $('#myfield').val() } );
+    return false;
+  }
 
   function showModal(ele, val){
     search_params["in_reply_to_status_id"] = val;
@@ -320,19 +342,40 @@ $( document ).ready(function() {
     //  alert("Please sign in!");
     //}
     //else {
-      console.log("show reply")
-      console.log($(this))
-      console.log($(this).text())
+      
       var el = $(this).parent().parent().parent();
-      console.log($(el))
-      console.log($(el).next())
-      if($(el).next().hasClass("tweet_reply")){
+      if($(el).next().hasClass("tweet_reply_reply")){
         $(el).next().hide().remove();
       } 
       else {
         $(".tweet_reply_reply").each(function(){$(this).hide().remove();});
+        temp = {'tweet_id': $(el).parent().attr('id')};
+        replyTemp = $.tmpl( "replyTemplate", temp );
         $(el).after(replyTemp);
         $(el).next().slideToggle("fast");
+        
+      }  
+    //}
+    return false;
+  });
+
+  $(document).on("click", ".showmenu_retweet", function(){
+    //if(!is_signed){
+    //  alert("Please sign in!");
+    //}
+    //else {
+      
+      var el = $(this).parent().parent().parent();
+      if($(el).next().hasClass("tweet_reply_retweet")){
+        $(el).next().hide().remove();
+      } 
+      else {
+        $(".tweet_reply_retweet").each(function(){$(this).hide().remove();});
+        temp = {'tweet_id': $(el).parent().attr('id')};
+        retweetTemp = $.tmpl( "retweetTemplate", temp );
+        $(el).after(retweetTemp);
+        $(el).next().slideToggle("fast");
+        
       }  
     //}
     return false;
