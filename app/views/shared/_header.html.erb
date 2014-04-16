@@ -395,7 +395,7 @@ $( document ).ready(function() {
       //var el = $(this);
       //console.log($(el))
       $.post( "/tweets/favorite", { 'id': id }, function(id){
-        //console.log($(el))
+        console.log(id)
         $("a[tid*=" + id + "]").empty().append("<img src='/images/favorite_icn_done.png' />");
       }, 'json'); 
       return false;
