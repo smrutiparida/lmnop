@@ -120,7 +120,7 @@
   }
 }
 
-offline_after_call(){
+var callOfflineFunc = function offline_after_call(){
    //offlineJSONData  =  processOffline(offlineData)
    var processed_tweets = urlify(offlineData);
    
@@ -141,6 +141,7 @@ offline_after_call(){
     }
     */
     $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
+    doDragDrop();
   }
 
   function callSearchServer(func_call) {
@@ -499,7 +500,7 @@ function callServer()
 {
   if(window.location.href.indexOf("/tweets/my") != -1){
     $("#tweetlist").empty();
-    callOfflineServer();
+    callOfflineServer(callOfflineFunc);
   }
   else {
     $("#tweetlist").empty();
