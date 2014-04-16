@@ -98,7 +98,7 @@ class TweetsController < ApplicationController
     #Rails.logger.info(@tweet_list.to_s)
     #oauth_token=19981747-JZP0uTpY9vUh5Y1wWdJI5otV8HiQcxAekgLzwDiZB&oauth_token_secret=G9JmY9SxpG66ylmZfRegwZQZ3WcY6wnokSnbLMfLaNs3q&user_id=19981747&screen_name=smrutiparida
     data = {:facets => frequency_data.to_json, :tweets => tweet_list.to_json}
-    render :json => data, :status => :ok unless session[:user]
+    render :json => data, :status => :ok
   end  
 
   def reply
