@@ -51,22 +51,22 @@ var markup = "<div class='twitSec' id='${tweet_id}'><div class='tw_img'><img src
 
   function post_reply_data(id){
 
-    $.ajax( type: "POST",
+    $.ajax({ type: "POST",
             url: "/tweets/reply", 
             data: { 'text': $('#myfield').val(), 'id': id } ,
             success: function(){$('#' + id).find('.tweet_reply_reply').after(doneTemplate).remove(); },
             headers: {'X-Transaction': 'POST Reply', 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
-            dataType: 'json');
+            dataType: 'json'});
     return false;
   }
 
   function post_retweet_data(id){
-    $.ajax( type: "POST",
+    $.ajax( {type: "POST",
             url: "/tweets/retweet", 
             data: { 'id': id },
             success: function(){$('#' + id).find('.tweet_reply_reply').after(doneTemplate).remove(); },
             headers: {'X-Transaction': 'POST Retweet', 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
-            dataType: 'json');
+            dataType: 'json'});
 
     //$.post( "/tweets/retweet", { 'id': id }, function(){
         //alert("success");
