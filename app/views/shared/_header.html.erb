@@ -50,18 +50,28 @@ var markup = "<div class='twitSec' id='${tweet_id}'><div class='tw_img'><img src
   
 
   function post_reply_data(id){
-    $.post( "/tweets/reply", { 'text': $('#myfield').val(), 'id': id } ,function(){
-        //alert("success");
-        $('#' + id).find('.tweet_reply_reply').after(doneTemplate).remove(); 
-    }, 'json');
+
+    $.ajax( type: "POST",
+            url: "/tweets/reply", 
+            data: { 'text': $('#myfield').val(), 'id': id } ,
+            success: function(){$('#' + id).find('.tweet_reply_reply').after(doneTemplate).remove(); },
+            headers: {'X-Transaction': 'POST Reply', 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+            dataType: 'json');
     return false;
   }
 
   function post_retweet_data(id){
-    $.post( "/tweets/retweet", { 'id': id }, function(){
+    $.ajax( type: "POST",
+            url: "/tweets/retweet", 
+            data: { 'id': id },
+            success: function(){$('#' + id).find('.tweet_reply_reply').after(doneTemplate).remove(); },
+            headers: {'X-Transaction': 'POST Retweet', 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+            dataType: 'json');
+
+    //$.post( "/tweets/retweet", { 'id': id }, function(){
         //alert("success");
-        $('#' + id).find('.tweet_reply_reply').after(doneTemplate).remove(); 
-    }, 'json' );
+    //    $('#' + id).find('.tweet_reply_reply').after(doneTemplate).remove(); 
+    //}, 'json' );
 
     return false;
   }
