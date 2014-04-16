@@ -31,7 +31,8 @@ var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image
     $("#tweetlist").empty();
 
     $.getJSON( search_url, search_params, function( data ) {
-      
+      console.log("before success");
+      console.log(data['success']);
       if(data['success']){  
         if(data["data"]["totalCount"] > 0){
           console.log(data);
