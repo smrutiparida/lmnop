@@ -71,16 +71,16 @@ class TweetsController < ApplicationController
     
     @tweet_list = []
     all_tweets.each{ |tweet| @tweet_list.push({ :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
-    highest_fc = @tweet_list[0].rank
-    lowest_fc = @tweet_list[0].rank
+    highest_fc = 0
+    lowest_fc = 100000000
     @tweet_list.each do |x|
-      highest_fc = x.rank if x.rank > highest_fc
-      lowest_fc = x.rank if x.rank < lowest_fc
+      highest_fc = x[:rank] if x[:rank] > highest_fc
+      lowest_fc = x[:rank] if x[:rank] < lowest_fc
     end
     
     lowest_rank = 1
     highest_rank = 1000
-    @tweet_list.each { |x| x.rank = (lowest_rank + (x.rank - lowest_fc) * ((highest_rank - lowest_rank)/(highes fc - lowest_fc))).ceil}
+    @tweet_list.each { |x| x[:rank] = (lowest_rank + (x[:rank] - lowest_fc) * ((highest_rank - lowest_rank)/(highes fc - lowest_fc))).ceil}
 
     tweet_map = @tweet_list.group_by{ |s| s.screen_name }
 
