@@ -88,9 +88,8 @@ class TweetsController < ApplicationController
   
   
   def retweet
-    respond_to do |format|
-      format.json { head :ok }
-    end
+    render :json => {:success => true }, :status => :ok
+    
   end
   
   def favorite
