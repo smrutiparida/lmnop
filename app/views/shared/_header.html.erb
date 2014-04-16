@@ -64,7 +64,7 @@ var markup = "<div class='twitSec' id='${tweet_id}'><div class='tw_img'><img src
     $.ajax( {type: "POST",
             url: "/tweets/retweet", 
             data: { 'id': id },
-            success: function(){$('#' + id).find('.tweet_reply_reply').after(doneTemplate).remove(); },
+            success: function(){$('#' + id).find('.tweet_reply_retweet').after(doneTemplate).remove(); },
             headers: {'X-Transaction': 'POST Retweet', 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
             dataType: 'json'});
 
