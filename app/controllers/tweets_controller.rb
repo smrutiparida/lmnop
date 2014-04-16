@@ -79,7 +79,7 @@ class TweetsController < ApplicationController
     if session[:user]
       output_params = session[:user]
       client = get_auth_client(output_params)
-      client.update(params[:text],{:in_reply_to_status => params[:id]})
+      client.update(params[:text],{:in_reply_to_status => params[:id].to_i})
       render :json => {:success => true }, :status => :ok
     end  
   end
@@ -89,7 +89,8 @@ class TweetsController < ApplicationController
     if session[:user]
       output_params = session[:user]
       client = get_auth_client(output_params)
-      id_arr = [ params[:id]]
+      id_arr = [ params[:id].to_i]
+       Rails.logger.info("trying to retweeted")
       client.retweet(id_arr)
       Rails.logger.info("retweeted")
       render :json => {:success => true }, :status => :ok

@@ -25,7 +25,7 @@
             </h1>
             <span>@<%= tweet[:screen_name] %></span>
             <div class='clr'></div>
-            <p><%= tweet[:text] %></p>
+            <p><%= tweet[:tweet_text] %></p>
             <div class='tweet_reply tweet_reply_reply'><img src='/images/reply_arrow.png' style='display:none;'><textarea rows='3' name='myfield' id='myfield' maxlength='140' style='width:96%;'></textarea><div class='reply_action'><a href='#' class='btn btn-small' style='float:right;' onclick='return closeContainer_reply();' id='hide'>Cancel</a><a href='#' class='btn btn-info btn-small' style='float:right;'><i class='icon-white icon-hdd'></i> Tweet</a><div id='CharCountLabel1'></div></div></div>
         </div>
       <% end %>    
