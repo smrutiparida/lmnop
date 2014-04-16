@@ -100,16 +100,29 @@
     return searchData;
   }
 
-  function callOfflineServer(){
+  function callOfflineServer(func_call){
     if(offlineData.length > 0){
       $( "#tweetlist" ).html("<div class='tweetlist'><p>Sorry, There are no tweets from people with UserRank range " + search_params["low"] + " - " + search_params["high"] + " - because they didn't tweet in the last 24 hours. Please change the range in the slider to see tweet.<p><p>Or if you think there is a bug, please do send us a screenshot at <a href='mailto:amar@brizzlabs.com'>amar@brizzlabs.com</a> & we will try fixing it.</p></div>"); 
       return false;
     }
 
-   
+  //frequency_info = JSON.parse('<%= @frequency_data.to_json.to_s %>');
+  //offlineData = JSON.parse('<%= @tweet_list.to_json.to_s %>');  
+  if(offlineData == ''){
+    $.getJSON( '/tweets/offline', search_params, function( data ) {    
+      offlineData = data['tweets'];
+      frequency_info = data['facets']
+      func_call();
+    });
+  }
+  else {
+    func_call();
+  }
+}
 
-   offlineJSONData  =  processOffline(offlineData)
-   var processed_tweets = urlify(offlineJSONData);
+offline_after_call(){
+   //offlineJSONData  =  processOffline(offlineData)
+   var processed_tweets = urlify(offlineData);
    
     if (search_params["screen_name"] == ""){
       processed_tweets = add_more_link(frequency_info , processed_tweets);
@@ -128,7 +141,6 @@
     }
     */
     $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
-
   }
 
   function callSearchServer(func_call) {
@@ -487,7 +499,7 @@ function callServer()
 {
   if(window.location.href.indexOf("/tweets/my") != -1){
     $("#tweetlist").empty();
-    callOfflineServer(offlineServerFunc);
+    callOfflineServer();
   }
   else {
     $("#tweetlist").empty();

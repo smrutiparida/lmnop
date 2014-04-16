@@ -54,7 +54,14 @@ class TweetsController < ApplicationController
 
 
     end
+  end
+
+  def offline
+    render :json => {}, :status => :ok unless session[:user]
+
+    output_params = session[:user]
   
+      
     client = get_auth_client(output_params)
 
     
@@ -81,15 +88,17 @@ class TweetsController < ApplicationController
     
     lowest_rank = 1
     highest_rank = 1000
-    @tweet_list.each { |x| x[:rank] = (lowest_rank + (x[:rank] - lowest_fc) * ((highest_rank - lowest_rank)/(highest_fc - lowest_fc))).ceil}
-    Rails.logger.info(@tweet_list.to_json.to_s)
+    tweet_list.each { |x| x[:rank] = (lowest_rank + (x[:rank] - lowest_fc) * ((highest_rank - lowest_rank)/(highest_fc - lowest_fc))).ceil}
+    #Rails.logger.info(@tweet_list.to_json.to_s)
     tweet_map = @tweet_list.group_by{ |s| s[:screen_name] }
 
-    @frequency_data = {}
+    frequency_data = {}
     tweet_map.each { |k,v| @frequency_data[k] = v.length}
-    Rails.logger.info(@frequency_data.to_json.to_s)
+    #Rails.logger.info(@frequency_data.to_json.to_s)
     #Rails.logger.info(@tweet_list.to_s)
     #oauth_token=19981747-JZP0uTpY9vUh5Y1wWdJI5otV8HiQcxAekgLzwDiZB&oauth_token_secret=G9JmY9SxpG66ylmZfRegwZQZ3WcY6wnokSnbLMfLaNs3q&user_id=19981747&screen_name=smrutiparida
+    data = {:facets => frequency_data.to_json, :tweets => tweet_list.to_json}
+    render :json => data, :status => :ok unless session[:user]
   end  
 
   def reply

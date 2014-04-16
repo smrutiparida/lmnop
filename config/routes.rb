@@ -4,6 +4,7 @@ Lmnop::Application.routes.draw do
   get "tweets/index"
   get "tweets/auth"
   get "tweets/my"
+  get "tweets/offline"
   get "tweets/logout"
   post "tweets/retweet" => 'tweets#retweet'
   post "tweets/favorite" => 'tweets#favorite'
