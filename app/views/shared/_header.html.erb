@@ -344,11 +344,11 @@ $( document ).ready(function() {
     //else {
       
       var el = $(this).parent().parent().parent();
-      if($(el).next().hasClass("tweet_reply_reply")){
+      if($(el).next().hasClass("tweet_reply")){
         $(el).next().hide().remove();
       } 
       else {
-        $(".tweet_reply_reply").each(function(){$(this).hide().remove();});
+        $(".tweet_reply").each(function(){$(this).hide().remove();});
         temp = {'tweet_id': $(el).parent().attr('id')};
         replyTemp = $.tmpl( "replyTemplate", temp );
         $(el).after(replyTemp);
@@ -366,11 +366,11 @@ $( document ).ready(function() {
     //else {
       
       var el = $(this).parent().parent().parent();
-      if($(el).next().hasClass("tweet_reply_retweet")){
+      if($(el).next().hasClass("tweet_reply")){
         $(el).next().hide().remove();
       } 
       else {
-        $(".tweet_reply_retweet").each(function(){$(this).hide().remove();});
+        $(".tweet_reply").each(function(){$(this).hide().remove();});
         temp = {'tweet_id': $(el).parent().attr('id')};
         retweetTemp = $.tmpl( "retweetTemplate", temp );
         $(el).after(retweetTemp);
