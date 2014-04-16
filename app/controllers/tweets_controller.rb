@@ -80,7 +80,7 @@ class TweetsController < ApplicationController
     
     lowest_rank = 1
     highest_rank = 1000
-    @tweet_list.each { |x| x[:rank] = (lowest_rank + (x[:rank] - lowest_fc) * ((highest_rank - lowest_rank)/(highes fc - lowest_fc))).ceil}
+    @tweet_list.each { |x| x[:rank] = (lowest_rank + (x[:rank] - lowest_fc) * ((highest_rank - lowest_rank)/(highest_fc - lowest_fc))).ceil}
 
     tweet_map = @tweet_list.group_by{ |s| s.screen_name }
 
