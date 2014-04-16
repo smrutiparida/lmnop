@@ -50,7 +50,8 @@ class TweetsController < ApplicationController
       ##now set a infinite cookie and get the tweeer timeline
       output_params = split_params(resp.body)
 
-      session["user"]= output_params 
+      session["user"]= output_params
+
 
     end
 

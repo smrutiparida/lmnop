@@ -38,7 +38,7 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 .tweet_conv a{ margin-left:4px;}
 .tweet_conv p{ padding-top:4px;}
 .tweet_conv span img{ padding-bottom:4px;}
-.activeBlue{background-color:#e5f2f7;}
+#modal-content-id:first-child{background-color:#e5f2f7;}
 
 
 .twitSec:hover{ background-color:#eee; -webkit-transition:all 0.5s ease; -moz-transition:all 0.5s ease; -o-transition:all 0.5s ease; border:1px solid #ccc;}

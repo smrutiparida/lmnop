@@ -1,4 +1,10 @@
 <script>
+<% if session.has_key?("user") %>
+  var is_signed = true
+<% else %>
+  var is_signed = false
+<% end %>
+
 var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span class='timeCal flRt'>${created_at}</span></h1><span>@${screen_name}</span><div class='clr'></div><p>{{html tweet_text}}</p><div class='moreOptions'><ul>{{if in_reply_to_status_id != ''}}<li><a class='modal-more' href='#' onclick='showModal(this,\"${in_reply_to_status_id}\");' style='border:0; outline:none'><img src='/images/conversation_icn.png'></a></li>{{/if}}<li><a href='#' class='showmenu_reply'><img src='/images/reply_icn.png'></a></li><li><a href='#' class='showmenu_retweet'><img src='/images/retweet_icn.png'></a></li><li><a href='#' class='make-favorite'><img src='/images/favorite_icn.png'></a></li></ul></div>{{if more_count>10}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /></a></span>{{else more_count == -999}}<span class='less'><a href='#' onclick='expand(this,\"${screen_name}\");'>show less</a></span>{{/if}}</div>";
 
   
@@ -7,7 +13,7 @@ var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image
   $.template( "twitterTemplate", markup );
   $.template( "trendingTemplate", hashtag );
 
-  //var replyTemp = "<div class='tweet_reply tweet_reply_reply'><img src='/images/reply_arrow.png' style='position:absolute; top:-10px;'><textarea rows='3' name='myfield' id='myfield' maxlength='140' style='width:96%;'></textarea><div class='reply_action'><a href='#' class='btn btn-small' style='float:right;' onclick='return closeContainer_reply();' id='hide'>Cancel</a><a href='#' class='btn btn-info btn-small' style='float:right;'><i class='icon-white icon-hdd'></i> Tweet</a><div id='CharCountLabel1'></div></div></div>";
+  var replyTemp = "<div class='tweet_reply tweet_reply_reply'><img src='/images/reply_arrow.png' style='display:none;'><textarea rows='3' name='myfield' id='myfield' maxlength='140' style='width:96%;'></textarea><div class='reply_action'><a href='#' class='btn btn-small' style='float:right;' onclick='return closeContainer_reply();' id='hide'>Cancel</a><a href='#' class='btn btn-info btn-small' style='float:right;'><i class='icon-white icon-hdd'></i> Tweet</a><div id='CharCountLabel1'></div></div></div>";
 
   //$.template("replyTemplate", replyTemp);
 
@@ -18,6 +24,32 @@ var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image
   var search_params = {"low":750,"high":1000,"size":50,"top":0,"q":"","uniqueUser":true,"country":"in","screen_name":"","topic":"","in_reply_to_status_id":""};
   var search_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/get?"
 
+  function closeContainer_reply(){
+    $(".tweet_reply_reply").each(function(){$(this).hide().remove();});
+    return false;
+  }
+
+  $('.showmenu_reply').on("click", function(){
+    if(!is_signed){
+      alert("Please sign in!");
+    }
+    else {
+      
+      var el = $(this).parent().parent();
+      if($el.next().hasClass("tweet_reply"){
+        $el.next().hide().remove();
+      }
+      else {
+        $(".tweet_reply_reply").each(function(){$(this).hide().remove();});
+        $el.append(replyTemp);
+        $el.next().slideToggle("fast");
+      }     
+    }
+    
+    });
+    
+  });
+
   function showModal(ele, val){
     search_params["in_reply_to_status_id"] = val;
     console.log("calling from showModal");
@@ -25,6 +57,7 @@ var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image
     
     var showModalFunction = function(data){
       //var processed_tweets = urlify(data["data"]["tweets"]);
+    
       var processed_tweets = urlify(data["data"]["tweets"]);
       $.tmpl( "conversationTemplate", processed_tweets ).appendTo( "#modal-content-id" );
       $(".modalCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
@@ -295,6 +328,11 @@ $( document ).ready(function() {
     search_params["country"] = $("#viewCountry option:selected").attr('value');
     callServer();    
   });
+
+  $('#modal-container-conv').on('hidden.bs.modal', function (e) {
+    search_params["in_reply_to_status_id"] = ""; 
+  })
+
 });
 
 
@@ -388,7 +426,7 @@ function callServer()
     <div class="modal-body" id="modal-content-id">  
     </div>
     <div class="modal-footer">
-       <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+       <button class="btn" data-dismiss="modal" aria-hidden="true" onClick="">Close</button>
     </div>
   </div>
 
