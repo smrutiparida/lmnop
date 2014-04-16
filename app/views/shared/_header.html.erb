@@ -11,9 +11,9 @@ var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image
 
   //$.template("replyTemplate", replyTemp);
 
-  //var conversationTemplate = '<div class="tweet_conv"><div class="tw_img"><img src="${profile_image_url}"></div><h1><span><img src="/images/t_birrd_small.png"></span><a href="#">${name}</a><span id="" class="flRt modalCal">${created_at}</span></h1><span id="">@${screen_name}</span><div class="clr"></div><p>{{html tweet_text}}</p></div>';
+  var conversationTemplate = '<div class="tweet_conv"><div class="tw_img"><img src="${profile_image_url}"></div><h1><span><img src="/images/t_birrd_small.png"></span><a href="#">${name}</a><span id="" class="flRt modalCal">${created_at}</span></h1><span id="">@${screen_name}</span><div class="clr"></div><p>{{html tweet_text}}</p></div>';
 
-  //$.template("conversationTemplate", conversationTemplate);
+  $.template("conversationTemplate", conversationTemplate);
   
   var search_params = {"low":750,"high":1000,"size":50,"top":0,"q":"","uniqueUser":true,"country":"in","screen_name":"","topic":"","in_reply_to_status_id":""};
   var search_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/get?"
@@ -21,6 +21,7 @@ var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image
   function showModal(ele, val){
     search_params["in_reply_to_status_id"] = val;
     console.log("calling from showModal");
+    console.log(val)
     
     var showModalFunction = function(data){
       //var processed_tweets = urlify(data["data"]["tweets"]);
