@@ -93,6 +93,7 @@ class TweetsController < ApplicationController
   end
   
   def favorite
+    render :json => {:success => true }, :status => :ok
   end
 
   def logout
