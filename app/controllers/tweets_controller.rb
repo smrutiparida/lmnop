@@ -93,7 +93,7 @@ class TweetsController < ApplicationController
     tweet_map = tweet_list.group_by{ |s| s[:screen_name] }
 
     frequency_data = {}
-    tweet_map.each { |k,v| @frequency_data[k] = v.length}
+    tweet_map.each { |k,v| frequency_data[k] = v.length}
     #Rails.logger.info(@frequency_data.to_json.to_s)
     #Rails.logger.info(@tweet_list.to_s)
     #oauth_token=19981747-JZP0uTpY9vUh5Y1wWdJI5otV8HiQcxAekgLzwDiZB&oauth_token_secret=G9JmY9SxpG66ylmZfRegwZQZ3WcY6wnokSnbLMfLaNs3q&user_id=19981747&screen_name=smrutiparida
