@@ -81,8 +81,18 @@ class TweetsController < ApplicationController
 
 
   end  
+
+  def reply
+    respond_to do |format|
+      format.json { head :ok }
+    end
+  end
+  
   
   def retweet
+    respond_to do |format|
+      format.json { head :ok }
+    end
   end
   
   def favorite
