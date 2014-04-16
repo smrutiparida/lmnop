@@ -21,7 +21,7 @@ var markup = "<div class='twitSec' id='${tweet_id}'><div class='tw_img'><img src
 
   $.template("retweetTemplate", retweetTemplate);
 
-  var doneTemplate = "<div class='done_reply'><img src='/images/reply_arrow.png'  style='position:absolute; top:-10px;'><h3>Posted to your Timeline.</h3><div class='retwet_action'><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>";
+  var doneTemplate = "<div class='done_reply tweet_reply'><img src='/images/reply_arrow.png'  style='position:absolute; top:-10px;'><h3>Posted to your Timeline.</h3><div class='retwet_action'><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>";
 
     
 
@@ -40,6 +40,7 @@ var markup = "<div class='twitSec' id='${tweet_id}'><div class='tw_img'><img src
   function post_reply_data(id){
     $.post( "/tweets/reply", { 'text': $('#myfield').val(), 'id': id } ,function(){
         alert("success")
+        $('#' + id).find('.tweet_reply_reply').after(doneTemplate).previous().remove(); 
     });
     return false;
   }

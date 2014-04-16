@@ -83,9 +83,7 @@ class TweetsController < ApplicationController
   end  
 
   def reply
-    respond_to do |format|
-      format.json { head :ok }
-    end
+    render :json => "we good!", :status => :ok
   end
   
   
