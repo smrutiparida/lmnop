@@ -74,7 +74,7 @@ class TweetsController < ApplicationController
     #tweet_map = all_tweets.group_by{ |s| s.user.screen_name }
     
     @tweet_list = []
-    tweet_map.each |tweet| do
+    all_tweets.each |tweet| do
       @tweet_list.push({ :tweet_id=> tweet.id ,:profile_image_url => tweet.user.profile_image_url, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})
     end
     
