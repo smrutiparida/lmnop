@@ -392,8 +392,11 @@ $( document ).ready(function() {
 
   $(document).on("click", ".make-favorite", function(){
       var id = $(this).attr('tid');
-      $.post( "/tweets/favorite", { 'id': id }, function(){
-        $(this).empty().append("<img src='/images/favorite_icn_done.png' />");
+      var el = $(this);
+      console.log($(el))
+      $.post( "/tweets/favorite", { 'id': id }, function(el){
+        console.log($(el))
+        $(el).empty().append("<img src='/images/favorite_icn_done.png' />");
       }, 'json'); 
       return false;
   });
