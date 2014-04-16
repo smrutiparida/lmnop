@@ -54,14 +54,10 @@ class TweetsController < ApplicationController
 
 
     end
+  
+    client = get_auth_client(output_params)
 
-    client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = @@consumer_key
-      config.consumer_secret     = @@consumer_secret
-      config.access_token        = output_params["oauth_token"]
-      config.access_token_secret = output_params["oauth_token_secret"]
-    end
-
+    
     all_tweets = client.home_timeline({:count => 200})
 
     #all_tweets = tweet_list.slice("id", "user", "created_at", "text")
@@ -80,12 +76,23 @@ class TweetsController < ApplicationController
   end  
 
   def reply
-    render :json => {:success => true }, :status => :ok
+    if session[:user]
+      output_params = session[:user]
+      client = get_auth_client(output_params)
+      client.update(params[:text],{:in_reply_to_status => params[:id]})
+      render :json => {:success => true }, :status => :ok
+    end  
   end
   
   
   def retweet
-    render :json => {:success => true }, :status => :ok
+    if session[:user]
+      output_params = session[:user]
+      client = get_auth_client(output_params)
+      id_arr = [ params[:id]]
+      client.retweet(id_arr)
+      render :json => {:success => true }, :status => :ok
+    end  
     
   end
   
@@ -109,6 +116,17 @@ class TweetsController < ApplicationController
     my_map  
   end
 
+  def get_auth_client(output_params)
+
+    client = Twitter::REST::Client.new do |config|
+      config.consumer_key        = @@consumer_key
+      config.consumer_secret     = @@consumer_secret
+      config.access_token        = output_params["oauth_token"]
+      config.access_token_secret = output_params["oauth_token_secret"]
+    end
+    client
+  end  
+  
   def auth
       
     #send a post request

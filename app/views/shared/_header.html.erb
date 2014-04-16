@@ -41,7 +41,7 @@ var markup = "<div class='twitSec' id='${tweet_id}'><div class='tw_img'><img src
    $(".tweet_reply_retweet").each(function(){$(this).hide().remove();});
     return false; 
   }
-  
+
   function closeContainer_done(){
     $(".done_reply").each(function(){$(this).hide().remove();});
     return false;
@@ -57,8 +57,8 @@ var markup = "<div class='twitSec' id='${tweet_id}'><div class='tw_img'><img src
     return false;
   }
 
-  function post_retweet_data(){
-    $.post( "/tweets/retweet", { 'text': $('#myfield').val() }, function(){
+  function post_retweet_data(id){
+    $.post( "/tweets/retweet", { 'id': id }, function(){
         //alert("success");
         $('#' + id).find('.tweet_reply_reply').after(doneTemplate).remove(); 
     }, 'json' );
