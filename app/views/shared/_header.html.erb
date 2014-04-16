@@ -37,6 +37,11 @@ var markup = "<div class='twitSec' id='${tweet_id}'><div class='tw_img'><img src
     return false;
   }
 
+  function closeContainer_retweet(){
+   $(".tweet_reply_retweet").each(function(){$(this).hide().remove();});
+    return false; 
+  }
+  
   function closeContainer_done(){
     $(".done_reply").each(function(){$(this).hide().remove();});
     return false;
