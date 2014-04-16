@@ -35,16 +35,18 @@ var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image
     }
     else {
       var el = $(this).parent().parent();
-      if($el.next().hasClass("tweet_reply"){
+      if($el.next().hasClass("tweet_reply")){
         $el.next().hide().remove();
-      }
+      } 
       else {
         $(".tweet_reply_reply").each(function(){$(this).hide().remove();});
         $el.append(replyTemp);
         $el.next().slideToggle("fast");
-      }   
+      }  
     }
   });
+
+
 
   function showModal(ele, val){
     search_params["in_reply_to_status_id"] = val;
