@@ -316,10 +316,10 @@ $( document ).ready(function() {
   })
 
   $(document).on("click", ".showmenu_reply", function(){
-     if(!is_signed){
-      alert("Please sign in!");
-    }
-    else {
+    //if(!is_signed){
+    //  alert("Please sign in!");
+    //}
+    //else {
       console.log("show reply")
       var el = $(this).parent().parent();
       console.log($el)
@@ -332,7 +332,7 @@ $( document ).ready(function() {
         $el.append(replyTemp);
         $el.next().slideToggle("fast");
       }  
-    }
+    //}
     return false;
   });
 
