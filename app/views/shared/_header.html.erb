@@ -315,7 +315,7 @@ $( document ).ready(function() {
     search_params["in_reply_to_status_id"] = ""; 
   })
 
-  $('.showmenu_reply').on("click", function(){
+  $(document).on("click", ".showmenu_reply", function(){
      if(!is_signed){
       alert("Please sign in!");
     }
