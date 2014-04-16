@@ -34,7 +34,10 @@ var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image
       alert("Please sign in!");
     }
     else {
+      console.log("show reply")
       var el = $(this).parent().parent();
+      console.log($el)
+      console.log($el.next())
       if($el.next().hasClass("tweet_reply")){
         $el.next().hide().remove();
       } 
@@ -44,6 +47,7 @@ var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image
         $el.next().slideToggle("fast");
       }  
     }
+    return false;
   });
 
 
