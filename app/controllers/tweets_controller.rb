@@ -76,11 +76,11 @@ class TweetsController < ApplicationController
 
     
     
-    @tweet_list = []
-    all_tweets.each{ |tweet| @tweet_list.push({ :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
+    tweet_list = []
+    all_tweets.each{ |tweet| tweet_list.push({ :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
     highest_fc = 0
     lowest_fc = 100000000
-    @tweet_list.each do |x|
+    tweet_list.each do |x|
       highest_fc = x[:rank] if x[:rank] > highest_fc
       lowest_fc = x[:rank] if x[:rank] < lowest_fc
     end
