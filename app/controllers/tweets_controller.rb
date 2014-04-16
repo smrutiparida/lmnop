@@ -76,16 +76,21 @@ class TweetsController < ApplicationController
   end  
 
   def reply
+    status = 403
     if session[:user]
       output_params = session[:user]
       client = get_auth_client(output_params)
       client.update(params[:text],{:in_reply_to_status => params[:id].to_i})
-      render :json => {:success => true }, :status => :ok
+      status = 200
+    else
+      status = 403  
     end  
+    render :json => {:success => true }, :status => status
   end
   
   
   def retweet
+    status = 403
     if session[:user]
       output_params = session[:user]
       client = get_auth_client(output_params)
@@ -93,9 +98,12 @@ class TweetsController < ApplicationController
        Rails.logger.info("trying to retweeted")
       client.retweet(id_arr)
       Rails.logger.info("retweeted")
-      render :json => {:success => true }, :status => :ok
+      status = 200
+    else
+      status = 403
     end  
-    render :json => {:success => false} , :status => 403
+
+    render :json => {:success => true} , :status => status
   end
   
   def favorite
