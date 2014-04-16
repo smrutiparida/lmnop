@@ -80,7 +80,7 @@ class TweetsController < ApplicationController
     if session[:user]
       output_params = session[:user]
       client = get_auth_client(output_params)
-      client.update(params[:text],{:in_reply_to_status => params[:id].to_i})
+      client.update(params[:text],{:in_reply_to_status => params[:id]})
       status = 200
     else
       status = 403  
