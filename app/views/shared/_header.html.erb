@@ -19,6 +19,7 @@ var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image
 
   function showModal(ele, val){
     search_params["in_reply_to_status_id"] = val;
+    console.log("calling from showModal");
     var data = callSearchServer();
     var processed_tweets = urlify(data["data"]["tweets"]);
     $.tmpl( "conversationTemplate", processed_tweets ).appendTo( "#modal-content-id" );
@@ -258,6 +259,7 @@ $( document ).ready(function() {
   document.getElementById('blueColorScale').style.left = (0)+"%";
   document.getElementById('rangeSelectvalue').innerHTML = "1000-750";
   
+  console.log("from on ready");
   callServer();
   
   $( "#slider-range" ).slider({
