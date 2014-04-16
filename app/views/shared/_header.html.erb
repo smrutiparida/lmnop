@@ -18,17 +18,21 @@ var markup = "<div class='twitSec'><div user_id='${user_id}' class='tw_img dragg
   var search_params = {"low":750,"high":1000,"size":50,"top":0,"q":"","uniqueUser":true,"country":"in","screen_name":"","topic":"","in_reply_to_status_id":""};
   var search_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/get?"
 
-  /*function showModal(ele, val){
+  function showModal(ele, val){
     search_params["in_reply_to_status_id"] = val;
     console.log("calling from showModal");
-    var data = callSearchServer();
-    var processed_tweets = urlify(data["data"]["tweets"]);
-    $.tmpl( "conversationTemplate", processed_tweets ).appendTo( "#modal-content-id" );
-    $(".modalCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
-    $('#modal-container-conv').modal('show');
+    
+    var showModalFunction = function(data){
+      //var processed_tweets = urlify(data["data"]["tweets"]);
+      var processed_tweets = urlify(data["data"]["tweets"]);
+      $.tmpl( "conversationTemplate", processed_tweets ).appendTo( "#modal-content-id" );
+      $(".modalCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
+      $('#modal-container-conv').modal('show');
+    }
+    callSearchServer(showModalFunction);
   }
-*/
-  function callSearchServer() {
+
+  function callSearchServer(func_call) {
     $("#tweetlist").empty();
 
     $.getJSON( search_url, search_params, function( data ) {
@@ -36,8 +40,11 @@ var markup = "<div class='twitSec'><div user_id='${user_id}' class='tw_img dragg
       console.log(data['success']);
       if(data['success']){  
         if(data["data"]["totalCount"] > 0){
-          console.log(data);
-          return data;
+          
+          
+                func_call(data);
+              
+
           
          
 
@@ -288,27 +295,7 @@ $( document ).ready(function() {
   });
 });
 
-function processServerDate(data){
-  console.log(data);
-  var processed_tweets = urlify(data["data"]["tweets"]);
-  if (search_params["screen_name"] == ""){
-    processed_tweets = add_more_link(data["data"]["facets"]["user_tweet_frequency"]["terms"], processed_tweets);
-  }
-  else {
-    processed_tweets = add_more_link([], processed_tweets); 
-  }
-  
-  console.log(processed_tweets)
-  $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
-  console.log($.tmpl( "twitterTemplate", processed_tweets ))
-  
-  if ( search_params["q"] == "" && search_params["screen_name"] == "") {
-    $("#trending").empty();
-    $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"].slice(0,20)).appendTo( "#trending" );
-  }
-  
-  $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
-}
+
 
 function callServer()
 {
@@ -316,10 +303,28 @@ function callServer()
     
   }
   else {
-    var data = callSearchServer();
-    if(data != undefined){
-      processServerDate(data);
+    var callServerFunc = function processServerDate(data){
+      console.log(data);
+      var processed_tweets = urlify(data["data"]["tweets"]);
+      if (search_params["screen_name"] == ""){
+        processed_tweets = add_more_link(data["data"]["facets"]["user_tweet_frequency"]["terms"], processed_tweets);
+      }
+      else {
+        processed_tweets = add_more_link([], processed_tweets); 
+      }
+      
+      console.log(processed_tweets)
+      $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
+      console.log($.tmpl( "twitterTemplate", processed_tweets ))
+      
+      if ( search_params["q"] == "" && search_params["screen_name"] == "") {
+        $("#trending").empty();
+        $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"].slice(0,20)).appendTo( "#trending" );
+      }
+      
+      $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
     }
+    callSearchServer(callServerFunc);
   }
 }
 </script>
