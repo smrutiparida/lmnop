@@ -107,6 +107,8 @@ class TweetsController < ApplicationController
       tweet_map.each { |k,v| tweet_list.push(v.first) }
     end    
 
+    Rails.logger.info(tweet_list.to_json.to_s)
+
     tweet_list = tweet_map[params[:screen_name]] if params[:screen_name] and not tweet_map.nil?
 
     if params[:low] and params[:high] and not tweet_list.nil?
