@@ -59,14 +59,29 @@ class TweetsController < ApplicationController
   def offline
     render :json => {}, :status => :ok unless session[:user]
 
-    output_params = session[:user]
-  
-      
-    client = get_auth_client(output_params)
+    tweet_list = []
 
+    if session[:tweets]
+      tweet_list = session[:tweets]
+    else  
+      output_params = session[:user]  
+      client = get_auth_client(output_params)
+      all_tweets = client.home_timeline({:count => 200})
+      all_tweets.each{ |tweet| tweet_list.push({ :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
+
+      highest_fc = 0
+      lowest_fc = 100000000
+      tweet_list.each do |x|
+        highest_fc = x[:rank] if x[:rank] > highest_fc
+        lowest_fc = x[:rank] if x[:rank] < lowest_fc
+      end
     
-    all_tweets = client.home_timeline({:count => 200})
-
+    
+      lowest_rank = 1
+      highest_rank = 1000
+      tweet_list.each { |x| x[:rank] = (lowest_rank + (x[:rank] - lowest_fc) * ((highest_rank - lowest_rank)/(highest_fc - lowest_fc))).ceil}
+      session[:tweets] = tweet_list
+    end
     #all_tweets = tweet_list.slice("id", "user", "created_at", "text")
 
     #all_tweets.each |tweet| do
@@ -75,20 +90,6 @@ class TweetsController < ApplicationController
     #end
 
     
-    
-    tweet_list = []
-    all_tweets.each{ |tweet| tweet_list.push({ :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
-    highest_fc = 0
-    lowest_fc = 100000000
-    tweet_list.each do |x|
-      highest_fc = x[:rank] if x[:rank] > highest_fc
-      lowest_fc = x[:rank] if x[:rank] < lowest_fc
-    end
-    
-    
-    lowest_rank = 1
-    highest_rank = 1000
-    tweet_list.each { |x| x[:rank] = (lowest_rank + (x[:rank] - lowest_fc) * ((highest_rank - lowest_rank)/(highest_fc - lowest_fc))).ceil}
     #Rails.logger.info(@tweet_list.to_json.to_s)
     tweet_map = tweet_list.group_by{ |s| s[:screen_name] }
 
@@ -97,6 +98,25 @@ class TweetsController < ApplicationController
     #Rails.logger.info(@frequency_data.to_json.to_s)
     #Rails.logger.info(@tweet_list.to_s)
     #oauth_token=19981747-JZP0uTpY9vUh5Y1wWdJI5otV8HiQcxAekgLzwDiZB&oauth_token_secret=G9JmY9SxpG66ylmZfRegwZQZ3WcY6wnokSnbLMfLaNs3q&user_id=19981747&screen_name=smrutiparida
+
+    
+
+    if params[:uniqueUser]
+      Rails.logger.info("unique user true")
+      tweet_map.each do |k,v|
+        tweet_list.clear
+        tweet_list.push(v[0])
+      end
+    end    
+
+    tweet_list = tweet_map[params[:screen_name]] if params[:screen_name]
+    if params[:low] and params[:high]
+      Rails.logger.info("low high true")
+      temp = []
+      tweet_list.each { |tweet| temp.push(tweet) if tweet[:rank] >= params[:low] and tweet[:rank] <= params[:high]}
+      tweet_list = temp
+    end  
+
     data = {:facets => frequency_data, :tweets => tweet_list}
     render :json => data, :status => :ok
   end  
