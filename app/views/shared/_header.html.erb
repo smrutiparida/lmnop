@@ -323,16 +323,16 @@ $( document ).ready(function() {
       console.log("show reply")
       console.log($(this))
       console.log($(this).text())
-      var el = $(this).parent().parent();
+      var el = $(this).parent().parent().parent();
       console.log($(el))
-      console.log($el.next())
-      if($el.next().hasClass("tweet_reply")){
-        $el.next().hide().remove();
+      console.log($(el).next())
+      if($(el).next().hasClass("tweet_reply")){
+        $(el).next().hide().remove();
       } 
       else {
         $(".tweet_reply_reply").each(function(){$(this).hide().remove();});
-        $el.append(replyTemp);
-        $el.next().slideToggle("fast");
+        $(el).after(replyTemp);
+        $(el).next().slideToggle("fast");
       }  
     //}
     return false;
