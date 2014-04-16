@@ -78,11 +78,11 @@ class TweetsController < ApplicationController
       lowest_fc = x[:rank] if x[:rank] < lowest_fc
     end
     
-    Rails.logger.info(@tweet_list.to_json.to_s)
+    
     lowest_rank = 1
     highest_rank = 1000
     @tweet_list.each { |x| x[:rank] = (lowest_rank + (x[:rank] - lowest_fc) * ((highest_rank - lowest_rank)/(highest_fc - lowest_fc))).ceil}
-
+    Rails.logger.info(@tweet_list.to_json.to_s)
     tweet_map = @tweet_list.group_by{ |s| s[:screen_name] }
 
     @frequency_data = {}
