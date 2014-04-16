@@ -103,13 +103,12 @@ class TweetsController < ApplicationController
 
     if params[:uniqueUser]
       Rails.logger.info("unique user true")
-      tweet_map.each do |k,v|
-        tweet_list.clear
-        tweet_list.push(v[0])
-      end
+      tweet_list.clear
+      tweet_map.each { |k,v| tweet_list.push(v.first) }
     end    
 
     tweet_list = tweet_map[params[:screen_name]] if params[:screen_name]
+    
     if params[:low] and params[:high]
       Rails.logger.info("low high true")
       temp = []
