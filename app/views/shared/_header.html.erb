@@ -39,7 +39,7 @@ var markup = "<div class='twitSec' id='${tweet_id}'><div class='tw_img'><img src
 
   function post_reply_data(id){
     $.post( "/tweets/reply", { 'text': $('#myfield').val(), 'id': id } ,function(){
-
+        alert("success")
     });
     return false;
   }

@@ -5,6 +5,9 @@ Lmnop::Application.routes.draw do
   get "tweets/auth"
   get "tweets/my"
   get "tweets/logout"
+  get "tweets/reply"
+  get "tweets/retweet"
+  get "tweets/favorite"
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
