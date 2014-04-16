@@ -107,11 +107,11 @@ class TweetsController < ApplicationController
       tweet_map.each { |k,v| tweet_list.push(v.first) }
     end    
 
-    #Rails.logger.info(tweet_list.to_json.to_s)
+    Rails.logger.info(tweet_list.to_json.to_s)
 
     tweet_list = tweet_map[params[:screen_name]] unless params[:screen_name].blank? or tweet_map.nil?
 
-    #Rails.logger.info(tweet_list.to_json.to_s)
+    Rails.logger.info(tweet_list.to_json.to_s)
 
     if params[:low] and params[:high] and not tweet_list.blank?
       Rails.logger.info("low high true")
