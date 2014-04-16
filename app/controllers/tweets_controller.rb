@@ -80,7 +80,7 @@ class TweetsController < ApplicationController
       lowest_rank = 1
       highest_rank = 1000
       tweet_list.each { |x| x[:rank] = (lowest_rank + (x[:rank] - lowest_fc) * ((highest_rank - lowest_rank)/(highest_fc - lowest_fc))).ceil}
-      session[:tweets] = tweet_list
+      session[:tweets] = tweet_list.clone
     end
     #all_tweets = tweet_list.slice("id", "user", "created_at", "text")
 
@@ -108,6 +108,8 @@ class TweetsController < ApplicationController
     end    
 
     Rails.logger.info(tweet_list.to_json.to_s)
+
+    Rails.logger.info(tweet_map.to_json.to_s)
 
     tweet_list = tweet_map[params[:screen_name]] unless params[:screen_name].blank? or tweet_map.nil?
 
