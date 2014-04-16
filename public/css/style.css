@@ -29,6 +29,18 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 .retwet_action{width:96%; margin:0 auto; text-align:center;}
 #tweet_retweet h3{font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:20px; margin-bottom:10px; text-align:center; line-height:20px;}
 
+.tweet_conv{width:97%; margin:0 auto; padding:6px; vertical-align:top !important; border:1px solid #eee; border-radius:3px; margin-bottom:4px;}
+.tweet_conv:hover{background-color:#eee; -webkit-transition:all 0.5s ease; -moz-transition:all 0.5s ease; -o-transition:all 0.5s ease; border:1px solid #ccc;}
+.tweet_conv h1{ font: bold 12px Arial, Helvetica, sans-serif; text-decoration:none; color:#00a8ff; text-align:left; line-height:normal; margin:0 0 2px 0;}
+.tweet_conv h1 a{text-decoration:none;}
+.tweet_conv h1 a:hover{text-decoration:none;}
+.tweet_conv span{ font:normal 13px Arial, Helvetica, sans-serif; color:#999 !important; margin-left:4px;}
+.tweet_conv a{ margin-left:4px;}
+.tweet_conv p{ padding-top:4px;}
+.tweet_conv span img{ padding-bottom:4px;}
+.activeBlue{background-color:#e5f2f7;}
+
+
 .twitSec:hover{ background-color:#eee; -webkit-transition:all 0.5s ease; -moz-transition:all 0.5s ease; -o-transition:all 0.5s ease; border:1px solid #ccc;}
 .tw_img{width:40px; height:40px; float:left; padding:0 10px 0px 0;}
 .tw_img img{width:40px; height:40px; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px;}
