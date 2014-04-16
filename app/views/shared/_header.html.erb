@@ -313,7 +313,9 @@ function callServer()
   }
   else {
     var data = callSearchServer();
-    processServerDate(data);
+    if(data != undefined){
+      processServerDate(data);
+    }
   }
 }
 </script>
