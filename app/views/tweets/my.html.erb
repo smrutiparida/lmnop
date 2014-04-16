@@ -13,7 +13,7 @@
       <div id="tweetlist">
         <% @tweet_list.each do |tweet| %>
           <div class='twitSec'>
-            <div user_id='${user_id}' class='tw_img draggable'>
+            <div user_id='<%= tweet.user_id %>' class='tw_img draggable'>
               <img src='<%= tweet.profile_image_url %>'/>
             </div>
             <h1>

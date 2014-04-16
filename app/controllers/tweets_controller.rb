@@ -70,8 +70,8 @@ class TweetsController < ApplicationController
     #tweet_map = all_tweets.group_by{ |s| s.user.screen_name }
     
     @tweet_list = []
-    all_tweets.each{ |tweet| @tweet_list.push({ :tweet_id=> tweet.id ,:profile_image_url => tweet.user.profile_image_url, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
-
+    all_tweets.each{ |tweet| @tweet_list.push({ :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
+    Rails.logger.info(@tweet_list.to_s)
     #oauth_token=19981747-JZP0uTpY9vUh5Y1wWdJI5otV8HiQcxAekgLzwDiZB&oauth_token_secret=G9JmY9SxpG66ylmZfRegwZQZ3WcY6wnokSnbLMfLaNs3q&user_id=19981747&screen_name=smrutiparida
   end  
 
