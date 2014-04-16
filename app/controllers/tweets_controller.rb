@@ -91,9 +91,10 @@ class TweetsController < ApplicationController
       client = get_auth_client(output_params)
       id_arr = [ params[:id]]
       client.retweet(id_arr)
+      Rails.logger.info("retweeted")
       render :json => {:success => true }, :status => :ok
     end  
-    
+    render :json => {:success => false} , :status => 403
   end
   
   def favorite
