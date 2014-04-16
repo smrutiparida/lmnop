@@ -20,7 +20,7 @@
               <span>
                 <img src='/images/t_birrd_small.png'/>
               </span>
-              <a user_id='<%= tweet[:user_id] %>' class='draggable' href='http://www.twitter.com/<%= tweet.screen_name %>' target='_blank'><%=  tweet[:name] %></a>
+              <a user_id='<%= tweet[:user_id] %>' class='draggable' href='http://www.twitter.com/<%= tweet[:screen_name] %>' target='_blank'><%=  tweet[:name] %></a>
               <span class='timeCal flRt'><%= tweet[:created_at] %></span>
             </h1>
             <span>@<%= tweet[:screen_name] %></span>
