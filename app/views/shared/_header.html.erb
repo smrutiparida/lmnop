@@ -344,7 +344,7 @@ $( document ).ready(function() {
     //else {
       
       var el = $(this).parent().parent().parent();
-      if($(el).next().hasClass("tweet_reply")){
+      if($(el).next().hasClass("tweet_reply_reply")){
         $(el).next().hide().remove();
       } 
       else {
@@ -366,7 +366,7 @@ $( document ).ready(function() {
     //else {
       
       var el = $(this).parent().parent().parent();
-      if($(el).next().hasClass("tweet_reply")){
+      if($(el).next().hasClass("tweet_reply_retweet")){
         $(el).next().hide().remove();
       } 
       else {
