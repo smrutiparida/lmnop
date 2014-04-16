@@ -111,15 +111,15 @@ class TweetsController < ApplicationController
 
     tweet_list = tweet_map[params[:screen_name]] unless params[:screen_name].blank? or tweet_map.nil?
 
-    Rails.logger.info(tweet_list.to_json.to_s)
+    #Rails.logger.info(tweet_list.to_json.to_s)
 
     if params[:low] and params[:high] and not tweet_list.blank?
       Rails.logger.info("low high true")
       temp = []
-      tweet_list.each { |tweet| temp.push(tweet) if tweet[:rank] >= params[:low] and tweet[:rank] <= params[:high]}
+      tweet_list.each { |tweet| temp.push(tweet) if tweet[:rank] >= params[:low].to_i and tweet[:rank] <= params[:high].to_i}
       tweet_list = temp
     end  
-
+    Rails.logger.info(tweet_list.to_json.to_s)
     data = {:facets => frequency_data, :tweets => tweet_list}
     render :json => data, :status => :ok
   end  
