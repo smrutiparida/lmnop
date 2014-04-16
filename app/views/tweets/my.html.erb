@@ -1,18 +1,18 @@
-<script>
+<%= javascript_tag do %>
   var is_my_tweets = true;
   var markup = "<div class='twitSec' id='${tweet_id}'><div class='tw_img draggable' user_id='${user_id}'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a user_id='${user_id}' class='draggable' href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span class='timeCal flRt'>${created_at}</span></h1><span>@${screen_name}</span><div class='clr'></div><p>{{html tweet_text}}</p><div class='moreOptions'><ul>{{if in_reply_to_status_id != '' && in_reply_to_status_id != 'nil' }}<li><a class='modal-more' href='#' onclick='showModal(this,\"${in_reply_to_status_id}\");' style='border:0; outline:none'><img src='/images/conversation_icn.png'></a></li>{{/if}}<li><a href='#' class='showmenu_reply'><img src='/images/reply_icn.png'></a></li><li><a href='#' class='showmenu_retweet'><img src='/images/retweet_icn.png'></a></li><li><a href='#' class='make-favorite' tid='${tweet_id}'><img src='/images/favorite_icn.png'></a></li></ul></div>{{if more_count>10}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /></a></span>{{else more_count == -999}}<span class='less'><a href='#' onclick='expand(this,\"${screen_name}\");'>show less</a></span>{{/if}}</div>";
 
-  var offlineData = JSON.parse('<% @tweet_list.to_json.to_s %>');
+  var offlineData = JSON.parse('<%= @tweet_list.to_json %>');
   $( document ).ready(function() {
     $('#selectOpt').val('mytweets');
      $('#progressMainID').addClass('droppable');
     //$(".tweets-content").each(function(index){ $(this).text(urlify($(this).text())); }); 
     //$(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
     doDragDrop();
-    var frequency_info = JSON.parse('<% @frequency_data.to_json.to_s %>');
+    var frequency_info = JSON.parse('<%= @frequency_data.to_json %>');
     
   });
-</script>
+<% end %>
 <div class="mainDiv">
   <%= render 'shared/header' %>
 </div>
