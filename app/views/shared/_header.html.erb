@@ -29,26 +29,6 @@ var markup = "<div class='twitSec'><div class='tw_img'><img src='${profile_image
     return false;
   }
 
-  $('.showmenu_reply').on("click", function(){
-     if(!is_signed){
-      alert("Please sign in!");
-    }
-    else {
-      console.log("show reply")
-      var el = $(this).parent().parent();
-      console.log($el)
-      console.log($el.next())
-      if($el.next().hasClass("tweet_reply")){
-        $el.next().hide().remove();
-      } 
-      else {
-        $(".tweet_reply_reply").each(function(){$(this).hide().remove();});
-        $el.append(replyTemp);
-        $el.next().slideToggle("fast");
-      }  
-    }
-    return false;
-  });
 
 
 
@@ -334,6 +314,27 @@ $( document ).ready(function() {
   $('#modal-container-conv').on('hidden.bs.modal', function (e) {
     search_params["in_reply_to_status_id"] = ""; 
   })
+
+  $('.showmenu_reply').on("click", function(){
+     if(!is_signed){
+      alert("Please sign in!");
+    }
+    else {
+      console.log("show reply")
+      var el = $(this).parent().parent();
+      console.log($el)
+      console.log($el.next())
+      if($el.next().hasClass("tweet_reply")){
+        $el.next().hide().remove();
+      } 
+      else {
+        $(".tweet_reply_reply").each(function(){$(this).hide().remove();});
+        $el.append(replyTemp);
+        $el.next().slideToggle("fast");
+      }  
+    }
+    return false;
+  });
 
 });
 
