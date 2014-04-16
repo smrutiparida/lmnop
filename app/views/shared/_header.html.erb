@@ -5,7 +5,7 @@
   var is_signed = false
 <% end %>
 
-var markup = "<div class='twitSec' id='${tweet_id}'><div class='tw_img'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span class='timeCal flRt'>${created_at}</span></h1><span>@${screen_name}</span><div class='clr'></div><p>{{html tweet_text}}</p><div class='moreOptions'><ul>{{if in_reply_to_status_id != ''}}<li><a class='modal-more' href='#' onclick='showModal(this,\"${in_reply_to_status_id}\");' style='border:0; outline:none'><img src='/images/conversation_icn.png'></a></li>{{/if}}<li><a href='#' class='showmenu_reply'><img src='/images/reply_icn.png'></a></li><li><a href='#' class='showmenu_retweet'><img src='/images/retweet_icn.png'></a></li><li><a href='#' class='make-favorite' tid='${tweet_id}'><img src='/images/favorite_icn.png'></a></li></ul></div>{{if more_count>10}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /></a></span>{{else more_count == -999}}<span class='less'><a href='#' onclick='expand(this,\"${screen_name}\");'>show less</a></span>{{/if}}</div>";
+
 
   
   var hashtag = "<span class='label label-info' style='margin:0 5px 5px 0;'><a href='#'' class='hashtagclick' onclick='update(this,\"${term}\");'>${term}</a></span>";
@@ -94,6 +94,42 @@ var markup = "<div class='twitSec' id='${tweet_id}'><div class='tw_img'><img src
     $("#modal-content-id").empty();
     callSearchServer(showModalFunction);
   }
+  
+
+  function processOffline(searchData){
+    return searchData;
+  }
+
+  function callOfflineServer(){
+    if(offlineData.length > 0){
+      $( "#tweetlist" ).html("<div class='tweetlist'><p>Sorry, There are no tweets from people with UserRank range " + search_params["low"] + " - " + search_params["high"] + " - because they didn't tweet in the last 24 hours. Please change the range in the slider to see tweet.<p><p>Or if you think there is a bug, please do send us a screenshot at <a href='mailto:amar@brizzlabs.com'>amar@brizzlabs.com</a> & we will try fixing it.</p></div>"); 
+      return false;
+    }
+
+   
+
+   offlineJSONData  =  processOffline(offlineData)
+   var processed_tweets = urlify(offlineJSONData);
+   
+    if (search_params["screen_name"] == ""){
+      processed_tweets = add_more_link(frequency_info , processed_tweets);
+    }
+    else {
+      processed_tweets = add_more_link([], processed_tweets); 
+    }
+    
+    console.log(processed_tweets)
+    $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
+    console.log($.tmpl( "twitterTemplate", processed_tweets ))
+    /*
+    if ( search_params["q"] == "" && search_params["screen_name"] == "") {
+      $("#trending").empty();
+      $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"].slice(0,20)).appendTo( "#trending" );
+    }
+    */
+    $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
+
+  }
 
   function callSearchServer(func_call) {
     
@@ -123,14 +159,20 @@ var markup = "<div class='twitSec' id='${tweet_id}'><div class='tw_img'><img src
     });
   }
 
-function add_more_link(array_term_frequency, all_tweets){
-  var term_obj = {};
+function preProcessTermFrequency(array_term_frequency){
+  term_obj = {}
+  for ( var i in array_term_frequency ){
+      term_obj[array_term_frequency[i].term] = array_term_frequency[i].count;
+      //alert(array_term_frequency[i].count);
+    }  
+  return term_obj;  
+}
+
+function add_more_link(term_obj, all_tweets){
+  //var term_obj = {};
   //my_shit = all_tweets;
   
-  for ( var i in array_term_frequency ){
-    term_obj[array_term_frequency[i].term] = array_term_frequency[i].count;
-    //alert(array_term_frequency[i].count);
-  }
+  
   for ( var i=0; i < all_tweets.length; i++ ){
     
     if (all_tweets[i]["screen_name"] in term_obj){
@@ -418,100 +460,127 @@ $( document ).ready(function() {
 });
 
 
+  var callServerFunc = function processServerDate(data){
+    console.log(data);
+    var processed_tweets = urlify(data["data"]["tweets"]);
+    if (search_params["screen_name"] == ""){
+      var term_obj = preProcessTermFrequency(data["data"]["facets"]["user_tweet_frequency"]["terms"]);
+      processed_tweets = add_more_link(term_obj, processed_tweets);
+    }
+    else {
+      processed_tweets = add_more_link([], processed_tweets); 
+    }
+    
+    console.log(processed_tweets)
+    $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
+    console.log($.tmpl( "twitterTemplate", processed_tweets ))
+    
+    if ( search_params["q"] == "" && search_params["screen_name"] == "") {
+      $("#trending").empty();
+      $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"].slice(0,20)).appendTo( "#trending" );
+    }
+    
+    $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
+  }
 
 function callServer()
 {
   if(window.location.href.indexOf("/tweets/my") != -1){
-    
+    $("#tweetlist").empty();
+    callOfflineServer(offlineServerFunc);
   }
   else {
     $("#tweetlist").empty();
-    var callServerFunc = function processServerDate(data){
-      console.log(data);
-      var processed_tweets = urlify(data["data"]["tweets"]);
-      if (search_params["screen_name"] == ""){
-        processed_tweets = add_more_link(data["data"]["facets"]["user_tweet_frequency"]["terms"], processed_tweets);
-      }
-      else {
-        processed_tweets = add_more_link([], processed_tweets); 
-      }
-      
-      console.log(processed_tweets)
-      $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
-      console.log($.tmpl( "twitterTemplate", processed_tweets ))
-      
-      if ( search_params["q"] == "" && search_params["screen_name"] == "") {
-        $("#trending").empty();
-        $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"].slice(0,20)).appendTo( "#trending" );
-      }
-      
-      $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
-    }
+   
     callSearchServer(callServerFunc);
   }
 }
 </script>
 
-<div id="slider">
-  <div class="heading">
-    <div class="signin">
-      <% if session[:user] %>
-        <a id="modal-more" href="/tweets/logout" style="border:0; outline:none">Logout</a>
-      <% else %>  
-        <a id="modal-more" href="/tweets/auth" style="border:0; outline:none">Sign in with Twitter</a>
-      <% end %>
+
+  <div id="slider">
+    <div class="heading">
+      <div class="signin">
+        <% if session[:user] %>
+          <a id="modal-more" href="/tweets/logout" style="border:0; outline:none">Logout</a>
+        <% else %>  
+          <a id="modal-more" href="/tweets/auth" style="border:0; outline:none">Sign in with Twitter</a>
+        <% end %>
+      </div>
+      <h1>Twitter Simplified<img src="/images/beta.png" style="position:absolute; padding-left:3px;" /></h1>
+      <h2>Drag the slider to start. <a id="modal-more" href="#modal-container-more" data-toggle="modal" style="border:0; outline:none">How it works?</a></h2>
     </div>
-    <h1>Twitter Simplified<img src="/images/beta.png" style="position:absolute; padding-left:3px;" /></h1>
-    <h2>Drag the slider to start. <a id="modal-more" href="#modal-container-more" data-toggle="modal" style="border:0; outline:none">How it works?</a></h2>
-  </div>
-  <div class="nav_selcet">
-    <span style="padding-right:15px;">
-      <b>Country</b>
-      <select id="viewCountry">
-        <option selected="selected" value="in">India</option>
-        <option value="us">US</option>
-      </select>  
-    </span>
-    <!--<span style="padding-right:15px;">
-      <b>View</b>
-      <select id="viewselect">
-        <option>Accounts</option> 
-        <option id="show">Tweets</option>
-      </select>
-    </span>-->
-    <span style="padding-right:15px;" id="tweetTime">
-      <b>Topic</b>
-      <select onchange="showDivTag();" id="selectOpt">
-        <option value="all">All</option>
-        <option value="mytweets">My Tweets</option>
-        <option value="1">IPL7</option>
-        <option value="elections2014">Election2014</option>
-      </select>
-    </span>
-  </div>
-  <div class="progressMain droppable">
-    <div id="rangeSelectvalue"><p>1000 - 750</p></div>
+    <div class="nav_selcet">
+      <span style="padding-right:15px;">
+        <b>Country</b>
+        <select id="viewCountry">
+          <option selected="selected" value="in">India</option>
+          <option value="us">US</option>
+        </select>  
+      </span>
+      <!--<span style="padding-right:15px;">
+        <b>View</b>
+        <select id="viewselect">
+          <option>Accounts</option> 
+          <option id="show">Tweets</option>
+        </select>
+      </span>-->
+      <span style="padding-right:15px;" id="tweetTime">
+        <b>Topic</b>
+        <select onchange="showDivTag();" id="selectOpt">
+          <option value="all">All</option>
+          <option value="mytweets">My Tweets</option>
+          <option value="1">IPL7</option>
+          <option value="elections2014">Election2014</option>
+        </select>
+      </span>
+    </div>
+    <div class="progressMain" id="progressMainID">
+      <div id="rangeSelectvalue"><p>1000 - 750</p></div>
+      
+      <div class="progressbar" id="grayColorScale">
+        <div class="progressbar_2" style="width:1%;position:absolute;left:0%;" id="blueColorScale"></div>
+      </div>
+      <div id="slider-range"  onmouseup="hideBird();" onselect="bringBird();"></div>
+      <div class="slider_range_comment">
+        <div class="slider_range_commentEach" style="border-right:1px solid #e5e5e5">Big Shots</div>
+        <div class="slider_range_commentEach" style="border-right:1px solid #e5e5e5">ThinkTanks</div>
+        <div class="slider_range_commentEach" style="border-right:1px solid #e5e5e5">The Risers</div>
+        <div class="slider_range_commentEach">Underdogs</div>
+      </div>
+    </div>
     
-    <div class="progressbar" id="grayColorScale">
-      <div class="progressbar_2" style="width:1%;position:absolute;left:0%;" id="blueColorScale"></div>
+    <div id="modal-container-conv" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+      <div class="modal-body" id="modal-content-id">  
+      </div>
+      <div class="modal-footer">
+         <button class="btn" data-dismiss="modal" aria-hidden="true" onClick="">Close</button>
+      </div>
     </div>
-    <div id="slider-range"  onmouseup="hideBird();" onselect="bringBird();"></div>
-    <div class="slider_range_comment">
-      <div class="slider_range_commentEach" style="border-right:1px solid #e5e5e5">Big Shots</div>
-      <div class="slider_range_commentEach" style="border-right:1px solid #e5e5e5">ThinkTanks</div>
-      <div class="slider_range_commentEach" style="border-right:1px solid #e5e5e5">The Risers</div>
-      <div class="slider_range_commentEach">Underdogs</div>
-    </div>
+
   </div>
-  
-  <div id="modal-container-conv" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
-    <div class="modal-body" id="modal-content-id">  
+  <div class="tweetMainDiv">
+    <div id="trending" class="tweetTags"></div>
+    <div id="tweetlist"></div>  
+  </div>
+  <div id="modal-container-more" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-header">
+       <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="myModalLabel">
+        <span class="blue">PageRank</span> for Twitter
+      </h3>
+    </div>
+    <div class="modal-body">
+      <p>
+        Just like Google's PageRank simplified accessing web for masses, we thought of building UserRank for all those who love Twitter for what it offers but get overwhelmed by the sheer volume.
+      </p>
+      <p>So We built a completely new <span class="blue">UserRank</span> system that ranks accounts, arranges tweets according to the tweeter's rank & lets user navigate through them through a line - our <span class="blue">UserRank</span> Line.</p>
+      <p>Welcome to the new world of tweets where you dont have to search again ! Enjoy the coolest Tweet Show on Earth.</p>
+      <p>Write to us at <a href="mailto:amar@brizzlabs.com">amar@brizzlabs.com</a> & get to know of cool features  (more countries, more events) straight from us. Some feedback & love in the email will go a long way too.</p>
     </div>
     <div class="modal-footer">
-       <button class="btn" data-dismiss="modal" aria-hidden="true" onClick="">Close</button>
+       <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
     </div>
   </div>
-
-</div>
 
         

@@ -1,48 +1,13 @@
-  <div class="mainDiv">
-    <%= render 'shared/header' %>
-    <div class="tweetMainDiv">
-      <div id="trending" class="tweetTags"></div>
-      <div id="tweetlist"></div>  
-    </div>
-    <div id="modal-container-more" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-header">
-         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel">
-          <span class="blue">PageRank</span> for Twitter
-        </h3>
-      </div>
-      <div class="modal-body">
-        <p>
-          Just like Google's PageRank simplified accessing web for masses, we thought of building UserRank for all those who love Twitter for what it offers but get overwhelmed by the sheer volume.
-        </p>
-        <p>So We built a completely new <span class="blue">UserRank</span> system that ranks accounts, arranges tweets according to the tweeter's rank & lets user navigate through them through a line - our <span class="blue">UserRank</span> Line.</p>
-        <p>Welcome to the new world of tweets where you dont have to search again ! Enjoy the coolest Tweet Show on Earth.</p>
-        <p>Write to us at <a href="mailto:amar@brizzlabs.com">amar@brizzlabs.com</a> & get to know of cool features  (more countries, more events) straight from us. Some feedback & love in the email will go a long way too.</p>
-      </div>
-      <div class="modal-footer">
-         <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-      </div>
-    </div>
-    <!--coming soon popup-->
-      <div id="modal-container-coming" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-header">
-           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-          <h3 id="myModalLabel">
-            Coming Soon
-          </h3>
-        </div>
-        <div class="modal-body">
-          <p>
-            Trained monkeys are on job. Please come back soon to check this feature out
-          </p>
-          <p>Currently only "all" filter is working.</p>
-        </div>
-        <div class="modal-footer">
-           <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-        </div>
-      </div>
-    <!--coming soon popup-->
-  </div>
+<script>
+  var is_my_tweets = false;
+  var markup = "<div class='twitSec' id='${tweet_id}'><div class='tw_img'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span class='timeCal flRt'>${created_at}</span></h1><span>@${screen_name}</span><div class='clr'></div><p>{{html tweet_text}}</p><div class='moreOptions'><ul>{{if in_reply_to_status_id != ''}}<li><a class='modal-more' href='#' onclick='showModal(this,\"${in_reply_to_status_id}\");' style='border:0; outline:none'><img src='/images/conversation_icn.png'></a></li>{{/if}}<li><a href='#' class='showmenu_reply'><img src='/images/reply_icn.png'></a></li><li><a href='#' class='showmenu_retweet'><img src='/images/retweet_icn.png'></a></li><li><a href='#' class='make-favorite' tid='${tweet_id}'><img src='/images/favorite_icn.png'></a></li></ul></div>{{if more_count>10}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /></a></span>{{else more_count == -999}}<span class='less'><a href='#' onclick='expand(this,\"${screen_name}\");'>show less</a></span>{{/if}}</div>";
+</script>
+<div class="mainDiv">
+  <%= render 'shared/header' %>
+</div>  
+    
+   
+
 
 
 

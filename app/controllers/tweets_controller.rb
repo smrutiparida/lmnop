@@ -67,10 +67,28 @@ class TweetsController < ApplicationController
     #  @tweet_list.push({ :count => tweet.length, :id=> tweet[0].id ,:profile_image_url => tweet.user.profile_image_url, :name => tweet[0].user.name, :screen_name => tweet[0].user.screen_name, :created_at => tweet[0].created_at, :text => tweet[0].text})
     #end
 
-    #tweet_map = all_tweets.group_by{ |s| s.user.screen_name }
+    
     
     @tweet_list = []
-    all_tweets.each{ |tweet| @tweet_list.push({ :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
+    all_tweets.each{ |tweet| @tweet_list.push({ :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
+    highest_fc = @tweet_list[0].rank
+    lowest_fc = @tweet_list[0].rank
+    @tweet_list.each |x| do
+      highest_fc = x.rank if x.rank > highest_fc
+      lowest_fc = x.rank if x.rank < lowest_fc
+    end
+    
+    lowest_rank = 1
+    highest_rank = 1000
+    @tweet_list.each |x| do
+      new_rank = (lowest_rank + (x.rank - lowest_fc) * ((highest_rank - lowest_rank)/(highes fc - lowest_fc))).ceil
+      x.rank = new_rank
+    end  
+    
+    tweet_map = @tweet_list.group_by{ |s| s.screen_name }
+
+    @frequency_data = {}
+    tweet_map.each { |k,v| @frequency_data[k] = v.length}
     #Rails.logger.info(@tweet_list.to_s)
     #oauth_token=19981747-JZP0uTpY9vUh5Y1wWdJI5otV8HiQcxAekgLzwDiZB&oauth_token_secret=G9JmY9SxpG66ylmZfRegwZQZ3WcY6wnokSnbLMfLaNs3q&user_id=19981747&screen_name=smrutiparida
   end  
