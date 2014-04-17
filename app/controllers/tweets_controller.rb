@@ -112,7 +112,6 @@ class TweetsController < ApplicationController
       rescue Twitter::Error::Unauthorized
         message ="Authorization failed. Login again."
         return_type = false
-        next
       end  
       status = 200
     else
@@ -136,7 +135,6 @@ class TweetsController < ApplicationController
       rescue Twitter::Error::Unauthorized
         message = "Authorization failed. Login again."
         return_type = false
-        next
       end 
       status = 200
     else
@@ -160,7 +158,6 @@ class TweetsController < ApplicationController
       rescue Twitter::Error::Unauthorized
         message = "Authorization failed. Login again."
         return_type = false
-        next
       end 
       status = 200
     else
