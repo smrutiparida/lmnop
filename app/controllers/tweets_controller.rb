@@ -76,7 +76,9 @@ class TweetsController < ApplicationController
         highest_fc = x[:rank] if x[:rank] > highest_fc
         lowest_fc = x[:rank] if x[:rank] < lowest_fc
       end
-    
+      
+      Rails.logger.info(highest_fc)
+      Rails.logger.info(lowest_fc)
     
       lowest_rank = 1
       highest_rank = 1000
