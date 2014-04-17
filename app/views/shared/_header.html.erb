@@ -134,7 +134,7 @@
         var tweet_map = _.groupBy(data["tweets"], "screen_name");
         console.log(tweet_map);
 
-        if (search_params["uniqueUser"] != ""){
+        if (search_params["uniqueUser"]){
           tweet_list = [];
           _.each(tweet_map, function(v,k,l){ tweet_list.push(_.first(v)) })
           console.log("uniqueUser")
@@ -147,9 +147,9 @@
           console.log(tweet_list)
         }
       
-        if(search_params["low"] != "" && search_params["high"] != ""){
-          var low = parseInt(search_params["low"]);
-          var high = parseInt(search_params["high"]);
+        //if(search_params["low"] != "" && search_params["high"] != ""){
+         var low = parseInt(search_params["low"]);
+         var high = parseInt(search_params["high"]);
 
           temp = []
           _.each(tweet_list, function(tweet,index,list){
@@ -160,7 +160,7 @@
           console.log("low high")
           console.log(temp)
           tweet_list = temp
-        }
+        //}
         
         var new_data = {"tweets":tweet_list,"facets":data["facets"]}
 
@@ -397,8 +397,6 @@ function doDragDrop(){
           url: 'http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user_rank',
           data: JSON.stringify(user_data),
           success: function(data) {   alert("dropped");},
-          contentType: "application/json",
-          dataType: 'json'
       });
 
       $( "#slider-range" ).slider( "enable" );
