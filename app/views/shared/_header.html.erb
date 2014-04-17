@@ -108,6 +108,8 @@
         data = offlineData
       }
       if(data['tweets'].length > 0) {
+
+        offlineData = data
         
         var tweet_list = data["tweets"];
         var tweet_map = _.groupBy(data["tweets"], "screen_name");
