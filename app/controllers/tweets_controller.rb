@@ -59,8 +59,9 @@ class TweetsController < ApplicationController
   
   def offline
     #render :json => {}, :status => :ok unless session[:user]
-    if session[:last_call] and  (Time.now.to_i - session[:last_call] ) < 90
-      render :json => {:cache => true}, :status => :ok
+    render :json => {:cache => true}, :status => :ok if session[:last_call] and  (Time.now.to_i - session[:last_call] ) < 90
+      
+
 
     tweet_list = []
     frequency_data = {}
