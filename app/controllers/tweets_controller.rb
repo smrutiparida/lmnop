@@ -99,14 +99,14 @@ class TweetsController < ApplicationController
       Rails.logger.info(frequency_data.to_json.to_s)
     #Rails.logger.info(@tweet_list.to_s)
     #oauth_token=19981747-JZP0uTpY9vUh5Y1wWdJI5otV8HiQcxAekgLzwDiZB&oauth_token_secret=G9JmY9SxpG66ylmZfRegwZQZ3WcY6wnokSnbLMfLaNs3q&user_id=19981747&screen_name=smrutiparida
-    status = 200
-  else
-    status = 403
-    
+      status = 200
+    else
+      status = 403
+    end  
 
     
-  data = {:facets => frequency_data, :tweets => tweet_list}
-  render :json => data, :status => :ok
+    data = {:facets => frequency_data, :tweets => tweet_list}
+    render :json => data, :status => :ok
   end  
 
   def reply
