@@ -383,9 +383,10 @@ function doDragDrop(){
 
       console.log(per + "\t" + dropped_user_id);
 
-      
+      user_data = {}
+      user_data[dropped_user_id] = per * 10;
 
-      $.post( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user_rank", {"user_id" : user_id, "ranks": { dropped_user_id : per*30 }}, function( data ) {
+      $.post( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user_rank", {"user_id" : user_id, "ranks": user_data}, function( data ) {
         alert("dropped");
       });
 
