@@ -395,7 +395,7 @@ function doDragDrop(){
       $.ajax({
           type: 'POST',
           url: 'http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user_rank',
-          data: JSON.stringify({"user_id": user_id, "ranks": { dropped_user_id.toString() : per * 10}}),
+          data: JSON.stringify(user_data),
           success: function(data) {   alert("dropped");},
           contentType: "application/json",
           dataType: 'json'
