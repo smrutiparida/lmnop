@@ -83,7 +83,7 @@ class TweetsController < ApplicationController
         tweet_list.each do |x|         
           num = (lowest_rank + (x[:followers_count] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank)))
           x[:rank] = num.ceil
-          logger.info("before ceil:" + num.to_s + " follower count:" + x[:followers_count].to_s + "  rank:" + x[:rank].to_s)
+        #  logger.info("before ceil:" + num.to_s + " follower count:" + x[:followers_count].to_s + "  rank:" + x[:rank].to_s)
         end  
       
         tweet_map = tweet_list.group_by{ |s| s[:screen_name] }
@@ -101,37 +101,73 @@ class TweetsController < ApplicationController
 
   def reply
     status = 403
+    message = ""
+    return_type = true
+
     if session[:user]
       output_params = session[:user]
       client = get_auth_client(output_params)
-      client.update(params[:text],{:in_reply_to_status_id => params[:id].to_i})
+      begin
+        client.update(params[:text],{:in_reply_to_status_id => params[:id].to_i})
+      rescue Twitter::Error::Unauthorized
+        message ="Authorization failed. Login again."
+        return_type = false
+        next
+      end  
       status = 200
     else
       status = 403  
     end  
-    render :json => {:success => true }, :status => status
+    render :json => {:success => return_type, :message => message }, :status => status
   end
   
   
   def retweet
     status = 403
+    message = ""
+    return_type = true
+
     if session[:user]
       output_params = session[:user]
       client = get_auth_client(output_params)
       id_arr = [ params[:id].to_i]
-       Rails.logger.info("trying to retweeted")
-      client.retweet(id_arr)
-      Rails.logger.info("retweeted")
+      begin 
+        client.retweet(id_arr)
+      rescue Twitter::Error::Unauthorized
+        message = "Authorization failed. Login again."
+        return_type = false
+        next
+      end 
       status = 200
     else
       status = 403
     end  
 
-    render :json => {:success => true} , :status => status
+    render :json => {:success => return_type, :message => message} , :status => status
   end
   
   def favorite
-    render :json => {:success => true }, :status => :ok
+    status = 403
+    message = ""
+    return_type = true
+
+    if session[:user]
+      output_params = session[:user]
+      client = get_auth_client(output_params)
+      id_arr = [ params[:id].to_i]
+      begin 
+        params[:is_favorite] ? client.unfavorite(id_arr) : client.favorite(id_arr)  
+      rescue Twitter::Error::Unauthorized
+        message = "Authorization failed. Login again."
+        return_type = false
+        next
+      end 
+      status = 200
+    else
+      status = 403
+    end
+    
+    render :json => {:success => return_type, :message => message }, :status => status
   end
 
   def logout

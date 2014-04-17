@@ -23,6 +23,7 @@
 
   var doneTemplate = "<div class='done_reply tweet_reply' style='display:block;'><img src='/images/reply_arrow.png'  style='position:absolute; top:-10px;'><h3>Posted to your Timeline.</h3><div class='retwet_action'><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>";
 
+  
     
 
   var conversationTemplate = '<div class="tweet_conv"><div class="tw_img"><img src="${profile_image_url}"></div><h1><span><img src="/images/t_birrd_small.png"></span><a href="#">${name}</a><span id="" class="flRt modalCal">${created_at}</span></h1><span id="">@${screen_name}</span><div class="clr"></div><p>{{html tweet_text}}</p></div>';
@@ -54,7 +55,15 @@
     $.ajax({ type: "POST",
             url: "/tweets/reply", 
             data: { 'text': $('#myfield').val(), 'id': id } ,
-            success: function(){$('#' + id).find('.tweet_reply_reply').after(doneTemplate).remove(); },
+            success: function(data){
+              if(data["message"] != ""){
+                $('#' + id).find('.tweet_reply_reply').after("<div class='done_reply' style='display:block;'><h3>" + data[message] + "</h3><div><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>").remove();
+              }
+              else {
+                $('#' + id).find('.tweet_reply_reply').after(doneTemplate).remove(); 
+              }
+              
+            },
             headers: {'X-Transaction': 'POST Reply', 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
             dataType: 'json'});
     return false;
@@ -64,7 +73,15 @@
     $.ajax( {type: "POST",
             url: "/tweets/retweet", 
             data: { 'id': id },
-            success: function(){$('#' + id).find('.tweet_reply_retweet').after(doneTemplate).remove(); },
+            success: function(data){
+              if(data["message"] != ""){
+                $('#' + id).find('.tweet_reply_retweet').after("<div class='done_reply' style='display:block;'><h3>" + data[message] + "</h3><div><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>").remove();
+              }
+              else {
+                $('#' + id).find('.tweet_reply_retweet').after(doneTemplate).remove();   
+              }
+              
+            },
             headers: {'X-Transaction': 'POST Retweet', 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
             dataType: 'json'});
 
@@ -475,11 +492,18 @@ $( document ).ready(function() {
       var id = $(this).attr('tid');
       //var el = $(this);
       //console.log($(el))
-      $.post( "/tweets/favorite", { 'id': id }, function(){
-        console.log(id)
-        $("a[tid*=" + id + "]").empty().append("<img src='/images/favorite_icn_done.png' />");
-      }, 'json'); 
-      return false;
+      var is_favorite = $(this).hasClass('favorite');
+
+      $.ajax( {type: "POST",
+            url: "/tweets/favorite", 
+            data: { 'id': id, 'is_favorite': is_favorite },
+            success: function(data){ 
+              var el = $("a[tid*=" + id + "]");
+              $(el).hasClass('favorite') ? $(el).removeClass('favorite').empty().append("<img src='/images/favorite_icn.png' />") : $(el).addClass('favorite').empty().append("<img src='/images/favorite_icn_done.png' />");    
+            },
+            headers: {'X-Transaction': 'POST Favorite', 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
+            dataType: 'json'
+          });
   });
 });
 
