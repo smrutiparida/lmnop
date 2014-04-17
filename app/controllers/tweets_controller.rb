@@ -57,13 +57,14 @@ class TweetsController < ApplicationController
   end
 
   def offline
-    render :json => {}, :status => :ok unless session[:user]
+    #render :json => {}, :status => :ok unless session[:user]
 
     tweet_list = []
-
-    if session[:tweets]
-      tweet_list = session[:tweets]
-    else  
+    frequency_data = {}
+    if(session[:user])
+    #if session[:tweets]
+    #  tweet_list = session[:tweets]
+    #else  
       output_params = session[:user]  
       client = get_auth_client(output_params)
       all_tweets = client.home_timeline({:count => 200})
@@ -80,8 +81,8 @@ class TweetsController < ApplicationController
       lowest_rank = 1
       highest_rank = 1000
       tweet_list.each { |x| x[:rank] = (lowest_rank + (x[:rank] - lowest_fc) * ((highest_rank - lowest_rank)/(highest_fc - lowest_fc))).ceil}
-      session[:tweets] = tweet_list.clone
-    end
+    #  session[:tweets] = tweet_list.clone
+    #end
     #all_tweets = tweet_list.slice("id", "user", "created_at", "text")
 
     #all_tweets.each |tweet| do
@@ -91,39 +92,21 @@ class TweetsController < ApplicationController
 
     
     #Rails.logger.info(@tweet_list.to_json.to_s)
-    tweet_map = tweet_list.group_by{ |s| s[:screen_name] }
+      tweet_map = tweet_list.group_by{ |s| s[:screen_name] }
 
-    frequency_data = {}
-    tweet_map.each { |k,v| frequency_data[k] = v.length}
-    Rails.logger.info(frequency_data.to_json.to_s)
+      
+      tweet_map.each { |k,v| frequency_data[k] = v.length}
+      Rails.logger.info(frequency_data.to_json.to_s)
     #Rails.logger.info(@tweet_list.to_s)
     #oauth_token=19981747-JZP0uTpY9vUh5Y1wWdJI5otV8HiQcxAekgLzwDiZB&oauth_token_secret=G9JmY9SxpG66ylmZfRegwZQZ3WcY6wnokSnbLMfLaNs3q&user_id=19981747&screen_name=smrutiparida
-
+    status = 200
+  else
+    status = 403
     
 
-    if params[:uniqueUser] and not tweet_list.blank?
-      Rails.logger.info("unique user true")
-      tweet_list.clear
-      tweet_map.each { |k,v| tweet_list.push(v.first) }
-    end    
-
-    Rails.logger.info(tweet_list.to_json.to_s)
-
-    Rails.logger.info(tweet_map.to_json.to_s)
-
-    tweet_list = tweet_map[params[:screen_name]] unless params[:screen_name].blank? or tweet_map.nil?
-
-    Rails.logger.info(tweet_list.to_json.to_s)
-
-    if params[:low] and params[:high] and not tweet_list.blank?
-      Rails.logger.info("low high true")
-      temp = []
-      tweet_list.each { |tweet| temp.push(tweet) if tweet[:rank] >= params[:low].to_i and tweet[:rank] <= params[:high].to_i}
-      tweet_list = temp
-    end  
-    Rails.logger.info(tweet_list.to_json.to_s)
-    data = {:facets => frequency_data, :tweets => tweet_list}
-    render :json => data, :status => :ok
+    
+  data = {:facets => frequency_data, :tweets => tweet_list}
+  render :json => data, :status => :ok
   end  
 
   def reply
