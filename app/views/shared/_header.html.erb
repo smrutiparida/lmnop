@@ -111,7 +111,7 @@
 
         if (search_params["uniqueUser"] != ""){
           tweet_list = [];
-          _.each(tweet_map, function(v,k,l){ tweet_list.push(v.first) })
+          _.each(tweet_map, function(v,k,l){ tweet_list.push(_.first(v)) })
           console.log("uniqueUser")
           console.log(tweet_list)
         }
