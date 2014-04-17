@@ -13,6 +13,10 @@ img{ border:0}
 h1{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:36px; margin-bottom:0px; text-align:center; line-height:35px; position:relative;}
 h2{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:13px; margin-bottom:0px; text-align:center;}
 h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:26px; margin-bottom:0px; text-align:left; line-height:35px;}
+h4{font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:20px; margin-bottom:10px; text-align:center; line-height:20px;}
+
+.twitSec button{ margin-left:6px !important;}
+
 .nav_selcet{width:100%; margin:0 auto; text-align:center; margin:10px 0 21px 0;}
 .heading{width:100%; margin:0 auto; margin-bottom:34px;}
 .signin{width:170px; position:absolute; right:0; z-index:99999;}
