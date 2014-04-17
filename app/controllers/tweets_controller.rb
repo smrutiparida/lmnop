@@ -55,9 +55,12 @@ class TweetsController < ApplicationController
 
     end
   end
-
+  
+  
   def offline
     #render :json => {}, :status => :ok unless session[:user]
+    if session[:last_call] and  (Time.now.to_i - session[:last_call] ) < 90
+      render :json => {:cache => true}, :status => :ok
 
     tweet_list = []
     frequency_data = {}
@@ -105,6 +108,7 @@ class TweetsController < ApplicationController
       
       tweet_map.each { |k,v| frequency_data[k] = v.length}
       Rails.logger.info(frequency_data.to_json.to_s)
+      session[:last_call] = Time.now.to_i
     #Rails.logger.info(@tweet_list.to_s)
     #oauth_token=19981747-JZP0uTpY9vUh5Y1wWdJI5otV8HiQcxAekgLzwDiZB&oauth_token_secret=G9JmY9SxpG66ylmZfRegwZQZ3WcY6wnokSnbLMfLaNs3q&user_id=19981747&screen_name=smrutiparida
       status = 200
@@ -113,7 +117,7 @@ class TweetsController < ApplicationController
     end  
 
     
-    data = {:facets => frequency_data, :tweets => tweet_list}
+    data = {:facets => frequency_data, :tweets => tweet_list, :cache=> false}
     render :json => data, :status => :ok
   end  
 

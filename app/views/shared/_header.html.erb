@@ -7,7 +7,7 @@
 
 
 
-  
+  var offlineData = {};  
   var hashtag = "<span class='label label-info' style='margin:0 5px 5px 0;'><a href='#'' class='hashtagclick' onclick='update(this,\"${term}\");'>${term}</a></span>";
   
   $.template( "twitterTemplate", markup );
@@ -102,7 +102,11 @@
   //frequency_info = JSON.parse('<%= @frequency_data.to_json.to_s %>');
   //offlineData = JSON.parse('<%= @tweet_list.to_json.to_s %>');  
     
-    $.getJSON( '/tweets/offline', search_params, function( data ) {    
+    $.getJSON( '/tweets/offline', search_params, function( data ) {
+      if(data["cache"] == true)
+      {
+        data = offlineData
+      }
       if(data['tweets'].length > 0) {
         
         var tweet_list = data["tweets"];
@@ -137,7 +141,7 @@
           tweet_list = temp
         }
         
-        new_data = {"tweets":tweet_list,"facets":data["facets"]}
+        var new_data = {"tweets":tweet_list,"facets":data["facets"]}
 
         func_call(new_data);
       }
