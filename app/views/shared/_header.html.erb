@@ -216,18 +216,19 @@ function urlify(all_tweets) {
 }
 
 function timeSince(date) {
-  var split_data = date.split(" ");
-  var date_info  = split_data[0].split("-").map(function(item) {
-                                                                 return parseInt(item, 10);
-      });;
-  var time_info  = split_data[1].split(":").map(function(item) {
-                                                                  return parseInt(item, 10);
-                                                              });;
+  //var split_data = date.split(" ");
+  //var date_info  = split_data[0].split("-").map(function(item) {
+  //                                                               return parseInt(item, 10);
+  //    });;
+  //var time_info  = split_data[1].split(":").map(function(item) {
+  //                                                                return parseInt(item, 10);
+  //                                                            });;
   
   var curTime = new Date();
   var timezoneDiff = curTime.getTimezoneOffset() * 60000;
   //var seconds = Math.floor((curTime.getTime() - (new Date(date)).getTime() + timezoneDiff) / 1000);
-  var seconds = Math.floor((curTime.getTime() - (new Date(date_info[0],date_info[1] -1,date_info[2],time_info[0],time_info[1],time_info[2])).getTime() + timezoneDiff) / 1000);
+  //var seconds = Math.floor((curTime.getTime() - (new Date(date_info[0],date_info[1] -1,date_info[2],time_info[0],time_info[1],time_info[2])).getTime() + timezoneDiff) / 1000);
+  var seconds = Math.floor((curTime.getTime() - (Date.parse(date) + timezoneDiff))/1000);
   var interval = Math.floor(seconds / 31536000);
   if (interval > 0) {
     return interval + "y ago";
