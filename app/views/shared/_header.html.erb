@@ -1,8 +1,10 @@
 <script>
 <% if session.has_key?("user") %>
   var is_signed = true
+  var user_id = session[:user]["user_id"]
 <% else %>
   var is_signed = false
+  var user_id = ""
 <% end %>
 
 
@@ -380,6 +382,12 @@ function doDragDrop(){
       user_id = $(ui.draggable).attr('user_id');
 
       console.log(per + "\t" + user_id);
+
+      
+
+      $.post( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user_rank", {"user_id" : user_id, "ranks": { user_id : per*30 }}, function( data ) {
+        alert("dropped");
+      });
 
       $( "#slider-range" ).slider( "enable" );
       $( this )

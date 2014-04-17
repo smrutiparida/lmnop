@@ -70,7 +70,7 @@ class TweetsController < ApplicationController
         output_params = session[:user]  
         client = get_auth_client(output_params)
         all_tweets = client.home_timeline({:count => 200})
-        all_tweets.each{ |tweet| tweet_list.push({ :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
+        all_tweets.each{ |tweet| tweet_list.push({ :user_id => tweet.user.id_str, :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
 
         highest_fc = 0
         lowest_fc = 100000000
@@ -184,16 +184,7 @@ class TweetsController < ApplicationController
     my_map  
   end
 
-  def get_auth_client(output_params)
-
-    client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = @@consumer_key
-      config.consumer_secret     = @@consumer_secret
-      config.access_token        = output_params["oauth_token"]
-      config.access_token_secret = output_params["oauth_token_secret"]
-    end
-    client
-  end  
+ 
   
   def auth
       
@@ -233,6 +224,19 @@ class TweetsController < ApplicationController
     
   end
   
+  private 
+  
+  def get_auth_client(output_params)
+
+    client = Twitter::REST::Client.new do |config|
+      config.consumer_key        = @@consumer_key
+      config.consumer_secret     = @@consumer_secret
+      config.access_token        = output_params["oauth_token"]
+      config.access_token_secret = output_params["oauth_token_secret"]
+    end
+    client
+  end  
+
   def get_params()
     post_params = {}
     post_params['oauth_version'] = "1.0"
