@@ -5,12 +5,36 @@
 
   
   $( document ).ready(function() {
+      $( "#rangeSelectvalue" ).hide();
+      document.getElementById('blueColorScale').style.width = (100)+"%";
+      document.getElementById('blueColorScale').style.left = (0)+"%";
+      document.getElementById('rangeSelectvalue').innerHTML = "1000-0";
     $('#selectOpt').val('mytweets');
      $('#progressMainID').addClass('droppable');
     //$(".tweets-content").each(function(index){ $(this).text(urlify($(this).text())); }); 
     //$(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
     //doDragDrop();
-    
+
+      $( "#slider-range" ).slider({
+      range: true,
+      min: 0,
+      max: 100,
+      values: [ 0, 100 ],
+      change: function( event, ui ) {
+        $( "#rangeSelectvalue" ).show();
+        
+        document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
+        document.getElementById('blueColorScale').style.left = (ui.values[0])+"%";
+        var values = processValues(ui.values);
+        
+        document.getElementById('rangeSelectvalue').innerHTML = values[0] + "-" + values[1];
+        search_params["low"] = values[1];
+        search_params["high"] = values[0];
+        callServer();
+      }
+
+    });
+     search_params["low"] = 1;
   });
 <% end %>
 <div class="mainDiv">

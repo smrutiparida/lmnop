@@ -17,7 +17,7 @@
 
   $.template("replyTemplate", replyTemp);
 
-  var retweetTemplate = "<div class='tweet_reply tweet_reply_retweet'><form><img src='/images/reply_arrow.png'  style='position:absolute; top:-10px;'><h3>Retweet this to your followers?</h3><div class='retwet_action'><button type='submit' onclick='return post_retweet_data(\"${tweet_id}\");' class='btn btn-info btn-small'>Retweet</button><button class='btn btn-small' onclick='return closeContainer_retweet();'>Cancel</button></div></form></div>";
+  var retweetTemplate = "<div class='tweet_reply tweet_reply_retweet'><form><img src='/images/reply_arrow.png'  style='position:absolute; top:-10px;'><h4>Retweet this to your followers?</h4><div class='retwet_action'><button type='submit' onclick='return post_retweet_data(\"${tweet_id}\");' class='btn btn-info btn-small'>Retweet</button><button class='btn btn-small' onclick='return closeContainer_retweet();'>Cancel</button></div></form></div>";
 
   $.template("retweetTemplate", retweetTemplate);
 
@@ -408,32 +408,12 @@ function set_url(tweet) {
 
 $( document ).ready(function() {
   //$('#modal-container-conv').modal('hide');
-  $( "#rangeSelectvalue" ).hide();
-  document.getElementById('blueColorScale').style.width = (30)+"%";
-  document.getElementById('blueColorScale').style.left = (0)+"%";
-  document.getElementById('rangeSelectvalue').innerHTML = "1000-750";
+
   
   console.log("from on ready");
   callServer();
   
-  $( "#slider-range" ).slider({
-      range: true,
-      min: 0,
-      max: 100,
-      values: [ 0, 30 ],
-      change: function( event, ui ) {
-        $( "#rangeSelectvalue" ).show();
-        
-        document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
-        document.getElementById('blueColorScale').style.left = (ui.values[0])+"%";
-        var values = processValues(ui.values);
-        
-        document.getElementById('rangeSelectvalue').innerHTML = values[0] + "-" + values[1];
-        search_params["low"] = values[1];
-        search_params["high"] = values[0];
-        callServer();
-      }
-    });
+
 
   $( "#viewCountry" ).change(function() {
     search_params["country"] = $("#viewCountry option:selected").attr('value');

@@ -17,6 +17,7 @@ class TweetsController < ApplicationController
 
     if session[:user]
       output_params = session[:user]
+      session.delete(:last_call)
     else  
      
       twitter_url = "https://api.twitter.com/oauth/access_token"
