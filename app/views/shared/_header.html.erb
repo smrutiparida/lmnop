@@ -8,7 +8,7 @@
 
 
   var offlineData = {};  
-  var hashtag = "<span class='label label-info' style='margin:0 5px 5px 0;'><a href='#'' class='hashtagclick' onclick='update(this,\"${term}\");'>${term}</a></span>";
+  var hashtag = "<span class='label label-info' style='margin:0 5px 5px 0;'><a href='#'' class='hashtagclick' onclick='update(this,\"${key}\");'>${term}</a></span>";
   
   $.template( "twitterTemplate", markup );
   $.template( "trendingTemplate", hashtag );
@@ -202,7 +202,7 @@
 function preProcessTermFrequency(array_term_frequency){
   term_obj = {}
   for ( var i in array_term_frequency ){
-      term_obj[array_term_frequency[i].term] = array_term_frequency[i].count;
+      term_obj[array_term_frequency[i].key] = array_term_frequency[i].doc_count;
       //alert(array_term_frequency[i].count);
     }  
   return term_obj;  
@@ -535,7 +535,7 @@ var callOfflineFunc = function offline_after_call(data){
     console.log(data);
     var processed_tweets = urlify(data["data"]["tweets"]);
     if (search_params["screen_name"] == ""){
-      var term_obj = preProcessTermFrequency(data["data"]["facets"]["user_tweet_frequency"]["terms"]);
+      var term_obj = preProcessTermFrequency(data["data"]["aggregations"]["user_tweet_frequency"]["buckets"]);
       processed_tweets = add_more_link(term_obj, processed_tweets);
     }
     else {
@@ -548,7 +548,7 @@ var callOfflineFunc = function offline_after_call(data){
     
     if ( search_params["q"] == "" && search_params["screen_name"] == "") {
       $("#trending").empty();
-      $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"].slice(0,20)).appendTo( "#trending" );
+      $.tmpl("trendingTemplate", data["data"]["aggregations"]["hashtags_freq"]["buckets"].slice(0,20)).appendTo( "#trending" );
     }
     
     $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text() + " UTC")); }); 
