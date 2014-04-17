@@ -233,7 +233,7 @@ function timeSince(date) {
   if (interval > 0) {
     return interval + "y ago";
   }
-  interval = Math.floor(seconds / 2592000);
+  interval = Math.floor(seconds / 2592000); 
   if (interval > 0) {
     return interval + "mth ago";
   }
@@ -521,7 +521,7 @@ var callOfflineFunc = function offline_after_call(data){
       $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"].slice(0,20)).appendTo( "#trending" );
     }
     
-    $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
+    $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text() + " UTC")); }); 
   }
 
 function callServer()
