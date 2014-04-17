@@ -1,7 +1,7 @@
 <script>
 <% if session.has_key?("user") %>
   var is_signed = true
-  var user_id = <% session[:user]["user_id"] %>
+  var user_id = <%= session[:user]["user_id"] %>
 <% else %>
   var is_signed = false
   var user_id = ""
