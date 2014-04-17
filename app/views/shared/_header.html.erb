@@ -384,20 +384,22 @@ function doDragDrop(){
       console.log(per + "\t" + dropped_user_id);
 
       user_data = {}
-      user_data[dropped_user_id] = per * 10;
+      user_data["user_id"] = user_id
+      user_data["ranks"] = {}
+      user_data["ranks"][dropped_user_id] = per * 10
 
-     // $.post( "", {user_id : user_id, ranks: JSON.stringify(user_data)}, function( data ) {
-      
-      //});
-
-      $.ajax({
-          type: 'POST',
-          url: 'http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user_rank',
-          data: JSON.stringify({user_id: user_id, ranks: user_data}),
-          success: function(data) {   alert("dropped");},
-          contentType: "application/json",
-          dataType: 'json'
+      $.post( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user_rank", user_data, function( data ) {
+        alert("dropped");
       });
+
+      //$.ajax({
+      //    type: 'POST',
+      //    url: 'http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user_rank',
+      //    data: JSON.stringify({user_id: user_id, ranks: user_data}),
+      //    success: function(data) {   alert("dropped");},
+      //    contentType: "application/json",
+      //    dataType: 'json'
+      //});
 
       $( "#slider-range" ).slider( "enable" );
       $( this )
