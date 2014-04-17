@@ -82,7 +82,10 @@ class TweetsController < ApplicationController
     
       lowest_rank = 1
       highest_rank = 1000
-      tweet_list.each { |x| x[:rank] = (lowest_rank + (x[:rank] - lowest_fc) * ((highest_rank - lowest_rank)/(highest_fc - lowest_fc))).ceil}
+      tweet_list.each do |x| 
+        x[:rank] = (lowest_rank + (x[:followers_count] - lowest_fc) * ((highest_rank - lowest_rank)/(highest_fc - lowest_fc))).ceil
+        logger.info("follower count:" + x[:followers_count].to_s + "  rank:" + x[:rank].to_s)
+      end  
     #  session[:tweets] = tweet_list.clone
     #end
     #all_tweets = tweet_list.slice("id", "user", "created_at", "text")
