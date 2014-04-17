@@ -109,7 +109,7 @@
       }
       if(data['tweets'].length > 0) {
 
-        offlineData = data
+        offlineData = JSON.parse(JSON.stringify(data));
         
         var tweet_list = data["tweets"];
         var tweet_map = _.groupBy(data["tweets"], "screen_name");
