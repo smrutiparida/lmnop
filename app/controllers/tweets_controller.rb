@@ -59,67 +59,44 @@ class TweetsController < ApplicationController
   
   def offline
     #render :json => {}, :status => :ok unless session[:user]
-    render :json => {:cache => true}, :status => :ok if session[:last_call] and  (Time.now.to_i - session[:last_call] ) < 90
-      
-
-
+    cache = true
+    status = 200
     tweet_list = []
     frequency_data = {}
-    if(session[:user])
-    #if session[:tweets]
-    #  tweet_list = session[:tweets]
-    #else  
-      output_params = session[:user]  
-      client = get_auth_client(output_params)
-      all_tweets = client.home_timeline({:count => 200})
-      all_tweets.each{ |tweet| tweet_list.push({ :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
 
-      highest_fc = 0
-      lowest_fc = 100000000
-      tweet_list.each do |x|
-        highest_fc = x[:rank] if x[:rank] > highest_fc
-        lowest_fc = x[:rank] if x[:rank] < lowest_fc
+    unless session[:last_call] and  (Time.now.to_i - session[:last_call] ) < 90
+      if(session[:user])
+        output_params = session[:user]  
+        client = get_auth_client(output_params)
+        all_tweets = client.home_timeline({:count => 200})
+        all_tweets.each{ |tweet| tweet_list.push({ :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
+
+        highest_fc = 0
+        lowest_fc = 100000000
+        tweet_list.each do |x|
+          highest_fc = x[:rank] if x[:rank] > highest_fc
+          lowest_fc = x[:rank] if x[:rank] < lowest_fc
+        end
+      
+        lowest_rank = 1
+        highest_rank = 1000
+        tweet_list.each do |x|         
+          num = (lowest_rank + (x[:followers_count] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank)))
+          x[:rank] = num.ceil
+          logger.info("before ceil:" + num.to_s + " follower count:" + x[:followers_count].to_s + "  rank:" + x[:rank].to_s)
+        end  
+      
+        tweet_map = tweet_list.group_by{ |s| s[:screen_name] }
+        tweet_map.each { |k,v| frequency_data[k] = v.length}
+        session[:last_call] = Time.now.to_i
+        status = 200
+        cache = false
+      else
+        status = 403  
       end
-      
-      Rails.logger.info(highest_fc)
-      Rails.logger.info(lowest_fc)
-    
-      lowest_rank = 1
-      highest_rank = 1000
-      tweet_list.each do |x| 
-        
-        num = (lowest_rank + (x[:followers_count] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank)))
+    end    
 
-        x[:rank] = num.ceil
-        logger.info("before ceil:" + num.to_s + " follower count:" + x[:followers_count].to_s + "  rank:" + x[:rank].to_s)
-      end  
-    #  session[:tweets] = tweet_list.clone
-    #end
-    #all_tweets = tweet_list.slice("id", "user", "created_at", "text")
-
-    #all_tweets.each |tweet| do
-    #  tweet.user.slice("profile_image_url","name","screen_name",)
-    #  @tweet_list.push({ :count => tweet.length, :id=> tweet[0].id ,:profile_image_url => tweet.user.profile_image_url, :name => tweet[0].user.name, :screen_name => tweet[0].user.screen_name, :created_at => tweet[0].created_at, :text => tweet[0].text})
-    #end
-
-    
-    #Rails.logger.info(@tweet_list.to_json.to_s)
-      tweet_map = tweet_list.group_by{ |s| s[:screen_name] }
-
-      
-      tweet_map.each { |k,v| frequency_data[k] = v.length}
-      Rails.logger.info(frequency_data.to_json.to_s)
-      session[:last_call] = Time.now.to_i
-    #Rails.logger.info(@tweet_list.to_s)
-    #oauth_token=19981747-JZP0uTpY9vUh5Y1wWdJI5otV8HiQcxAekgLzwDiZB&oauth_token_secret=G9JmY9SxpG66ylmZfRegwZQZ3WcY6wnokSnbLMfLaNs3q&user_id=19981747&screen_name=smrutiparida
-      status = 200
-    else
-      status = 403
-    end  
-
-    
-    data = {:facets => frequency_data, :tweets => tweet_list, :cache=> false}
-    render :json => data, :status => :ok
+    render :json => {:facets => frequency_data, :tweets => tweet_list, :cache=> cache}, :status => status
   end  
 
   def reply
