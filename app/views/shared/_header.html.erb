@@ -326,11 +326,11 @@ function expand(ele, val){
         next_position = $(find_ele_to_slide).position().top
       }
 
-      $(find_ele_to_slide).before('<div id="slide-more" style="height:100px;width:auto;background-color:#FFF380;display:none"><img style="text-align:center;" src="/images/loading.gif" /></div>');
+      $(find_ele_to_slide).before('<div id="slide-more" style="height:' + 100 + 'px;width:98%;background-color:#FFF380;display:none"><img style="text-align:center;" src="/images/loading.gif" /></div>');
       console.log("data")
       $('#slide-more').slideDown(2000);
       callServer('#slide-more');
-
+      
   }
   
 
@@ -577,6 +577,7 @@ var callOfflineFunc = function offline_after_call(data){
     console.log(processed_tweets)
     $(ele).empty()
     $.tmpl( "twitterTemplate", processed_tweets ).appendTo( ele );
+    ele.style.height = "auto";
     console.log($.tmpl( "twitterTemplate", processed_tweets ))
     
     if ( search_params["q"] == "" && search_params["screen_name"] == "") {
