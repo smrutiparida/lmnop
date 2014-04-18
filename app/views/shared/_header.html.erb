@@ -297,11 +297,11 @@ function expand(ele, val){
     //$(ele).text("show more");
     search_params["screen_name"] = "";
     search_params["uniqueUser"] = true;
-    $(ele).removeClass('more-shown');
+    $(ele).removeClass('more-shown topArrow');
     console.log("data removed")
 
   }else{
-    $(ele).addClass('more-shown');
+    $(ele).addClass('more-shown topArrow');
     search_params["screen_name"] = val;//encodeURIComponent(val);
     search_params["uniqueUser"] = false;
     //callSearchServer("single_user_tweets", values[1],values[0],50,0,encodeURIComponent(val));  
@@ -326,7 +326,7 @@ function expand(ele, val){
         next_position = $(find_ele_to_slide).position().top
       }
 
-      $(find_ele_to_slide).before('<div id="slide-more" class="topArrow" style="height:' + height + 'px;width:100%;display:none"><img style="text-align:center;" src="/images/loading.gif" /></div>');
+      $(find_ele_to_slide).before('<div id="slide-more" class="" style="height:' + height + 'px;width:100%;display:none"><img style="text-align:center;" src="/images/loading.gif" /></div>');
       console.log("data")
       $('#slide-more').slideDown(2000);
       callServer('#slide-more');
