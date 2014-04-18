@@ -577,7 +577,7 @@ var callOfflineFunc = function offline_after_call(data){
     console.log(processed_tweets)
     $(ele).empty()
     $.tmpl( "twitterTemplate", processed_tweets ).appendTo( ele );
-    ele.style.height = "auto";
+    $(ele).height("auto");
     console.log($.tmpl( "twitterTemplate", processed_tweets ))
     
     if ( search_params["q"] == "" && search_params["screen_name"] == "") {
