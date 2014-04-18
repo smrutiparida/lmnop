@@ -164,7 +164,7 @@
         
         var new_data = {"tweets":tweet_list,"facets":data["facets"]}
 
-        func_call(new_data);
+        func_call(new_data, ele);
       }
       else {
         $( "#tweetlist" ).html("<div class='tweetlist'><p>Sorry, There are no tweets from people with UserRank range " + search_params["low"] + " - " + search_params["high"] + " - because they didn't tweet in the last 24 hours. Please change the range in the slider to see tweet.<p><p>Or if you think there is a bug, please do send us a screenshot at <a href='mailto:amar@brizzlabs.com'>amar@brizzlabs.com</a> & we will try fixing it.</p></div>"); 
@@ -538,7 +538,7 @@ $( document ).ready(function() {
   });
 });
 
-var callOfflineFunc = function offline_after_call(data){
+var callOfflineFunc = function offline_after_call(data, ele){
    //offlineJSONData  =  processOffline(offlineData)
    var processed_tweets = urlify(data["tweets"]);
    
