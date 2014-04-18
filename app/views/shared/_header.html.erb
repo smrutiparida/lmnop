@@ -292,7 +292,7 @@ function expand(ele, val){
   //values = processValues(values);
   
   $('#slide-more').slideUp(2000).remove();
-  
+  console.log("line 1")
 
   if($(ele).hasClass('more-shown')){      
     //callSearchServer("tweet_search", values[1],values[0],50,0);      
@@ -300,6 +300,7 @@ function expand(ele, val){
     search_params["screen_name"] = "";
     search_params["uniqueUser"] = true;
     $(ele).removeClass('more-shown');
+    console.log("data removed")
 
   }else{
     $(ele).addClass('more-shown');
@@ -312,7 +313,7 @@ function expand(ele, val){
       var tweet = $(ele).parent().parent();
       var tweet_to_be_loaded = parseInt($(tweet).attr('data-count'));
       if(tweet_to_be_loaded > 50){
-        tweet_to_be_loaded = 50;
+        tweet_to_be_loaded = 50;  
       }
 
       var height = 150 * Math.ceil(tweet_to_be_loaded/3);
@@ -328,7 +329,7 @@ function expand(ele, val){
       }
 
       $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;width:100%;background-color:black;display:none"><img src="/images/loading.gif" /></div>');
-
+      console.log("data added")
       $('#slide-more').slideDown(2000);
 
   }
