@@ -297,11 +297,11 @@ function expand(ele, val){
     //$(ele).text("show more");
     search_params["screen_name"] = "";
     search_params["uniqueUser"] = true;
-    $(ele).removeClass('more-shown topArrow');
+    $(ele).removeClass('more-shown');
     console.log("data removed")
 
   }else{
-    $(ele).addClass('more-shown topArrow');
+    $(ele).addClass('more-shown');
     search_params["screen_name"] = val;//encodeURIComponent(val);
     search_params["uniqueUser"] = false;
     //callSearchServer("single_user_tweets", values[1],values[0],50,0,encodeURIComponent(val));  
