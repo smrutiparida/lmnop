@@ -314,7 +314,7 @@ function expand(ele, val){
         tweet_to_be_loaded = 50;  
       }
 
-      var height = 150 * Math.ceil(tweet_to_be_loaded/3);
+      var height = 128 * Math.ceil(tweet_to_be_loaded/3);
       //find element in the next row
       find_ele_to_slide = $(tweet).next();
       position = $(tweet).position().top;
@@ -326,7 +326,7 @@ function expand(ele, val){
         next_position = $(find_ele_to_slide).position().top
       }
 
-      $(find_ele_to_slide).before('<div id="slide-more" style="height:' + 100 + 'px;width:98%;background-color:#FFF380;display:none"><img style="text-align:center;" src="/images/loading.gif" /></div>');
+      $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;width:98%;background-color:#FFF380;display:none"><img style="text-align:center;" src="/images/loading.gif" /></div>');
       console.log("data")
       $('#slide-more').slideDown(2000);
       callServer('#slide-more');
@@ -577,7 +577,7 @@ var callOfflineFunc = function offline_after_call(data){
     console.log(processed_tweets)
     $(ele).empty()
     $.tmpl( "twitterTemplate", processed_tweets ).appendTo( ele );
-    $(ele).height("auto");
+    //$(ele).height("auto");
     console.log($.tmpl( "twitterTemplate", processed_tweets ))
     
     if ( search_params["q"] == "" && search_params["screen_name"] == "") {
