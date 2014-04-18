@@ -173,9 +173,9 @@
   }
 
 
-  function callSearchServer(func_call) {
+  function callSearchServer(func_call, ele) {
     
-
+    $(ele).html('<img src="/images/loading.gif" />');
     $.getJSON( search_url, search_params, function( data ) {
       console.log("before success");
       console.log(data['success']);
@@ -183,7 +183,7 @@
         if(data["data"]["totalCount"] > 0){
           
           
-                func_call(data);
+                func_call(data, ele);
               
 
           
@@ -191,12 +191,12 @@
 
         }
         else {
-             $( "#tweetlist" ).html("<div class='tweetlist'><p>Sorry, There are no tweets from people with UserRank range " + search_params["low"] + " - " + search_params["high"] + " - because they didn't tweet in the last 24 hours. Please change the range in the slider to see tweet.<p><p>Or if you think there is a bug, please do send us a screenshot at <a href='mailto:amar@brizzlabs.com'>amar@brizzlabs.com</a> & we will try fixing it.</p></div>");
+             $(ele).html("<div class='tweetlist'><p>Sorry, There are no tweets from people with UserRank range " + search_params["low"] + " - " + search_params["high"] + " - because they didn't tweet in the last 24 hours. Please change the range in the slider to see tweet.<p><p>Or if you think there is a bug, please do send us a screenshot at <a href='mailto:amar@brizzlabs.com'>amar@brizzlabs.com</a> & we will try fixing it.</p></div>");
         }
       }
       else
       {
-        $( "#tweetlist" ).html("<div class='tweetlist'><p>Oops! Something went wrong. Please check us again.</p></div>");
+        $( ele).html("<div class='tweetlist'><p>Oops! Something went wrong. Please check us again.</p></div>");
       }
     });
   }
@@ -328,12 +328,13 @@ function expand(ele, val){
         next_position = $(find_ele_to_slide).position().top
       }
 
-      $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;width:100%;background-color:black;display:none"><img src="/images/loading.gif" /></div>');
-      console.log("data added")
+      $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;width:100%;background-color:#bbbbbb;display:none"><img src="/images/loading.gif" /></div>');
+      console.log("data")
       $('#slide-more').slideDown(2000);
+      callServer('#slide-more');
 
   }
-  //callServer();
+  
 
   return false;
 }
@@ -348,7 +349,7 @@ function update(ele, val){
     //global_hashtag = "";
     search_params["q"] = "";
     $(ele).parent().removeClass('active');
-    callServer();
+    callServer('#tweetlist');
     
   }else{
     $(ele).parent().addClass('active').siblings().removeClass('active');  
@@ -356,7 +357,7 @@ function update(ele, val){
     search_params["q"] = val;//encodeURIComponent(val);
     search_params["screen_name"] = "";
     search_params["uniqueUser"] = true;
-    callServer();//"user_search", values[1], values[0], 50,0,encodeURIComponent(val));
+    callServer('#tweetlist');//"user_search", values[1], values[0], 50,0,encodeURIComponent(val));
   }
 }
 
@@ -383,7 +384,7 @@ selectOption = $('#selectOpt').val();
     search_params["topic"] = selectOption;
     search_params["q"] = ""
     search_params["uniqueUser"] = false
-    callServer();
+    callServer('#tweetlist');
   }
   else {
 
@@ -463,13 +464,13 @@ $( document ).ready(function() {
 
   
   console.log("from on ready");
-  callServer();
+  callServer('#tweetlist');
   
 
 
   $( "#viewCountry" ).change(function() {
     search_params["country"] = $("#viewCountry option:selected").attr('value');
-    callServer();    
+    callServer('#tweetlist');    
   });
 
   $('#modal-container-conv').on('hidden.bs.modal', function (e) {
@@ -531,7 +532,7 @@ $( document ).ready(function() {
             data: { 'id': id, 'is_favorite': is_favorite },
             success: function(data){ 
               var el = $("a[tid*=" + id + "]");
-              $(el).hasClass('favorite') ? $(el).removeClass('favorite').empty().append("<img src='/images/favorite_icn.png' />") : $(el).addClass('favorite').empty().append("<img src='/images/favorite_icn_done.png' />");    
+              $(el).hasClass('favorite') ? $(el).removeClass('favorite').html("<img src='/images/favorite_icn.png' />") : $(el).addClass('favorite').html("<img src='/images/favorite_icn_done.png' />");    
             },
             headers: {'X-Transaction': 'POST Favorite', 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
             dataType: 'json'
@@ -551,7 +552,8 @@ var callOfflineFunc = function offline_after_call(data){
     }
     
     console.log(processed_tweets)
-    $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
+    $(ele).empty()
+    $.tmpl( "twitterTemplate", processed_tweets ).appendTo( ele );
     console.log($.tmpl( "twitterTemplate", processed_tweets ))
     /*
     if ( search_params["q"] == "" && search_params["screen_name"] == "") {
@@ -563,7 +565,7 @@ var callOfflineFunc = function offline_after_call(data){
     doDragDrop();
   }
 
-  var callServerFunc = function processServerDate(data){
+  var callServerFunc = function processServerDate(data, ele){
     console.log(data);
     var processed_tweets = urlify(data["data"]["tweets"]);
     if (search_params["screen_name"] == ""){
@@ -575,7 +577,8 @@ var callOfflineFunc = function offline_after_call(data){
     }
     
     console.log(processed_tweets)
-    $.tmpl( "twitterTemplate", processed_tweets ).appendTo( "#tweetlist" );
+    $(ele).empty()
+    $.tmpl( "twitterTemplate", processed_tweets ).appendTo( ele );
     console.log($.tmpl( "twitterTemplate", processed_tweets ))
     
     if ( search_params["q"] == "" && search_params["screen_name"] == "") {
@@ -586,16 +589,16 @@ var callOfflineFunc = function offline_after_call(data){
     $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text() + " UTC")); }); 
   }
 
-function callServer()
+function callServer(ele)
 {
   if(window.location.href.indexOf("/tweets/my") != -1){
-    $("#tweetlist").empty();
-    callOfflineServer(callOfflineFunc);
+    //$("#tweetlist").empty();
+    callOfflineServer(callOfflineFunc, ele);
   }
   else {
-    $("#tweetlist").empty();
+    //$("#tweetlist").empty();
    
-    callSearchServer(callServerFunc);
+    callSearchServer(callServerFunc, ele);
   }
 }
 </script>
