@@ -247,7 +247,8 @@ function timeSince(date) {
   //    });;
   //var time_info  = split_data[1].split(":").map(function(item) {
   //                                                                return parseInt(item, 10);
-  //                                                            });;
+  //                         
+                                     });;
   
   var curTime = new Date();
   //var timezoneDiff = curTime.getTimezoneOffset() * 60000;
@@ -289,12 +290,19 @@ function processValues(values){
 function expand(ele, val){
   //var values = $( "#slider-range" ).slider( "values" );
   //values = processValues(values);
-  if($(ele).text().indexOf("less") != -1 ){      
+  
+  $('#slide-more').slideUp(600).remove();
+  
+
+  if($(ele).hasClass('more-shown')){      
     //callSearchServer("tweet_search", values[1],values[0],50,0);      
     //$(ele).text("show more");
     search_params["screen_name"] = "";
     search_params["uniqueUser"] = true;
+    $(ele).removeClass('more-shown');
+
   }else{
+    $(ele).addClass('more-shown');
     search_params["screen_name"] = val;//encodeURIComponent(val);
     search_params["uniqueUser"] = false;
     //callSearchServer("single_user_tweets", values[1],values[0],50,0,encodeURIComponent(val));  
@@ -303,6 +311,10 @@ function expand(ele, val){
 
       var tweet = $(ele).parent().parent();
       var tweet_to_be_loaded = parseInt($(tweet).attr('data-count'));
+      if(tweet_to_be_loaded > 50){
+        tweet_to_be_loaded = 50;
+      }
+
       var height = 150 * Math.ceil(tweet_to_be_loaded/3);
       //find element in the next row
       find_ele_to_slide = $(tweet).next();
@@ -315,7 +327,7 @@ function expand(ele, val){
         next_position = $(find_ele_to_slide).position().top
       }
 
-      $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;width:100px;background-color:black;display:none"><img src="/images/loading.gif" /></div>');
+      $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;width:100%;background-color:black;display:none"><img src="/images/loading.gif" /></div>');
 
       $('#slide-more').slideDown(2000);
   }
