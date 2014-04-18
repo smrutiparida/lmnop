@@ -95,7 +95,7 @@
     return false;
   }
 
- 
+/* 
 
   function showModal(ele, val){
     search_params["in_reply_to_status_id"] = val;
@@ -114,7 +114,7 @@
     callSearchServer(showModalFunction);
   }
   
-
+*/
   
   function callOfflineServer(func_call){
   
@@ -597,7 +597,7 @@ function callServer()
       <span style="padding-right:15px;" id="tweetTime">
         <b>Topic</b>
         <select onchange="showDivTag();" id="selectOpt">
-          <option value="all">All</option>
+          <option value="all">Best of Twitter</option>
           <option value="mytweets">My Tweets</option>
           <option value="1">IPL7</option>
           <option value="elections2014">Election2014</option>
@@ -618,7 +618,7 @@ function callServer()
         <div class="slider_range_commentEach">Underdogs</div>
       </div>
     </div>
-    
+    <!--
     <div id="modal-container-conv" class="modal hide fade" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
       <div class="modal-body" id="modal-content-id">  
       </div>
@@ -626,7 +626,7 @@ function callServer()
          <button class="btn" data-dismiss="modal" aria-hidden="true" onClick="">Close</button>
       </div>
     </div>
-
+    -->
   </div>
   <div class="tweetMainDiv">
     <div id="trending" class="tweetTags"></div>
