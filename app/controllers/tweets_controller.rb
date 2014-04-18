@@ -113,6 +113,9 @@ class TweetsController < ApplicationController
       rescue Twitter::Error::Unauthorized
         message ="Authorization failed. Login again."
         return_type = false
+      rescue Twitter::Error::NotFound  
+        message = "Could not retweet. Please rfresh the page."
+        return_type = false
       end  
       status = 200
     else
@@ -130,11 +133,15 @@ class TweetsController < ApplicationController
     if session[:user]
       output_params = session[:user]
       client = get_auth_client(output_params)
-      id_arr = [ params[:id].to_i]
+      id_arr = []
+      id_arr.push(params[:id].to_i)
       begin 
         client.retweet(id_arr)
       rescue Twitter::Error::Unauthorized
         message = "Authorization failed. Login again."
+        return_type = false
+      rescue Twitter::Error::NotFound  
+        message = "Could not retweet. Please rfresh the page."
         return_type = false
       end 
       status = 200
@@ -153,11 +160,15 @@ class TweetsController < ApplicationController
     if session[:user]
       output_params = session[:user]
       client = get_auth_client(output_params)
-      id_arr = [ params[:id].to_i]
+      id_arr = []
+      id_arr.push(params[:id].to_i)
       begin 
         params[:is_favorite] ? client.unfavorite(id_arr) : client.favorite(id_arr)  
       rescue Twitter::Error::Unauthorized
         message = "Authorization failed. Login again."
+        return_type = false
+      rescue Twitter::Error::NotFound  
+        message = "Could not retweet. Please rfresh the page."
         return_type = false
       end 
       status = 200
