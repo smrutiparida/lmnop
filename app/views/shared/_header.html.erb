@@ -300,8 +300,28 @@ function expand(ele, val){
     //callSearchServer("single_user_tweets", values[1],values[0],50,0,encodeURIComponent(val));  
 
     //$(ele).text("show less");
+
+      var tweet = $(ele).parent().parent();
+      var tweet_to_be_loaded = parseInt($(tweet).attr('data-count'));
+      var height = 150 * Math.ceil(tweet_to_be_loaded/3);
+      //find element in the next row
+      find_ele_to_slide = $(tweet).next();
+      position = $(tweet).position().top;
+      next_position = $(find_ele_to_slide).position().top;
+
+      while(next_position - position < 50){
+        position = next_position;
+        find_ele_to_slide = $(find_ele_to_slide).next();
+        next_position = $(find_ele_to_slide).position().top
+      }
+
+      $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;width:100px;background-color:black;display:none"><img src="/images/loading.gif" /></div>');
+
+      $('#slide-more').slideDown(2000);
   }
-  callServer();
+  //callServer();
+
+  
 }
 
 function update(ele, val){  
