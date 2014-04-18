@@ -116,7 +116,7 @@
   
 */
   
-  function callOfflineServer(func_call){
+  function callOfflineServer(func_call, ele){
   
   //frequency_info = JSON.parse('<%= @frequency_data.to_json.to_s %>');
   //offlineData = JSON.parse('<%= @tweet_list.to_json.to_s %>');  
@@ -326,7 +326,7 @@ function expand(ele, val){
         next_position = $(find_ele_to_slide).position().top
       }
 
-      $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;width:100%;background-color:#bbbbbb;display:none"><img src="/images/loading.gif" /></div>');
+      $(find_ele_to_slide).before('<div id="slide-more" style="height:100px;width:auto;background-color:#FFF380;display:none"><img style="text-align:center;" src="/images/loading.gif" /></div>');
       console.log("data")
       $('#slide-more').slideDown(2000);
       callServer('#slide-more');
