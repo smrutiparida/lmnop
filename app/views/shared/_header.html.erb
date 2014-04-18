@@ -224,9 +224,7 @@ function add_more_link(term_obj, all_tweets){
       all_tweets[i]["more_count"] = 0;
     }
   }
-  if(search_params["screen_name"] != ""){
-    all_tweets[0]["more_count"] = -999;
-  }
+  
   return all_tweets;
 }
 
