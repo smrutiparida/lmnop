@@ -291,7 +291,7 @@ function expand(ele, val){
   //var values = $( "#slider-range" ).slider( "values" );
   //values = processValues(values);
   
-  $('#slide-more').slideUp(600).remove();
+  $('#slide-more').slideUp(2000).remove();
   
 
   if($(ele).hasClass('more-shown')){      
@@ -330,11 +330,11 @@ function expand(ele, val){
       $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;width:100%;background-color:black;display:none"><img src="/images/loading.gif" /></div>');
 
       $('#slide-more').slideDown(2000);
-      return false;
+
   }
   //callServer();
 
-  
+  return false;
 }
 
 function update(ele, val){  
