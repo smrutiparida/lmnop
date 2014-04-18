@@ -141,7 +141,7 @@ class TweetsController < ApplicationController
         message = "Authorization failed. Login again."
         return_type = false
       rescue Twitter::Error::NotFound  
-        message = "Could not retweet. Please rfresh the page."
+        message = "Could not retweet. Please refresh the page."
         return_type = false
       end 
       status = 200
