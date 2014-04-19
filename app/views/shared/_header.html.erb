@@ -131,39 +131,30 @@
         data = offlineData
       }
 
-      $.getJSON("http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user?user_id=" + user_id, function(rank_data){
+      if(data['tweets'].length > 0) {
 
-        if(rank_data["found"]){
-          var user_modified_ranks = rank_data["_source"]["ranks"];
-          _.each(offlineData['tweets'], function(ele, index, list){
-            ele["rank"] = if _.has(user_modified_ranks,ele["user_id"]) ? user_modified_ranks[ele["user_id"]] : ele["rank"];
-          });
+        offlineData = JSON.parse(JSON.stringify(data));
+        
+        var tweet_list = data["tweets"];
+        var tweet_map = _.groupBy(data["tweets"], "screen_name");
+        console.log(tweet_map);
+
+        if (search_params["uniqueUser"]){
+          tweet_list = [];
+          _.each(tweet_map, function(v,k,l){ tweet_list.push(_.first(v)) })
+          console.log("uniqueUser")
+          console.log(tweet_list)
         }
-
-        if(data['tweets'].length > 0) {
-
-          offlineData = JSON.parse(JSON.stringify(data));
-          
-          var tweet_list = data["tweets"];
-          var tweet_map = _.groupBy(data["tweets"], "screen_name");
-          console.log(tweet_map);
-
-          if (search_params["uniqueUser"]){
-            tweet_list = [];
-            _.each(tweet_map, function(v,k,l){ tweet_list.push(_.first(v)) })
-            console.log("uniqueUser")
-            console.log(tweet_list)
-          }
-   
-          if(search_params["screen_name"] != ""){
-            tweet_list = tweet_map[search_params["screen_name"]];
-            console.log("screen name")
-            console.log(tweet_list)
-          }
+ 
+        if(search_params["screen_name"] != ""){
+          tweet_list = tweet_map[search_params["screen_name"]];
+          console.log("screen name")
+          console.log(tweet_list)
+        }
       
-          //if(search_params["low"] != "" && search_params["high"] != ""){
-          var low = parseInt(search_params["low"]);
-          var high = parseInt(search_params["high"]);
+        //if(search_params["low"] != "" && search_params["high"] != ""){
+         var low = parseInt(search_params["low"]);
+         var high = parseInt(search_params["high"]);
 
           temp = []
           _.each(tweet_list, function(tweet,index,list){
@@ -174,16 +165,15 @@
           console.log("low high")
           console.log(temp)
           tweet_list = temp
-          //}
+        //}
         
-          var new_data = {"tweets":tweet_list,"facets":data["facets"]}
+        var new_data = {"tweets":tweet_list,"facets":data["facets"]}
 
-          func_call(new_data, ele);
-        }
-        else {
-          $( "#tweetlist" ).html("<div class='tweetlist'><p>Sorry, There are no tweets from people with UserRank range " + search_params["low"] + " - " + search_params["high"] + " - because they didn't tweet in the last 24 hours. Please change the range in the slider to see tweet.<p><p>Or if you think there is a bug, please do send us a screenshot at <a href='mailto:amar@brizzlabs.com'>amar@brizzlabs.com</a> & we will try fixing it.</p></div>"); 
-        }
-      });
+        func_call(new_data, ele);
+      }
+      else {
+        $( "#tweetlist" ).html("<div class='tweetlist'><p>Sorry, There are no tweets from people with UserRank range " + search_params["low"] + " - " + search_params["high"] + " - because they didn't tweet in the last 24 hours. Please change the range in the slider to see tweet.<p><p>Or if you think there is a bug, please do send us a screenshot at <a href='mailto:amar@brizzlabs.com'>amar@brizzlabs.com</a> & we will try fixing it.</p></div>"); 
+      }
     });
   }
 

@@ -57,7 +57,57 @@ class TweetsController < ApplicationController
     end
   end
   
+  def getMaxMinAndUpdate(ES_user_info, tweet_list)
+
+    lowest_rank = 1
+    highest_rank = 1000
+    
+    ES_minmax = [{ "min" : 1000000}, {"max" : 0}]
+    ES_minmax = ES_user_info.friend.minmax { |k, v| v } unless ES_user_info.friends.empty?
+      
+    TL_minmax = tweet_list.minmax { |ele| ele[:followers_count]}
+
+    calculate_rank = TL_minmax[1][:followers_count] > ES_minmax[1].values[0] or TL_minmax[0][:followers_count] < ES_minmax[0].values[0] ? true : false
+    
+    if calculate_rank
+      highest_fc = TL_minmax[1][:followers_count] > ES_minmax[1].values[0]  ? TL_minmax[1][:followers_count] : ES_minmax[1].values[0]
+      lowest_fc =  TL_minmax[0][:followers_count] < ES_minmax[0].values[0]  ? TL_minmax[0][:followers_count] : ES_minmax[0].values[0]
+
+    
+      #.select {|v| v =~ /[aeiou]/}
+
+
+      tweet_list.each |x|  do
+        x[:rank] = x[:user_id] (lowest_rank + (x[:followers_count] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
+      #  ES_user_info.ranks.user_info |select| do
+          
+      #  end
+        #if there is a set user in the ECuser_info, do not calculate his rank but add him directly to the tweet list  
+      end  
+      # since fresh calculation happens, 2 things need to be done
+      # recalculate all the ranks in EC_user_info
+      # add new users found in tweet_list to the EC_user_info
+      # updare EC_user_info and write back to the server
+    end  
+
+    tweet_list
+    #update user set ranks in the tweet list
+  end  
   
+  
+  
+  def queryRankFromES()
+    x = {}
+    begin
+        x = Net::HTTP.get("http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user" + user_id.to_s)
+      rescue Exception=>e
+        Rails.logger.info(e)
+      end        
+    end  
+    Rails.logger.info(x)
+    JSON.parse x
+  end  
+
   def offline
     #render :json => {}, :status => :ok unless session[:user]
     cache = true
@@ -72,21 +122,12 @@ class TweetsController < ApplicationController
         all_tweets = client.home_timeline({:count => 200})
         all_tweets.each{ |tweet| tweet_list.push({ :user_id => tweet.user.id, :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
 
-        highest_fc = 0
-        lowest_fc = 100000000
-        tweet_list.each do |x|
-          highest_fc = x[:rank] if x[:rank] > highest_fc
-          lowest_fc = x[:rank] if x[:rank] < lowest_fc
-        end
-      
-        lowest_rank = 1
-        highest_rank = 1000
-        tweet_list.each do |x|         
-          num = (lowest_rank + (x[:followers_count] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank)))
-          x[:rank] = num.ceil
-        #  logger.info("before ceil:" + num.to_s + " follower count:" + x[:followers_count].to_s + "  rank:" + x[:rank].to_s)
-        end  
-      
+        ES_user_info = queryRankFromES();
+        
+        tweet_list = getMaxMinAndUpdate(ES_user_info, tweet_list)
+        
+        
+
         tweet_map = tweet_list.group_by{ |s| s[:screen_name] }
         tweet_map.each { |k,v| frequency_data[k] = v.length}
         session[:last_call] = Time.now.to_i
