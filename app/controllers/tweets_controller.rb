@@ -230,16 +230,16 @@ class TweetsController < ApplicationController
 
     lowest_rank = 1
     highest_rank = 1000
-    update_ec_index = false
+    update_es_index = false
 
-    if es_user_info.empty? or !es_user_info.has_key?("ranks") or !ec_user_info.has_key?("friends")
-      ec_user_info["user_id"] = user_id
-      ec_user_info["ranks"] = {}
-      ec_user_info["friends"] = {}
+    if es_user_info.empty? or !es_user_info.has_key?("ranks") or !es_user_info.has_key?("friends")
+      es_user_info["user_id"] = user_id
+      es_user_info["ranks"] = {}
+      es_user_info["friends"] = {}
     end
 
     es_minmax = [{ "min" => 1000000}, {"max" => 0}]
-    es_minmax = es_user_info["friends"].minmax_by { |k, v| v } unless ec_user_info["friends"].empty?
+    es_minmax = es_user_info["friends"].minmax_by { |k, v| v } unless es_user_info["friends"].empty?
       
     tl_minmax = tweet_list.minmax_by { |ele| ele[:followers_count]}
 
@@ -260,30 +260,30 @@ class TweetsController < ApplicationController
           #if there is a set user in the ECuser_info, do not calculate his rank but add him directly to the tweet list  
           unless new_obj_list["set"]
             new_obj_list["rank"] = x[:rank] 
-            update_ec_index = true
+            update_es_index = true
           end  
         else
-          # add new users found in tweet_list to the EC_user_info
-          update_ec_index = true
+          # add new users found in tweet_list to the es_user_info
+          update_es_index = true
           es_user_info["ranks"].push({"user_id" => x[:user_id], "rank" => x[:rank], "set" => false})
         end  
       end
       
-      # recalculate all the ranks in EC_user_info
-      ec_user_info["ranks"].each do |item|
+      # recalculate all the ranks in es_user_info
+      es_user_info["ranks"].each do |item|
         ele_array = tweet_list.select { |ele|  ele[:user_id] == item["user_id"] }
         if ele_array.length == 0
-          item["rank"] = (lowest_rank + (ec_user_info.friends[item["user_id"]] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
-          update_ec_index = true
+          item["rank"] = (lowest_rank + (es_user_info.friends[item["user_id"]] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
+          update_es_index = true
         end 
       end   
     end  
     
-    #update the friend list if there is a new user in the ec_user_info
+    #update the friend list if there is a new user in the es_user_info
     tweet_list.each do |ele|
-      unless ec_user_info["friends"].has_key?(ele[:user_id]) and ec_user_info["friends"][ele[:user_id]] == ele[:followers_count]
-        ec_user_info["friends"][ele[:user_id]] = ele[:followers_count] 
-        update_ec_index = true
+      unless es_user_info["friends"].has_key?(ele[:user_id]) and es_user_info["friends"][ele[:user_id]] == ele[:followers_count]
+        es_user_info["friends"][ele[:user_id]] = ele[:followers_count] 
+        update_es_index = true
       end  
     end  
 
@@ -295,8 +295,8 @@ class TweetsController < ApplicationController
       end  
     end  
     
-    # updare EC_user_info and write back to the server    
-    if update_ec_index
+    # updare es_user_info and write back to the server    
+    if update_es_index
       Rails.logger.info(es_user_info.to_json)
       es_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user"
       uri = URI.parse(es_url)
