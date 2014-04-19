@@ -63,7 +63,7 @@ class TweetsController < ApplicationController
     highest_rank = 1000
     
     es_minmax = [{ "min" => 1000000}, {"max" => 0}]
-    es_minmax = es_user_info.friend.minmax { |k, v| v } unless es_user_info.empty? or ec_user_info.friends.empty?
+    es_minmax = es_user_info.friend.minmax { |k, v| v } if es_user_info.has_key?("friends") and !ec_user_info.friends.empty?
       
     tl_minmax = tweet_list.minmax { |ele| ele[:followers_count]}
 
@@ -99,7 +99,7 @@ class TweetsController < ApplicationController
   def queryRankFromES(user_id)
     x = {}
     begin
-      x = Net::HTTP.get("54.254.80.93","/tweet-store/index.php/api/TweetsUnique/user" + user_id.to_s)
+      x = Net::HTTP.get("54.254.80.93","/tweet-store/index.php/api/TweetsUnique/user/" + user_id.to_s)
     rescue Exception=>e
       Rails.logger.info(e)
     end        
