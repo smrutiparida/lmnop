@@ -118,19 +118,7 @@
 */
   
 
-  function updateRank(){
-    $.getJSON("http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user?user_id=" + user_id, function(data){
-
-      if(data["found"]){
-        var user_modified_ranks = data["_scource"]["ranks"];
-        _.each(offlineData['tweets'], function(ele, index, list){
-          ele["rank"] = if _.has(user_modified_ranks,ele["user_id"]) ? user_modified_ranks[ele["user_id"]] : ele["rank"];
-        });
-      }
-      
-    });
-  }
-
+  
   function callOfflineServer(func_call, ele){
   
   //frequency_info = JSON.parse('<%= @frequency_data.to_json.to_s %>');
