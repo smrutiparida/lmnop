@@ -67,6 +67,9 @@ class TweetsController < ApplicationController
       
     tl_minmax = tweet_list.minmax { |ele| ele[:followers_count]}
 
+    Rails.logger.info(tl_minmax)
+    Rails.logger.info(es_minmax)
+
     calculate_rank = tl_minmax[1][:followers_count] > es_minmax[1].values[0] or tl_minmax[0][:followers_count] < es_minmax[0].values[0] ? true : false
     
     if calculate_rank
