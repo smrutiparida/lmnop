@@ -102,9 +102,10 @@ class TweetsController < ApplicationController
       x = Net::HTTP.get("54.254.80.93","/tweet-store/index.php/api/TweetsUnique/user/" + user_id.to_s)
     rescue Exception=>e
       Rails.logger.info(e)
-    end        
+    end       
+    x = {} if x.empty?
     Rails.logger.info(x)
-    x
+    JSON.parse x
   end  
 
   def offline
