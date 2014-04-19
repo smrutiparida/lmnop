@@ -97,13 +97,13 @@ class TweetsController < ApplicationController
   
   
   def queryRankFromES(user_id)
-    x = {}
+    x = "{}"
     begin
       x = Net::HTTP.get("54.254.80.93","/tweet-store/index.php/api/TweetsUnique/user/" + user_id.to_s)
     rescue Exception=>e
       Rails.logger.info(e)
     end       
-    x = {} if x.empty?
+    x = "{}" if x.empty?
     Rails.logger.info(x)
     JSON.parse x
   end  
