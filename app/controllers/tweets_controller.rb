@@ -268,7 +268,7 @@ class TweetsController < ApplicationController
           es_user_info["ranks"].push({"user_id" => x[:user_id], "rank" : x[:rank], "set" => false})
         end  
       end
-
+      
       # recalculate all the ranks in EC_user_info
       ec_user_info["ranks"].each do |item|
         ele_array = tweet_list.select { |ele|  ele[:user_id] == item["user_id"] }
