@@ -57,21 +57,21 @@ class TweetsController < ApplicationController
     end
   end
   
-  def getMaxMinAndUpdate(ES_user_info, tweet_list)
+  def getMaxMinAndUpdate(es_user_info, tweet_list)
 
     lowest_rank = 1
     highest_rank = 1000
     
-    ES_minmax = [{ "min" : 1000000}, {"max" : 0}]
-    ES_minmax = ES_user_info.friend.minmax { |k, v| v } unless ES_user_info.friends.empty?
+    es_minmax = [{ "min" => 1000000}, {"max" => 0}]
+    es_minmax = es_user_info.friend.minmax { |k, v| v } unless es_user_info.friends.empty?
       
-    TL_minmax = tweet_list.minmax { |ele| ele[:followers_count]}
+    tl_minmax = tweet_list.minmax { |ele| ele[:followers_count]}
 
-    calculate_rank = TL_minmax[1][:followers_count] > ES_minmax[1].values[0] or TL_minmax[0][:followers_count] < ES_minmax[0].values[0] ? true : false
+    calculate_rank = tl_minmax[1][:followers_count] > es_minmax[1].values[0] or tl_minmax[0][:followers_count] < es_minmax[0].values[0] ? true : false
     
     if calculate_rank
-      highest_fc = TL_minmax[1][:followers_count] > ES_minmax[1].values[0]  ? TL_minmax[1][:followers_count] : ES_minmax[1].values[0]
-      lowest_fc =  TL_minmax[0][:followers_count] < ES_minmax[0].values[0]  ? TL_minmax[0][:followers_count] : ES_minmax[0].values[0]
+      highest_fc = tl_minmax[1][:followers_count] > es_minmax[1].values[0]  ? tl_minmax[1][:followers_count] : es_minmax[1].values[0]
+      lowest_fc =  tl_minmax[0][:followers_count] < es_minmax[0].values[0]  ? tl_minmax[0][:followers_count] : es_minmax[0].values[0]
 
     
       #.select {|v| v =~ /[aeiou]/}
@@ -121,9 +121,9 @@ class TweetsController < ApplicationController
         all_tweets = client.home_timeline({:count => 200})
         all_tweets.each{ |tweet| tweet_list.push({ :user_id => tweet.user.id, :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
 
-        ES_user_info = queryRankFromES(session[:user]["user_id"]);
+        es_user_info = queryRankFromES(session[:user]["user_id"]);
         
-        tweet_list = getMaxMinAndUpdate(ES_user_info, tweet_list)
+        tweet_list = getMaxMinAndUpdate(es_user_info, tweet_list)
         
         
 
