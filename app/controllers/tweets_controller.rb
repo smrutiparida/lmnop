@@ -275,7 +275,7 @@ class TweetsController < ApplicationController
         if ele_array.length == 0
           item["rank"] = (lowest_rank + (ec_user_info.friends[item["user_id"]] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
           update_ec_index = true
-        else  
+        end 
       end   
     end  
     
@@ -344,6 +344,7 @@ class TweetsController < ApplicationController
     
     post_params
   end  
+
   def url_encode(string)
     CGI::escape(string)
   end
