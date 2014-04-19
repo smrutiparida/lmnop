@@ -172,7 +172,10 @@
       else {
         $( "#tweetlist" ).html("<div class='tweetlist'><p>Sorry, There are no tweets from people with UserRank range " + search_params["low"] + " - " + search_params["high"] + " - because they didn't tweet in the last 24 hours. Please change the range in the slider to see tweet.<p><p>Or if you think there is a bug, please do send us a screenshot at <a href='mailto:amar@brizzlabs.com'>amar@brizzlabs.com</a> & we will try fixing it.</p></div>"); 
       }
+      return false;
     });
+
+    return false;
   }
 
 
@@ -568,6 +571,7 @@ var callOfflineFunc = function offline_after_call(data, ele){
     */
     $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
     doDragDrop();
+    return false;
   }
 
   var callServerFunc = function processServerDate(data, ele){
@@ -593,6 +597,7 @@ var callOfflineFunc = function offline_after_call(data, ele){
     }
     
     $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text() + " UTC")); }); 
+    return false;
   }
 
 function callServer(ele)
@@ -606,6 +611,7 @@ function callServer(ele)
    
     callSearchServer(callServerFunc, ele);
   }
+  return false;
 }
 </script>
 
