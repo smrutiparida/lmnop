@@ -63,11 +63,11 @@ class TweetsController < ApplicationController
     highest_rank = 1000
     
     es_minmax = [{ "min" => 1000000}, {"max" => 0}]
-    es_minmax = es_user_info.friend.minmax { |k, v| v } if es_user_info.has_key?("friends") and !ec_user_info.friends.empty?
+    es_minmax = es_user_info.friend.minmax_by { |k, v| v } if es_user_info.has_key?("friends") and !ec_user_info.friends.empty?
       
-    tl_minmax = tweet_list.minmax { |ele| ele[:followers_count]}
+    tl_minmax = tweet_list.minmax_by { |ele| ele[:followers_count]}
 
-    Rails.logger.info(tl_minmax)
+    Rails.logger.info(tl_minmax )
     Rails.logger.info(es_minmax)
 
     calculate_rank = tl_minmax[1][:followers_count] > es_minmax[1].values[0] or tl_minmax[0][:followers_count] < es_minmax[0].values[0] ? true : false
