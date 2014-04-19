@@ -77,8 +77,8 @@ class TweetsController < ApplicationController
       #.select {|v| v =~ /[aeiou]/}
 
 
-      tweet_list.each |x|  do
-        x[:rank] = x[:user_id] (lowest_rank + (x[:followers_count] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
+      tweet_list.each do |x|
+        x[:rank] = (lowest_rank + (x[:followers_count] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
       #  ES_user_info.ranks.user_info |select| do
           
       #  end
@@ -96,14 +96,13 @@ class TweetsController < ApplicationController
   
   
   
-  def queryRankFromES()
+  def queryRankFromES(user_id)
     x = {}
     begin
-        x = Net::HTTP.get("http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user" + user_id.to_s)
-      rescue Exception=>e
-        Rails.logger.info(e)
-      end        
-    end  
+      x = Net::HTTP.get("http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user" + user_id.to_s)
+    rescue Exception=>e
+      Rails.logger.info(e)
+    end        
     Rails.logger.info(x)
     JSON.parse x
   end  
@@ -122,7 +121,7 @@ class TweetsController < ApplicationController
         all_tweets = client.home_timeline({:count => 200})
         all_tweets.each{ |tweet| tweet_list.push({ :user_id => tweet.user.id, :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
 
-        ES_user_info = queryRankFromES();
+        ES_user_info = queryRankFromES(session[:user]["user_id"]);
         
         tweet_list = getMaxMinAndUpdate(ES_user_info, tweet_list)
         
