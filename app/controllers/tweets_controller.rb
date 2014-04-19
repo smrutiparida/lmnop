@@ -265,7 +265,7 @@ class TweetsController < ApplicationController
         else
           # add new users found in tweet_list to the EC_user_info
           update_ec_index = true
-          es_user_info["ranks"].push({"user_id" => x[:user_id], "rank" : x[:rank], "set" => false})
+          es_user_info["ranks"].push({"user_id" => x[:user_id], "rank" => x[:rank], "set" => false})
         end  
       end
       
