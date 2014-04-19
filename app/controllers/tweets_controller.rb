@@ -258,8 +258,8 @@ class TweetsController < ApplicationController
         new_obj_list = es_user_info["ranks"].select { |item| item["user_id"] == x[:user_id] }
         if new_obj_list.length > 0 
           #if there is a set user in the ECuser_info, do not calculate his rank but add him directly to the tweet list  
-          unless new_obj_list["set"]
-            new_obj_list["rank"] = x[:rank] 
+          unless new_obj_list[0]["set"]
+            new_obj_list[0]["rank"] = x[:rank] 
             update_es_index = true
           end  
         else
