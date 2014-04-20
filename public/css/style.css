@@ -436,6 +436,6 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF);
 }
 
-#tweetList {
+#tweetlist {
   padding-top: 10px;
 }
