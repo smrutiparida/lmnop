@@ -11,7 +11,7 @@
 
   var offlineData = {};  
   var rankData = {};
-  var hashtag = "<span class='label label-info' style='margin:0 5px 5px 0;'><a href='#' class='hashtagclick' onclick='update(this,\"${key}\");'>${key}</a></span>";
+  var hashtag = "<span class='commonBtnTag'><a href='#' class='hashtagclick' onclick='update(this,\"${key}\");'>${key}</a></span>";
   
   $.template( "twitterTemplate", markup );
   $.template( "trendingTemplate", hashtag );
@@ -615,10 +615,9 @@ function callServer(ele)
 }
 </script>
   
-    
+
   <div class="tweetMainDiv">
     <div id="trending" class="tweetTags"></div>
-    
   </div>
   
         
