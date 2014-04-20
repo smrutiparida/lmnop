@@ -353,6 +353,7 @@ function update(ele, val){
     //global_hashtag = "";
     search_params["q"] = "";
     $(ele).parent().removeClass('active');
+    $('#tweetlist').empty()
     callServer('#tweetlist');
     
   }else{
@@ -361,6 +362,7 @@ function update(ele, val){
     search_params["q"] = val;//encodeURIComponent(val);
     search_params["screen_name"] = "";
     search_params["uniqueUser"] = true;
+    $('#tweetlist').empty()
     callServer('#tweetlist');//"user_search", values[1], values[0], 50,0,encodeURIComponent(val));
   }
 }
@@ -388,6 +390,7 @@ selectOption = $('#selectOpt').val();
     search_params["topic"] = selectOption;
     search_params["q"] = ""
     search_params["uniqueUser"] = false
+    $('#tweetlist').empty()
     callServer('#tweetlist');
   }
   else {
@@ -435,7 +438,8 @@ function doDragDrop(){
           type: 'POST',
           url: 'http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user_rank',
           data: JSON.stringify(user_data),
-          success: function(data) {   
+          success: function(data) { 
+            $('#tweetlist').empty()  
             callServer('#tweetlist');},
       });
 
@@ -469,12 +473,14 @@ $( document ).ready(function() {
 
   
   console.log("from on ready");
+  $('#tweetlist').empty()
   callServer('#tweetlist');
   
 
 
   $( "#viewCountry" ).change(function() {
     search_params["country"] = $("#viewCountry option:selected").attr('value');
+    $('#tweetlist').empty()
     callServer('#tweetlist');    
   });
 
@@ -560,7 +566,7 @@ var callOfflineFunc = function offline_after_call(data, ele){
     }
     
     console.log(processed_tweets)
-    $(ele).empty()
+    //$(ele).empty()
     $.tmpl( "twitterTemplate", processed_tweets ).appendTo( ele );
     console.log($.tmpl( "twitterTemplate", processed_tweets ))
     /*
@@ -586,7 +592,7 @@ var callOfflineFunc = function offline_after_call(data, ele){
     }
     
     console.log(processed_tweets)
-    $(ele).empty()
+    //$(ele).empty()
     $.tmpl( "twitterTemplate", processed_tweets ).appendTo( ele );
     //$(ele).height("auto");
     console.log($.tmpl( "twitterTemplate", processed_tweets ))

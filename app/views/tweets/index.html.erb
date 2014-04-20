@@ -23,6 +23,7 @@
         document.getElementById('rangeSelectvalue').innerHTML = values[0] + "-" + values[1];
         search_params["low"] = values[1];
         search_params["high"] = values[0];
+        $('#tweetlist').empty()
         callServer('#tweetlist');
       }
     });
