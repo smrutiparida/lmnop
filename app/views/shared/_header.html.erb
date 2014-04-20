@@ -338,6 +338,9 @@ function expand(ele, val){
       console.log("data")
       var leftAlign = 15 + count * 35;
       $('#topArrow').css('left', leftAlign + '%')
+      $('#topArrow').css('top',  '3.6%')
+      $('#topArrow').css('position', 'absolute')
+      
       $('#slide-more').slideDown(2000);
       callServer('#slide-more');
       
