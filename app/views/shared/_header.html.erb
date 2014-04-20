@@ -334,15 +334,16 @@ function expand(ele, val){
         count = count - 1;
       }
 
-      $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;display:none"><div class="close_more" id="topArrow"></div></div>');
-      console.log("data")
       var leftAlign = 15 + count * 35;
-      $('#topArrow').css('left', leftAlign + '%')
-      $('#topArrow').css('top',  '3.6%')
-      $('#topArrow').css('position', 'absolute')
+      $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;display:none"><div class="close_more" id="topArrow" style="position:absolute;top:3.6%;left:' + leftAlign + '%;"></div></div>');
+      console.log("data")
+      
       
       $('#slide-more').slideDown(2000);
       callServer('#slide-more');
+      //$('#topArrow').css('left', leftAlign + '%')
+      //$('#topArrow').css('top',  '3.6%')
+      //$('#topArrow').css('position', 'absolute')
       
   }
   
