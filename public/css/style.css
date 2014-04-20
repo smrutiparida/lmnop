@@ -84,7 +84,11 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
   -webkit-filter: grayscale(1);}
 .more a img{ margin-right:2px; padding:0;}
 
-.less{ position:absolute; bottom:6px; right:8px;}
+.more-shown{ position:absolute; bottom:6px; right:8px;
+width: 16px;
+height: 10px;
+background: url(../images/top_arrow.png) no-repeat center;
+}
 .less a{ font:normal 11px Arial, Helvetica, sans-serif; color:#fff; text-decoration:none; background:#f06760; border-radius:10px; padding:1px 8px 1px 8px;
 -moz-box-shadow: inset 0 1px 0 0 #cd453f, 0 1px 2px 0 #cd453f; -webkit-box-shadow: inset 0 1px 0 0 #cd453f, 0 1px 2px 0 #cd453f;
 }
@@ -439,3 +443,13 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
 #tweetlist {
   padding-top: 10px;
 }
+
+#slidemore{
+  width:97%;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 5px;
+  margin-bottom: 5px;
+  position: relative;
+}
+.slidemore > .twitSec { width: 31.3% }
