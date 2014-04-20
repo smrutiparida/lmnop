@@ -1,14 +1,15 @@
   <div id="slider">
+
     <div class="heading">
       <div class="signin">
+        <a id="modal-more" class="commonBtn2" href="#modal-container-more" data-toggle="modal" style="margin-right:3px;  border:0; outline:0;">How it works</a>
         <% if session[:user] %>
-          <a id="modal-more" href="/tweets/logout" style="border:0; outline:none">Logout</a>
+          <a id="iframe commonBtn cboxElement" href="/tweets/logout" style="border:0; outline:none">Logout</a>
         <% else %>  
-          <a id="modal-more" href="/tweets/auth" style="border:0; outline:none">Sign in with Twitter</a>
+          <a id="iframe commonBtn cboxElement" href="/tweets/auth" style="border:0; outline:none">Sign in with Twitter</a>
         <% end %>
       </div>
-      <h1>Twitter Simplified<img src="/images/beta.png" style="position:absolute; padding-left:3px;" /></h1>
-      <h2>Drag the slider to start. <a id="modal-more" href="#modal-container-more" data-toggle="modal" style="border:0; outline:none">How it works?</a></h2>
+      <h1>Twitter Simplified<img src="images/beta.png" style="position:absolute; padding-left:3px;"></h1>
     </div>
     <div class="nav_selcet">
       <span style="padding-right:15px;">
