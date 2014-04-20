@@ -116,8 +116,7 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 
 
 
-.commonBtnTag{ background:#616161; font:normal 12px Arial, Helvetica, sans-serif; color:#fff; text-decoration:none; border-radius:10px; padding:1px 8px 1px 8px;
-}
+.commonBtnTag{ background:#616161; font:normal 12px Arial, Helvetica, sans-serif; color:#fff; text-decoration:none; border-radius:10px; padding:1px 8px 1px 8px; margin-right: 5px;}
 .commonBtnTag:hover{ text-decoration:none; background-color:#000;}
 .commonBtnTag a{ color:#fff !important;}
 .commonBtnTag a:hover{ text-decoration:none !important;}
@@ -435,4 +434,8 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
 .cboxIE #cboxMiddleLeft,
 .cboxIE #cboxMiddleRight {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#00FFFFFF,endColorstr=#00FFFFFF);
+}
+
+#tweetList {
+  padding-top: 10px;
 }
