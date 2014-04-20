@@ -446,3 +446,11 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
   position: relative;
 }
 .slide-more > .twitSec { width: 31.3% }
+
+.close_more {
+width: 20px;
+height: 200px;
+position: absolute;
+top: 8px;
+right: 8px;
+}

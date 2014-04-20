@@ -291,6 +291,15 @@ function processValues(values){
   return values;
 }
 
+
+
+function closeContainer_more(){
+  $('#slide-more').slideUp(2000).remove();
+  search_params["screen_name"] = "";
+  search_params["uniqueUser"] = true;
+  $('.more-shown').removeClass('more-shown'); 
+}
+
 function expand(ele, val){
   //var values = $( "#slider-range" ).slider( "values" );
   //values = processValues(values);
@@ -335,7 +344,7 @@ function expand(ele, val){
       }
 
       var leftAlign = 15 + count * 35;
-      $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;display:none"><div class="close_more" id="topArrow" style="position:absolute;top:-.45%;left:' + leftAlign + '%;"></div></div>');
+      $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;display:none"><div class="close_more"><a href="" onclick="return closeContainer_more();"><img src="/images/close_icn.png"></a></div><div id="topArrow" style="position:absolute;top:-.45%;left:' + leftAlign + '%;"></div></div>');
       console.log("data")
       
       
