@@ -84,7 +84,7 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
   -webkit-filter: grayscale(1);}
 .more a img{ margin-right:2px; padding:0;}
 
-.more-shown{ position:absolute; bottom:6px; right:8px;
+.more-shown{ bottom:6px; right:8px;
 width: 16px;
 height: 10px;
 background: url(../images/top_arrow.png) no-repeat center;
@@ -444,7 +444,7 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
   padding-top: 10px;
 }
 
-#slidemore{
+#slide-more{
   width:97%;
   background-color: #fff;
   border: 1px solid #ccc;
@@ -452,4 +452,4 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
   margin-bottom: 5px;
   position: relative;
 }
-.slidemore > .twitSec { width: 31.3% }
+.slide-more > .twitSec { width: 31.3% }
