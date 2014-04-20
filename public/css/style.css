@@ -354,13 +354,13 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
   100% { transform: rotate(360deg); transform: rotate(360deg); }
 }
 
-.topArrow {
+#topArrow {
   width: 16px;
   height: 10px;
   background: url(../images/top_arrow.png) no-repeat center;
   position: absolute;
   left: 2%;
-  top: -6%;
+  top: -3.6%;
 }
 
 

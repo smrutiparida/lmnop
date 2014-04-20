@@ -181,7 +181,7 @@
 
   function callSearchServer(func_call, ele) {
     
-    $(ele).html('<img src="/images/loading.gif" />');
+    //$(ele).html('<img src="/images/loading.gif" />');
     $.getJSON( search_url, search_params, function( data ) {
       console.log("before success");
       console.log(data['success']);
@@ -325,15 +325,19 @@ function expand(ele, val){
       find_ele_to_slide = $(tweet).next();
       position = $(tweet).position().top;
       next_position = $(find_ele_to_slide).position().top;
+      var count = 2;
 
       while(next_position - position < 50){
         position = next_position;
         find_ele_to_slide = $(find_ele_to_slide).next();
         next_position = $(find_ele_to_slide).position().top
+        count = count - 1;
       }
 
-      $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;display:none"><img style="text-align:center;" src="/images/loading.gif" /><div class="close_more topArrow"></div></div>');
+      $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;display:none"><div class="close_more" id="topArrow"></div></div>');
       console.log("data")
+      var leftAlign = 15 + count * 35;
+      $('.topArrow').css('left', leftAlign + '%')
       $('#slide-more').slideDown(2000);
       callServer('#slide-more');
       
