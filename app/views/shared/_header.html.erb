@@ -332,7 +332,7 @@ function expand(ele, val){
         next_position = $(find_ele_to_slide).position().top
       }
 
-      $(find_ele_to_slide).before('<div id="slide-more" class="" style="height:' + height + 'px;display:none"><img style="text-align:center;" src="/images/loading.gif" /></div>');
+      $(find_ele_to_slide).before('<div id="slide-more" class="topArrow" style="height:' + height + 'px;display:none"><img style="text-align:center;" src="/images/loading.gif" /></div>');
       console.log("data")
       $('#slide-more').slideDown(2000);
       callServer('#slide-more');
