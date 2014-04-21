@@ -5,8 +5,8 @@
 
   $( document ).ready(function() {
       $( "#rangeSelectvalue" ).hide();
-      document.getElementById('blueColorScale').style.width = (30)+"%";
-      document.getElementById('blueColorScale').style.left = (0)+"%";
+      //document.getElementById('blueColorScale').style.width = (30)+"%";
+      //document.getElementById('blueColorScale').style.left = (0)+"%";
       document.getElementById('rangeSelectvalue').innerHTML = "1000-750";
     $( "#slider-range" ).slider({
       range: true,
@@ -16,8 +16,8 @@
       change: function( event, ui ) {
         $( "#rangeSelectvalue" ).show();
         
-        document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
-        document.getElementById('blueColorScale').style.left = (ui.values[0])+"%";
+        //document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
+        //document.getElementById('blueColorScale').style.left = (ui.values[0])+"%";
         var values = processValues(ui.values);
         
         document.getElementById('rangeSelectvalue').innerHTML = values[0] + "-" + values[1];
@@ -28,6 +28,182 @@
       }
     });
   });
+
+$(function () {
+    $('#container').highcharts({
+        chart: {
+            type: 'column',
+            spacingRight: 0,
+            height: 80
+        },
+        title:{
+            text:''
+        },
+        xAxis: {
+            labels: {
+              enabled: false
+            },
+            lineWidth: 0,
+            minorGridLineWidth: 0,
+            gridLineWidth: 0,
+            lineColor: 'transparent',
+            minorTickLength: 0,
+            tickLength: 0
+        },
+        yAxis: {
+            labels: {
+              enabled: false
+            },
+            title: {
+                text: null
+            },
+            gridLineWidth: 0
+        },
+        credits: {
+            enabled: false
+        },
+        plotOptions: {
+            column: {
+                groupPadding: 0.1,
+                pointPadding: 0.1,
+                pointWidth: 1,
+                borderWidth: 0,
+                colorByPoint: true
+            },
+            spline: {
+                lineWidth: 3,
+                marker: {
+                    enabled: false,
+                    states: {
+                         hover: {
+                              enabled: false
+                         }
+                    }
+                },
+                shadow: false,
+                states: {
+                    hover: {
+                        lineWidth: 1,
+                    }
+                },
+                threshold: null
+            }
+        },
+        colors: [
+            '#ff0000', 
+			'#ff0f00', 
+			'#ff1f00', 
+			'#ff2e00', 
+			'#ff3d00', 
+			'#ff4d00', 
+			'#ff5c00', 
+			'#ff6c00', 
+			'#ff7b00', 
+			'#ff8a00', 
+			'#ff9900', 
+			'#ffa900', 
+			'#ffb800', 
+			'#ffc700', 
+			'#ffd600', 
+			'#ffe600', 
+			'#fff500', 
+			'#f5ff00', 
+			'#d6ff00', 
+			'#b8ff00', 
+			'#99ff00', 
+			'#7aff00', 
+			'#5cff00', 
+			'#3dff00', 
+			'#1fff00', 
+			'#00ff00', 
+			'#00f000', 
+			'#00e100', 
+			'#00d100', 
+			'#00c200', 
+			'#00b300', 
+			'#00a400', 
+			'#009400', 
+			'#008500', 
+			'#0a8000', 
+			'#1a8000', 
+			'#298000', 
+			'#388000', 
+			'#488000', 
+			'#578000', 
+			'#668000', 
+			'#768000', 
+			'#7b850a', 
+			'#6c9429', 
+			'#5ca447', 
+			'#4db366', 
+			'#3dc285', 
+			'#2ed1a3', 
+			'#1fe1c2', 
+			'#0ff0e0', 
+			'#00ffff', 
+			'#00f0f0', 
+			'#00e1e1', 
+			'#00d1d1', 
+			'#00c2c2', 
+			'#00b3b3', 
+			'#00a4a4', 
+			'#009494', 
+			'#008585', 
+			'#007680', 
+			'#006680', 
+			'#005780', 
+			'#004880', 
+			'#003880', 
+			'#002980', 
+			'#001a80', 
+			'#000a80', 
+			'#050080', 
+			'#140080', 
+			'#240080', 
+			'#330080', 
+			'#430080', 
+			'#520080', 
+			'#610080', 
+			'#710080', 
+			'#800080', 
+			'#800071', 
+			'#800061', 
+			'#800052', 
+			'#800043', 
+			'#800033', 
+			'#800024', 
+			'#800014', 
+			'#800005', 
+			'#8a0014', 
+			'#990033', 
+			'#a90052', 
+			'#b80070', 
+			'#c7008f', 
+			'#d600ad', 
+			'#e600cc', 
+			'#f500eb', 
+			'#fa05fa', 
+			'#eb14eb', 
+			'#db24db', 
+			'#cc33cc', 
+			'#bd43bd', 
+			'#ae52ae', 
+			'#9e619e', 
+			'#8f718f', 
+			'#808080' 
+        ],
+        exporting: {
+             enabled: false
+        },
+        tooltip: {
+            enabled: false
+        },
+        series: [{
+            showInLegend: false, 
+            data: [48 ,28 ,49 ,24 ,76 ,29 ,84 ,18 ,66 ,94 ,58 ,91 ,66 ,94 ,1 ,89 ,88 ,20 ,62 ,48 ,7 ,22 ,3 ,32 ,89 ,77 ,12 ,54 ,20 ,50 ,42 ,52 ,83 ,67 ,62 ,59 ,7 ,73 ,7 ,32 ,64 ,72 ,49 ,64 ,20 ,24 ,57 ,80 ,22 ,43 ,76 ,85 ,41 ,77 ,18 ,55 ,70 ,21 ,47 ,69 ,39 ,54 ,71 ,80 ,60 ,24 ,15 ,83 ,98 ,64 ,94 ,66 ,90 ,96 ,3 ,51 ,88 ,70 ,2,73 ,48 ,5 ,81 ,43 ,96 ,71 ,2 ,84 ,21 ,91 ,35 ,10 ,47 ,8 ,2,55 ,8 ,92 ,95 ,68 ]
+        }]
+    });
+});
 <% end %>
 
 <div class="mainDiv">
