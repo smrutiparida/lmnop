@@ -54,7 +54,7 @@
   
 
   function post_reply_data(id){
-    $('#' + id).find('.tweet_reply_reply').append('<img style="text-align:center" src="/images/loading.gif" />');
+    $('#' + id).find('.tweet_reply_reply').html'<img style="text-align:center" src="/images/loading.gif" />');
     $.ajax({ type: "POST",
             url: "/tweets/reply", 
             data: { 'text': $('#myfield').val(), 'id': id } ,
@@ -73,7 +73,7 @@
   }
 
   function post_retweet_data(id){
-    $('#' + id).find('.tweet_reply_reply').append('<img style="text-align:center" src="/images/loading.gif" />');
+    $('#' + id).find('.tweet_reply_reply').html('<img style="text-align:center" src="/images/loading.gif" />');
     $.ajax( {type: "POST",
             url: "/tweets/retweet", 
             data: { 'id': id },
