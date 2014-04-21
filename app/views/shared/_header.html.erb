@@ -369,7 +369,7 @@ function update(ele, val){
   //values = processValues(values);
 
   
-  if($(ele).parent().attr('class') == "label label-info active"){
+  if($(ele).parent().hasClass('active')){
     //global_hashtag = "";
     search_params["q"] = "";
     $(ele).parent().removeClass('active');
