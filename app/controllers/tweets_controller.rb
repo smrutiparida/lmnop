@@ -69,7 +69,7 @@ class TweetsController < ApplicationController
         output_params = session[:user]  
         client = get_auth_client(output_params)
         all_tweets = client.home_timeline({:count => 200})
-        Rails.logger.info(all_tweets)
+        Rails.logger.info(all_tweets.to_json)
         all_tweets.each{ |tweet| tweet_list.push({ :user_id => tweet.user.id, :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})}
 
         es_user_info = queryRankFromES(session[:user]["user_id"]);
@@ -247,8 +247,8 @@ class TweetsController < ApplicationController
       
     tl_minmax = tweet_list.minmax_by { |ele| ele[:followers_count]}
 
-    Rails.logger.info(tl_minmax )
-    Rails.logger.info(es_minmax)
+    #Rails.logger.info(tl_minmax )
+    #Rails.logger.info(es_minmax)
 
     calculate_rank = tl_minmax[1][:followers_count] > es_minmax[1].values[0] or tl_minmax[0][:followers_count] < es_minmax[0].values[0] ? true : false
     
@@ -272,7 +272,7 @@ class TweetsController < ApplicationController
           update_es_index = true
           #es_user_info["ranks"].push({"user_id" => x[:user_id], "rank" => x[:rank], "set" => false})
           es_user_info["ranks"][x[:user_id]] = { "rank" => x[:rank] , "set" => false}
-          Rails.logger.info(es_user_info.to_json)
+        #  Rails.logger.info(es_user_info.to_json)
         end  
       end
       
