@@ -20,11 +20,11 @@
 
   $.template("replyTemplate", replyTemp);
 
-  var retweetTemplate = "<div class='tweet_reply tweet_reply_retweet'><form><img src='/images/reply_arrow.png'  style='position:absolute; top:-10px;'><h4>Retweet this to your followers?</h4><div class='retwet_action'><button type='submit' onclick='return post_retweet_data(\"${tweet_id}\");' class='btn btn-info btn-small'>Retweet</button><button class='btn btn-small' onclick='return closeContainer_retweet();'>Cancel</button></div></form></div>";
+  var retweetTemplate = "<div class='tweet_reply tweet_reply_retweet'><form><img src='/images/reply_arrow.png'  style='position:absolute; top:-10px;'><h4 style='text-align:center'>Retweet this to your followers?</h4><div class='retwet_action'><button type='submit' onclick='return post_retweet_data(\"${tweet_id}\");' class='btn btn-info btn-small'>Retweet</button><button class='btn btn-small' onclick='return closeContainer_retweet();'>Cancel</button></div></form></div>";
 
   $.template("retweetTemplate", retweetTemplate);
 
-  var doneTemplate = "<div class='done_reply tweet_reply' style='display:block;'><img src='/images/reply_arrow.png'  style='position:absolute; top:-10px;'><h4>Posted to your Timeline.</h4><div class='retwet_action'><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>";
+  var doneTemplate = "<div class='done_reply tweet_reply' style='display:block;'><img src='/images/reply_arrow.png'  style='position:absolute; top:-10px;'><h4 style='text-align:center'>Posted to your Timeline.</h4><div class='retwet_action'><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>";
 
   
     
@@ -54,7 +54,7 @@
   
 
   function post_reply_data(id){
-    $('#' + id).find('.tweet_reply_reply').after('<img style="text-align:center" src="/images/loading.gif" />');
+    $('#' + id).find('.tweet_reply_reply').append('<img style="text-align:center" src="/images/loading.gif" />');
     $.ajax({ type: "POST",
             url: "/tweets/reply", 
             data: { 'text': $('#myfield').val(), 'id': id } ,
@@ -73,7 +73,7 @@
   }
 
   function post_retweet_data(id){
-    $('#' + id).find('.tweet_reply_reply').after('<img style="text-align:center" src="/images/loading.gif" />');
+    $('#' + id).find('.tweet_reply_reply').append('<img style="text-align:center" src="/images/loading.gif" />');
     $.ajax( {type: "POST",
             url: "/tweets/retweet", 
             data: { 'id': id },
