@@ -238,7 +238,7 @@ class TweetsController < ApplicationController
 
     if es_user_info.empty? or !es_user_info.has_key?("ranks") or !es_user_info.has_key?("friends")
       es_user_info["user_id"] = user_id
-      es_user_info["ranks"] = []
+      es_user_info["ranks"] = {}
       es_user_info["friends"] = {}
     end
 
@@ -259,26 +259,28 @@ class TweetsController < ApplicationController
       tweet_list.each do |x|
         x[:rank] = (lowest_rank + (x[:followers_count] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
 
-        new_obj_list = es_user_info["ranks"].select { |item| item["user_id"] == x[:user_id] }
-        if new_obj_list.length > 0 
+        #new_obj_list = es_user_info["ranks"].select { |item| item["user_id"] == x[:user_id] }
+        if es_user_info["ranks"].has_key?(x[:user_id])
+        #if new_obj_list.length > 0 
           #if there is a set user in the ECuser_info, do not calculate his rank but add him directly to the tweet list  
-          unless new_obj_list[0]["set"]
-            new_obj_list[0]["rank"] = x[:rank] 
+          unless es_user_info["ranks"][:user_id]["set"]
+            es_user_info["ranks"][:user_id]["rank"] = x[:rank] 
             update_es_index = true
           end  
         else
           # add new users found in tweet_list to the es_user_info
           update_es_index = true
-          es_user_info["ranks"].push({"user_id" => x[:user_id], "rank" => x[:rank], "set" => false})
+          #es_user_info["ranks"].push({"user_id" => x[:user_id], "rank" => x[:rank], "set" => false})
+          es_user_info["ranks"][x[:user_id]] = { "rank" : x[:rank] , "set" => false}
           Rails.logger.info(es_user_info.to_json)
         end  
       end
       
       # recalculate all the ranks in es_user_info
-      es_user_info["ranks"].each do |item|
-        ele_array = tweet_list.select { |ele|  ele[:user_id] == item["user_id"] }
+      es_user_info["ranks"].each do |key, val|
+        ele_array = tweet_list.select { |ele|  ele[:user_id] == key }
         if ele_array.length == 0
-          item["rank"] = (lowest_rank + (es_user_info.friends[item["user_id"]] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
+          val["rank"] = (lowest_rank + (es_user_info.friends[item["user_id"]] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
           update_es_index = true
         end 
       end   
@@ -293,10 +295,10 @@ class TweetsController < ApplicationController
     end  
 
     #update user set ranks in the tweet_list
-    es_user_info["ranks"].each do |ele|
-      if ele["set"]
-        rank_array = tweet_list.select { |item| item[:user_id] == ele["user_id"] }
-        rank_array[0]["rank"] = ele["rank"] if rank_array.length > 0
+    es_user_info["ranks"].each do |key, val|
+      if val["set"]
+        rank_array = tweet_list.select { |item| item[:user_id] == key }
+        rank_array[0]["rank"] = val["rank"] if rank_array.length > 0
       end  
     end  
     
