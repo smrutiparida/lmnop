@@ -36,6 +36,7 @@ $(function () {
         type : "GET",
         success:function(result){
             console.log(result);
+            grph = JSON.parse(result);
             $('#container').highcharts({
                 chart: {
                     type: 'column',
@@ -206,7 +207,7 @@ $(function () {
                 },
                 series: [{
                     showInLegend: false, 
-                    data: JSON.parse(result.data.counts)
+                    data: grph.data.counts
                 }]
             });
           }
