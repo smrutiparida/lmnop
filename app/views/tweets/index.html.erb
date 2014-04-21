@@ -206,7 +206,7 @@ $(function () {
                 },
                 series: [{
                     showInLegend: false, 
-                    data: result.data.counts
+                    data: JSON.parse(result.data.counts)
                 }]
             });
           }
