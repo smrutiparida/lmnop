@@ -445,10 +445,13 @@ function doDragDrop(){
 
       console.log(per + "\t" + dropped_user_id);
 
+      temp = {}
+      temp["rank"] =  per * 10;
+      temp["set"] = true
       user_data = {}
       user_data["user_id"] = user_id
       user_data["ranks"] = {}
-      user_data["ranks"][dropped_user_id] = per * 10
+      user_data["ranks"][dropped_user_id] = temp
 
       //$.post( "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user_rank", user_data, function( data ) {
       //  alert("dropped");
