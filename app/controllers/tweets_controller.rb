@@ -306,7 +306,8 @@ class TweetsController < ApplicationController
     #update user set ranks in the tweet_list
     tweet_list.each do |item|
     #es_user_info["ranks"].each do |key, val|
-      if es_user_info["ranks"].has_key?(item[:user_id]) and es_user_info["ranks"][item[:user_id]]["set"]
+    
+      if es_user_info["ranks"].has_key?(item[:user_id].to_s) and es_user_info["ranks"][item[:user_id].to_s]["set"]
     #    rank_array = tweet_list.select { |item| item[:user_id] == key }
     #    rank_array[0]["rank"] = val["rank"] if rank_array.length > 0
         Rails.logger.info("updating rank of user id" + item[:name].to_s)
