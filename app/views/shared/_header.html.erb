@@ -74,7 +74,7 @@
   }
 
   function post_retweet_data(id){
-    $('#' + id).find('.tweet_reply_reply').html('<img style="text-align:center" src="/images/loading.gif" />');
+    $('#' + id).find('.tweet_reply_retweet').html('<img style="text-align:center" src="/images/loading.gif" />');
     $.ajax( {type: "POST",
             url: "/tweets/retweet", 
             data: { 'id': id },
