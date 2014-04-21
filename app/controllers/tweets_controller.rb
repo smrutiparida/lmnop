@@ -73,10 +73,10 @@ class TweetsController < ApplicationController
         all_tweets.each do |tweet|
           retweet_info = tweet.retweeted_status
           if retweet_info.user.id.blank? or retweet_info.user.screen_name.blank?
-            Rails.logger.info("in IF")
+            #Rails.logger.info("in IF")
             tweet_list.push({ :rt_user_id => nil, :rt_screen_name => "" , :rt_profile_image_url => "", :rt_name => "" ,:user_id => tweet.user.id, :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})            
           else            
-            Rails.logger.info("IN BUT")
+            #Rails.logger.info("IN BUT")
             tweet_list.push({ :rt_user_id => retweet_info.user.id.to_s, :rt_screen_name => retweet_info.user.screen_name.to_s , :rt_profile_image_url => retweet_info.user.profile_image_url.to_s, :rt_name => retweet_info.user.name.to_s ,:user_id => tweet.user.id, :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})
           end  
         end  
@@ -304,10 +304,13 @@ class TweetsController < ApplicationController
     end  
 
     #update user set ranks in the tweet_list
-    es_user_info["ranks"].each do |key, val|
-      if val["set"]
-        rank_array = tweet_list.select { |item| item[:user_id] == key }
-        rank_array[0]["rank"] = val["rank"] if rank_array.length > 0
+    tweet_list.each do |item|
+    #es_user_info["ranks"].each do |key, val|
+      if es_user_info["ranks"].has_key?(item[:user_id]) and es_user_info["ranks"][item[:user_id]]["set"]
+    #    rank_array = tweet_list.select { |item| item[:user_id] == key }
+    #    rank_array[0]["rank"] = val["rank"] if rank_array.length > 0
+        Rails.logger.info("updating rank of user id" + item[:name].to_s)
+        item[:rank] = es_user_info["ranks"][item[:user_id]]["rank"]
       end  
     end  
     
