@@ -271,7 +271,7 @@ class TweetsController < ApplicationController
           # add new users found in tweet_list to the es_user_info
           update_es_index = true
           #es_user_info["ranks"].push({"user_id" => x[:user_id], "rank" => x[:rank], "set" => false})
-          es_user_info["ranks"][x[:user_id]] = { "rank" : x[:rank] , "set" => false}
+          es_user_info["ranks"][x[:user_id]] = { "rank" => x[:rank] , "set" => false}
           Rails.logger.info(es_user_info.to_json)
         end  
       end
