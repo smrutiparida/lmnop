@@ -54,10 +54,11 @@
   
 
   function post_reply_data(id){
+    var text = $('#myfield').val();
     $('#' + id).find('.tweet_reply_reply').html('<img style="text-align:center" src="/images/loading.gif" />');
     $.ajax({ type: "POST",
             url: "/tweets/reply", 
-            data: { 'text': $('#myfield').val(), 'id': id } ,
+            data: { 'text': text, 'id': id } ,
             success: function(data){
               if(data["message"] != ""){
                 $('#' + id).find('.tweet_reply_reply').after("<div class='done_reply' style='display:block;'><h3>" + data[message] + "</h3><div><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>").remove();

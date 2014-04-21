@@ -102,7 +102,10 @@ class TweetsController < ApplicationController
         message ="Authorization failed. Login again."
         return_type = false
       rescue Twitter::Error::NotFound  
-        message = "Could not retweet. Please rfresh the page."
+        message = "Could not reply. Please refresh the page."
+        return_type = false
+      rescue Twitter::Error::Forbidden
+        message = "EMpty status message could not be posted."
         return_type = false
       end  
       status = 200
@@ -320,7 +323,7 @@ class TweetsController < ApplicationController
       Rails.logger.info(e)
     end       
     x = "{}" if x.empty?
-    Rails.logger.info(x)
+    #Rails.logger.info(x)
     JSON.parse x
   end  
 
