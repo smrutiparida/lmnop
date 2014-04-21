@@ -15,7 +15,8 @@
   <%= javascript_include_tag "/js/pace.min.js" %>
   <%= javascript_include_tag "/js/bootstrap.min.js" %>
   <%= javascript_include_tag "/js/underscore-min.js" %>
-  <script>
+
+  <%= javascript_tag do %>
     var _prum = [['id', '5354dc15abe53d6f392b701e'],
                  ['mark', 'firstbyte', (new Date()).getTime()]];
     (function() {
@@ -25,7 +26,7 @@
         p.src = '//rum-static.pingdom.net/prum.min.js';
         s.parentNode.insertBefore(p, s);
     })();
-</script>
+  <% end %>
     
 </head>
 <body>
