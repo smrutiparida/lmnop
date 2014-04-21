@@ -71,10 +71,10 @@ class TweetsController < ApplicationController
         all_tweets = client.home_timeline({:count => 200})
         #Rails.logger.info(all_tweets.to_json)
         all_tweets.each do |tweet|
-          if tweet.retweeted_status.id.blank? or tweet.retweeted_status.user.id.blank?
+          retweet_info = tweet.retweeted_status
+          if retweet_info.user.id.blank? or retweet_info.user.screen_name.blank?
             tweet_list.push({ :user_id => tweet.user.id, :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})            
-          else
-            retweet_info = tweet.retweeted_status
+          else            
             tweet_list.push({ :rt_user_id => retweet_info.user.id, :rt_screen_name => retweet_info.user.screen_name , :rt_profile_image_url => retweet_info.user.profile_image_url.to_s, :rt_name => retweet_info.user.name,:user_id => tweet.user.id, :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.id ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})
           end  
         end  
