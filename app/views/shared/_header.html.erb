@@ -118,7 +118,14 @@
   }
   
 */
-  
+  function updateRank(droppedUser, newRank)
+  {
+    _.each(offlineData["tweets"], function(tweet,index,list){
+      if(tweet.user_id >= droppedUser){
+        temp.rank = newRank
+      }
+    })
+  }
 
   
   function callOfflineServer(func_call, ele){
@@ -463,6 +470,7 @@ function doDragDrop(){
           data: JSON.stringify(user_data),
           success: function(data) { 
             $('#tweetlist').empty()  
+            updateRank(dropped_user_id, per*10);
             callServer('#tweetlist');},
       });
 

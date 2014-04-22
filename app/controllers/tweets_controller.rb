@@ -241,8 +241,8 @@ class TweetsController < ApplicationController
  
 
   def updateRank(es_user_info, tweet_list, user_id)
-    Rails.logger.info("inside updateRank")
-    Rails.logger.info(es_user_info)
+    #Rails.logger.info("inside updateRank")
+    #Rails.logger.info(es_user_info)
     lowest_rank = 1
     highest_rank = 1000
     update_es_index = false
@@ -258,8 +258,8 @@ class TweetsController < ApplicationController
       
     tl_minmax = tweet_list.minmax_by { |ele| ele[:followers_count]}
 
-    Rails.logger.info(tl_minmax)
-    Rails.logger.info(es_minmax)
+    #Rails.logger.info(tl_minmax)
+    #Rails.logger.info(es_minmax)
 
     calculate_rank = tl_minmax[1][:followers_count] > es_minmax[1][1] or tl_minmax[0][:followers_count] < es_minmax[0][1] ? true : false
     
@@ -267,8 +267,8 @@ class TweetsController < ApplicationController
       highest_fc = tl_minmax[1][:followers_count] > es_minmax[1][1]  ? tl_minmax[1][:followers_count] : es_minmax[1][1]
       lowest_fc =  tl_minmax[0][:followers_count] < es_minmax[0][1]  ? tl_minmax[0][:followers_count] : es_minmax[0][1]
 
-      Rails.logger.info("higest fc is " + highest_fc.to_s)
-      Rails.logger.info("lowest fc is " + lowest_fc.to_s)
+      #Rails.logger.info("higest fc is " + highest_fc.to_s)
+      #Rails.logger.info("lowest fc is " + lowest_fc.to_s)
 
       tweet_list.each do |x|
         x[:rank] = (lowest_rank + (x[:followers_count] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
@@ -301,32 +301,32 @@ class TweetsController < ApplicationController
     
     tweet_list.each do |item|
       #update the friend list if there is a new user in the es_user_info
-      Rails.logger.info(es_user_info["friends"].has_key?(item[:user_id].to_s))
-      Rails.logger.info(es_user_info["friends"][item[:user_id].to_s])
-      Rails.logger.info(item[:followers_count])
+      #Rails.logger.info(es_user_info["friends"].has_key?(item[:user_id].to_s))
+      #Rails.logger.info(es_user_info["friends"][item[:user_id].to_s])
+      #Rails.logger.info(item[:followers_count])
 
       unless es_user_info["friends"].has_key?(item[:user_id].to_s) and es_user_info["friends"][item[:user_id].to_s] == item[:followers_count]
         es_user_info["friends"][item[:user_id]] = item[:followers_count] 
         update_es_index = true
-        Rails.logger.info("updating with new friends" + item[:user_id].to_s)
+        #Rails.logger.info("updating with new friends" + item[:user_id].to_s)
       end  
       
       #set ranks if user has explicitly set any
       if es_user_info["ranks"].has_key?(item[:user_id].to_s) and es_user_info["ranks"][item[:user_id].to_s]["set"]
-        Rails.logger.info("updating rank of user id" + item[:name].to_s)
+        #Rails.logger.info("updating rank of user id" + item[:name].to_s)
         item[:rank] = es_user_info["ranks"][item[:user_id].to_s]["rank"]
       end  
     end  
     
     # updare es_user_info and write back to the server    
     if update_es_index
-      Rails.logger.info(es_user_info.to_json)
+      #Rails.logger.info(es_user_info.to_json)
       es_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user"
       uri = URI.parse(es_url)
       initheader = {"Content-Type"=> "application/json"}
       http = Net::HTTP.new(uri.host,uri.port)
       resp = http.post(uri.path, es_user_info.to_json , initheader)
-      Rails.logger.info(resp.body)
+      #Rails.logger.info(resp.body)
     end  
 
     tweet_list
@@ -334,7 +334,7 @@ class TweetsController < ApplicationController
   end  
   
   def queryRankFromES(user_id)
-    Rails.logger.info("inside queryRankFromES")
+    #Rails.logger.info("inside queryRankFromES")
     x = "{}"
     begin
       x = Net::HTTP.get("54.254.80.93","/tweet-store/index.php/api/TweetsUnique/user?user_id=" + user_id.to_s)
@@ -342,7 +342,7 @@ class TweetsController < ApplicationController
       Rails.logger.info(e)
     end       
     x = "{}" if x.empty?
-    Rails.logger.info(x)
+    #Rails.logger.info(x)
     JSON.parse x
   end  
 
