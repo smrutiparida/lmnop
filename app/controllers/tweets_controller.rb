@@ -314,7 +314,7 @@ class TweetsController < ApplicationController
       #set ranks if user has explicitly set any
       if es_user_info["ranks"].has_key?(item[:user_id].to_s) and es_user_info["ranks"][item[:user_id].to_s]["set"]
         Rails.logger.info("updating rank of user id" + item[:name].to_s)
-        item[:rank] = es_user_info["ranks"][item[:user_id]]["rank"]
+        item[:rank] = es_user_info["ranks"][item[:user_id].to_s]["rank"]
       end  
     end  
     
