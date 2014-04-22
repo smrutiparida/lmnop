@@ -10,6 +10,8 @@ class TweetsController < ApplicationController
   @@consumer_key =  "bNEQCVbQ5G5fm1x0TTuWhCYAR"
 
   def index
+    Rails.logger.info(params)
+    Rails.logger.info(params[:topic])
   end
   
   def my
