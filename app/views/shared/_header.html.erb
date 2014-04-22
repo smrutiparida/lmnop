@@ -121,8 +121,9 @@
   function updateRank(droppedUser, newRank)
   {
     _.each(offlineData["tweets"], function(tweet,index,list){
-      if(tweet.user_id >= droppedUser){
-        temp.rank = newRank
+      if(tweet.user_id == droppedUser){
+        tweet.rank = newRank;
+        console.log("Rank updated for" + tweet.name);
       }
     })
   }
