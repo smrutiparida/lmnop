@@ -304,6 +304,7 @@ class TweetsController < ApplicationController
       unless es_user_info["friends"].has_key?(item[:user_id]) and es_user_info["friends"][item[:user_id]] == item[:followers_count]
         es_user_info["friends"][item[:user_id]] = item[:followers_count] 
         update_es_index = true
+        Rails.logger.info("updating with new friends" + item[:user_id].to_s)
       end  
       
       #set ranks if user has explicitly set any
