@@ -292,7 +292,7 @@ class TweetsController < ApplicationController
       es_user_info["ranks"].each do |key, val|
         ele_array = tweet_list.select { |ele|  ele[:user_id] == key }
         if ele_array.length == 0
-          val["rank"] = (lowest_rank + (es_user_info.friends[key] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
+          val["rank"] = (lowest_rank + (es_user_info["friends"][key] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
           update_es_index = true
         end 
       end   
