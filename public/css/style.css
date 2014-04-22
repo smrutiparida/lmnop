@@ -115,8 +115,7 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 .commonBtn2:hover{ text-decoration:none; background-color:#00abee; text-decoration:none; border-radius:10px; padding:3px 8px 3px 8px;-webkit-box-shadow: 2px 2px 4px 0px rgba(50, 50, 50, 0.54); -moz-box-shadow:1px 1px 1px 0px rgba(50, 50, 50, 0.54); box-shadow:1px 1px 1px 0px rgba(50, 50, 50, 0.54); color:#fff !important;}
 
 
-
-.commonBtnTag{ background:#616161; font:normal 12px Arial, Helvetica, sans-serif; color:#fff; text-decoration:none; border-radius:10px; padding:1px 8px 1px 8px; margin-right: 5px;}
+.commonBtnTag{ background:#616161; font:normal 12px Arial, Helvetica, sans-serif; color:#fff;  margin-bottom:2px !important; float:left; text-decoration:none; border-radius:10px; padding:1px 8px 1px 8px; margin-right: 5px;}
 .commonBtnTag:hover{ text-decoration:none; background-color:#000;}
 .commonBtnTag a{ color:#fff !important;}
 .commonBtnTag a:hover{ text-decoration:none !important;}
