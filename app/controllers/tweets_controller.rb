@@ -253,7 +253,7 @@ class TweetsController < ApplicationController
       es_user_info["friends"] = {}
     end
 
-    es_minmax = [{ "min" => 1000000000}, {"max" => 0}]
+    es_minmax = [["min" ,1000000000], ["max" , 0]]
     es_minmax = es_user_info["friends"].minmax_by { |k, v| v } unless es_user_info["friends"].empty?
       
     tl_minmax = tweet_list.minmax_by { |ele| ele[:followers_count]}
