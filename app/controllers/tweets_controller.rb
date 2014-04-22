@@ -301,6 +301,10 @@ class TweetsController < ApplicationController
     
     tweet_list.each do |item|
       #update the friend list if there is a new user in the es_user_info
+      Rails.logger.info(es_user_info["friends"].has_key?(item[:user_id]))
+      Rails.logger.info(es_user_info["friends"][item[:user_id]])
+      Rails.logger.info(item[:followers_count])
+      es_user_info["friends"].has_key?(item[:user_id])
       unless es_user_info["friends"].has_key?(item[:user_id]) and es_user_info["friends"][item[:user_id]] == item[:followers_count]
         es_user_info["friends"][item[:user_id]] = item[:followers_count] 
         update_es_index = true
