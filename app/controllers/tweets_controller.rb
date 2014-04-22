@@ -83,7 +83,9 @@ class TweetsController < ApplicationController
 
         es_user_info = queryRankFromES(session[:user]["user_id"]);
         
-        tweet_list = updateRank(es_user_info, tweet_list, session[:user]["user_id"])
+        es_user_info = es_user_info.has_key?("_source") ? es_user_info["_source"] : {}
+
+        tweet_list = updateRank(, tweet_list, session[:user]["user_id"])
         
         tweet_map = tweet_list.group_by{ |s| s[:screen_name] }
         tweet_map.each { |k,v| frequency_data[k] = v.length}
