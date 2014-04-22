@@ -274,7 +274,7 @@ class TweetsController < ApplicationController
         x[:rank] = (lowest_rank + (x[:followers_count] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
 
         
-        if es_user_info["ranks"].has_key?(x[:user_id])
+        if es_user_info["ranks"].has_key?(x[:user_id].to_s)
           #if there is a set user in the ECuser_info, do not calculate his rank but add him directly to the tweet list  
           unless es_user_info["ranks"][x[:user_id]]["set"]
             es_user_info["ranks"][x[:user_id]]["rank"] = x[:rank] 
@@ -290,7 +290,7 @@ class TweetsController < ApplicationController
       
       # recalculate all the ranks in es_user_info
       es_user_info["ranks"].each do |key, val|
-        ele_array = tweet_list.select { |ele|  ele[:user_id] == key }
+        ele_array = tweet_list.select { |ele|  ele[:user_id] == key.to_i }
         if ele_array.length == 0
           val["rank"] = (lowest_rank + (es_user_info["friends"][key] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
           update_es_index = true
@@ -301,11 +301,11 @@ class TweetsController < ApplicationController
     
     tweet_list.each do |item|
       #update the friend list if there is a new user in the es_user_info
-      Rails.logger.info(es_user_info["friends"].has_key?(item[:user_id]))
-      Rails.logger.info(es_user_info["friends"][item[:user_id]])
+      Rails.logger.info(es_user_info["friends"].has_key?(item[:user_id].to_s))
+      Rails.logger.info(es_user_info["friends"][item[:user_id].to_s])
       Rails.logger.info(item[:followers_count])
-      es_user_info["friends"].has_key?(item[:user_id])
-      unless es_user_info["friends"].has_key?(item[:user_id]) and es_user_info["friends"][item[:user_id]] == item[:followers_count]
+
+      unless es_user_info["friends"].has_key?(item[:user_id].to_s) and es_user_info["friends"][item[:user_id].to_s] == item[:followers_count]
         es_user_info["friends"][item[:user_id]] = item[:followers_count] 
         update_es_index = true
         Rails.logger.info("updating with new friends" + item[:user_id].to_s)
