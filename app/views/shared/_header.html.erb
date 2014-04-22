@@ -414,12 +414,12 @@ selectOption = $('#selectOpt').val();
     window.location.href = '/tweets/my';  
   }
   else if(selectOption == "1"){
-    
-    search_params["topic"] = selectOption;
-    search_params["q"] = ""
-    search_params["uniqueUser"] = false
-    $('#tweetlist').empty()
-    callServer('#tweetlist');
+    window.location.href = '/tweets/index?topic=' + selectOption;   
+    //search_params["topic"] = selectOption;
+    //search_params["q"] = ""
+    //search_params["uniqueUser"] = false
+    //$('#tweetlist').empty()
+    //callServer('#tweetlist');
   }
   else {
 

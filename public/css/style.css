@@ -92,7 +92,7 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 
 .mainDiv{width:100%; margin:0 auto;}
 .tweetMainDiv{width:90%; margin:0 auto; margin-top:220px;}
-.tweetTags{width:90%; margin:0 auto; margin-bottom:8px;}
+.tweetTags{width:90%; margin:0 auto; margin-bottom:8px;clear: :left;}
 .verified_ac{width:21px; position:absolute; right:3px; top:3px;}
 .slider_range_comment{width:100%; height:6px; margin:0 auto; text-align:center; margin-top:4px; border-right:1px dotted #e5e5e5}
 .slider_range_commentEach{width:24%; float:left; font:normal 10px Arial, Helvetica, sans-serif; color:#cecece; text-align:center; position:relative; height:10px; }
