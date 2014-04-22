@@ -261,11 +261,11 @@ class TweetsController < ApplicationController
     Rails.logger.info(tl_minmax)
     Rails.logger.info(es_minmax)
 
-    calculate_rank = tl_minmax[1][:followers_count] > es_minmax[1].values[0] or tl_minmax[0][:followers_count] < es_minmax[0].values[0] ? true : false
+    calculate_rank = tl_minmax[1][:followers_count] > es_minmax[1][1] or tl_minmax[0][:followers_count] < es_minmax[0][1] ? true : false
     
     if calculate_rank
-      highest_fc = tl_minmax[1][:followers_count] > es_minmax[1].values[0]  ? tl_minmax[1][:followers_count] : es_minmax[1].values[0]
-      lowest_fc =  tl_minmax[0][:followers_count] < es_minmax[0].values[0]  ? tl_minmax[0][:followers_count] : es_minmax[0].values[0]
+      highest_fc = tl_minmax[1][:followers_count] > es_minmax[1][1]  ? tl_minmax[1][:followers_count] : es_minmax[1][1]
+      lowest_fc =  tl_minmax[0][:followers_count] < es_minmax[0][1]  ? tl_minmax[0][:followers_count] : es_minmax[0][1]
 
       Rails.logger.info("higest fc is " + highest_fc.to_s)
       Rails.logger.info("lowest fc is " + lowest_fc.to_s)
