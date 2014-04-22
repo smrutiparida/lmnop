@@ -276,14 +276,14 @@ class TweetsController < ApplicationController
         
         if es_user_info["ranks"].has_key?(x[:user_id].to_s)
           #if there is a set user in the ECuser_info, do not calculate his rank but add him directly to the tweet list  
-          unless es_user_info["ranks"][x[:user_id]]["set"]
-            es_user_info["ranks"][x[:user_id]]["rank"] = x[:rank] 
+          unless es_user_info["ranks"][x[:user_id].to_s]["set"]
+            es_user_info["ranks"][x[:user_id].to_s]["rank"] = x[:rank] 
             update_es_index = true
           end  
         else
           # add new users found in tweet_list to the es_user_info
           update_es_index = true
-          es_user_info["ranks"][x[:user_id]] = { "rank" => x[:rank] , "set" => false}
+          es_user_info["ranks"][x[:user_id].to_s] = { "rank" => x[:rank] , "set" => false}
         #  Rails.logger.info(es_user_info.to_json)
         end  
       end
