@@ -240,7 +240,7 @@ class TweetsController < ApplicationController
 
   def updateRank(es_user_info, tweet_list, user_id)
     Rails.logger.info("inside updateRank")
-
+    Rails.logger.info(es_user_info)
     lowest_rank = 1
     highest_rank = 1000
     update_es_index = false
@@ -251,7 +251,7 @@ class TweetsController < ApplicationController
       es_user_info["friends"] = {}
     end
 
-    es_minmax = [{ "min" => 1000000}, {"max" => 0}]
+    es_minmax = [{ "min" => 1000000000}, {"max" => 0}]
     es_minmax = es_user_info["friends"].minmax_by { |k, v| v } unless es_user_info["friends"].empty?
       
     tl_minmax = tweet_list.minmax_by { |ele| ele[:followers_count]}
