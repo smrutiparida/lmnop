@@ -256,8 +256,8 @@ class TweetsController < ApplicationController
       
     tl_minmax = tweet_list.minmax_by { |ele| ele[:followers_count]}
 
-    #Rails.logger.info(tl_minmax )
-    #Rails.logger.info(es_minmax)
+    Rails.logger.info(tl_minmax)
+    Rails.logger.info(es_minmax)
 
     calculate_rank = tl_minmax[1][:followers_count] > es_minmax[1].values[0] or tl_minmax[0][:followers_count] < es_minmax[0].values[0] ? true : false
     
@@ -265,12 +265,14 @@ class TweetsController < ApplicationController
       highest_fc = tl_minmax[1][:followers_count] > es_minmax[1].values[0]  ? tl_minmax[1][:followers_count] : es_minmax[1].values[0]
       lowest_fc =  tl_minmax[0][:followers_count] < es_minmax[0].values[0]  ? tl_minmax[0][:followers_count] : es_minmax[0].values[0]
 
+      Rails.logger.info("higest fc is " + highest_fc.to_s)
+      Rails.logger.info("lowest fc is " + lowest_fc.to_s)
+
       tweet_list.each do |x|
         x[:rank] = (lowest_rank + (x[:followers_count] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
 
-        #new_obj_list = es_user_info["ranks"].select { |item| item["user_id"] == x[:user_id] }
+        
         if es_user_info["ranks"].has_key?(x[:user_id])
-        #if new_obj_list.length > 0 
           #if there is a set user in the ECuser_info, do not calculate his rank but add him directly to the tweet list  
           unless es_user_info["ranks"][x[:user_id]]["set"]
             es_user_info["ranks"][x[:user_id]]["rank"] = x[:rank] 
@@ -279,7 +281,6 @@ class TweetsController < ApplicationController
         else
           # add new users found in tweet_list to the es_user_info
           update_es_index = true
-          #es_user_info["ranks"].push({"user_id" => x[:user_id], "rank" => x[:rank], "set" => false})
           es_user_info["ranks"][x[:user_id]] = { "rank" => x[:rank] , "set" => false}
         #  Rails.logger.info(es_user_info.to_json)
         end  
@@ -295,21 +296,16 @@ class TweetsController < ApplicationController
       end   
     end  
     
-    #update the friend list if there is a new user in the es_user_info
-    tweet_list.each do |ele|
-      unless es_user_info["friends"].has_key?(ele[:user_id]) and es_user_info["friends"][ele[:user_id]] == ele[:followers_count]
-        es_user_info["friends"][ele[:user_id]] = ele[:followers_count] 
+    
+    tweet_list.each do |item|
+      #update the friend list if there is a new user in the es_user_info
+      unless es_user_info["friends"].has_key?(item[:user_id]) and es_user_info["friends"][item[:user_id]] == item[:followers_count]
+        es_user_info["friends"][item[:user_id]] = item[:followers_count] 
         update_es_index = true
       end  
-    end  
-
-    #update user set ranks in the tweet_list
-    tweet_list.each do |item|
-    #es_user_info["ranks"].each do |key, val|
-    
+      
+      #set ranks if user has explicitly set any
       if es_user_info["ranks"].has_key?(item[:user_id].to_s) and es_user_info["ranks"][item[:user_id].to_s]["set"]
-    #    rank_array = tweet_list.select { |item| item[:user_id] == key }
-    #    rank_array[0]["rank"] = val["rank"] if rank_array.length > 0
         Rails.logger.info("updating rank of user id" + item[:name].to_s)
         item[:rank] = es_user_info["ranks"][item[:user_id]]["rank"]
       end  
