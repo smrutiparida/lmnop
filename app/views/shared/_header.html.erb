@@ -343,21 +343,39 @@ function expand(ele, val){
       var height = 128 * Math.ceil(tweet_to_be_loaded/3);
       //find element in the next row
       find_ele_to_slide = $(tweet).next();
-      position = $(tweet).position().top;
-      next_position = $(find_ele_to_slide).position().top;
-      var count = 2;
 
-      while(next_position - position < 50){
-        position = next_position;
-        find_ele_to_slide = $(find_ele_to_slide).next();
-        next_position = $(find_ele_to_slide).position().top
-        count = count - 1;
+      if (typeof find_ele_to_slide === "undefined") {
+        $(tweet).after('<div id="slide-more" style="height:' + height + 'px;display:none"><div class="close_more"><a href="" onclick="return closeContainer_more();"><img src="/images/close_icn.png"></a></div><div id="topArrow" style="position:absolute;top:-.45%;left:50%;"></div></div>');
       }
+      else {
+        position = $(tweet).position().top;
+        next_position = $(find_ele_to_slide).position().top;
+        var count = 2;
+        var diff = next_position - position;
+        while( diff < 50){
+          position = next_position;
+          tweet = find_ele_to_slide;
+          find_ele_to_slide = $(find_ele_to_slide).next();
+          if (typeof find_ele_to_slide === "undefined") {
+            diff = 100000;
+          }
+          else {
+            next_position = $(find_ele_to_slide).position().top
+            diff = next_position - position;  
+          }
+          count = count - 1;
+        }
 
-      var leftAlign = 15 + count * 35;
-      $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;display:none"><div class="close_more"><a href="" onclick="return closeContainer_more();"><img src="/images/close_icn.png"></a></div><div id="topArrow" style="position:absolute;top:-.45%;left:' + leftAlign + '%;"></div></div>');
-      console.log("data")
-      
+        var leftAlign = 15 + count * 35;
+        //if(diff == 100000){
+          $(tweet).after('<div id="slide-more" style="height:' + height + 'px;display:none"><div class="close_more"><a href="" onclick="return closeContainer_more();"><img src="/images/close_icn.png"></a></div><div id="topArrow" style="position:absolute;top:-.45%;left:' + leftAlign + '%;"></div></div>');
+        //}
+        //else{
+        //  $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;display:none"><div class="close_more"><a href="" onclick="return closeContainer_more();"><img src="/images/close_icn.png"></a></div><div id="topArrow" style="position:absolute;top:-.45%;left:' + leftAlign + '%;"></div></div>');  
+        //}
+        
+        console.log("data")
+      }
       
       $('#slide-more').slideDown(500);
       callServer('#slide-more');
