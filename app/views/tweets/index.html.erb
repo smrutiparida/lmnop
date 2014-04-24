@@ -24,7 +24,7 @@
   }
 
   $( document ).ready(function() {
-      <%= if params[:topic] %>
+      <% if params[:topic] %>
         document.getElementById("selectOpt").value = "1";
       <% end %>
       $( "#rangeSelectvalue" ).hide();
