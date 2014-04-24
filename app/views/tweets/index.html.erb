@@ -24,6 +24,9 @@
   }
 
   $( document ).ready(function() {
+      <%= if params[:topic] %>
+        document.getElementById("selectOpt").value = "1";
+      <% end %>
       $( "#rangeSelectvalue" ).hide();
       //document.getElementById('blueColorScale').style.width = (30)+"%";
       //document.getElementById('blueColorScale').style.left = (0)+"%";
