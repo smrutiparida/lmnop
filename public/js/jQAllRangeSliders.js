@@ -1416,14 +1416,8 @@ function (a) {
             $('.range-draggable').livequery(function() {
                 $(this).draggable({
                     helper: 'clone',
-                    start: function(event, ui) {
-                        console.log(this);
-                        console.log(event.target);
-                        $(this).css({"z-index":9999});
-                    },
-                    stop:function(event, ui){
-                        $(this).css({"z-index":'auto'});
-                    }
+                    cursor: "move",
+                    zIndex: 100000
                 });
             });
         }
