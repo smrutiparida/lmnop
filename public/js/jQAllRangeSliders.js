@@ -1348,6 +1348,7 @@ function (a) {
             var that = this;
             this.container.droppable({
                 accept:'.range-draggable',
+                tolerance: "pointer",
                 drop: function (event, ui) {   
                     console.log("dropped");
                     var data = ui.draggable.data();
