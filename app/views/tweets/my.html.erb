@@ -5,36 +5,26 @@
 
   
   $( document ).ready(function() {
-      $( "#rangeSelectvalue" ).hide();
-      //document.getElementById('blueColorScale').style.width = (100)+"%";
-      //document.getElementById('blueColorScale').style.left = (0)+"%";
-      document.getElementById('rangeSelectvalue').innerHTML = "1000-0";
-    $('#selectOpt').val('mytweets');
-     $('#progressMainID').addClass('droppable');
-    //$(".tweets-content").each(function(index){ $(this).text(urlify($(this).text())); }); 
-    //$(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
-    //doDragDrop();
-
-      $( "#slider-range" ).slider({
-      range: true,
-      min: 0,
-      max: 100,
-      values: [ 0, 100 ],
-      change: function( event, ui ) {
-        $( "#rangeSelectvalue" ).show();
-        
-        //document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
-        //document.getElementById('blueColorScale').style.left = (ui.values[0])+"%";
-        var values = processValues(ui.values);
-        
-        document.getElementById('rangeSelectvalue').innerHTML = values[0] + "-" + values[1];
-        search_params["low"] = values[1];
-        search_params["high"] = values[0];
-        $('#tweetlist').empty()
-        callServer('#tweetlist');
-      }
-
-    });
+        var marks = [{
+                pos : 10,
+                data : {
+                        title : "abrar",
+                        img : "http://pbs.twimg.com/profile_images/1237328494/New_Picture_normal.jpg"
+                }
+        },
+        {
+                pos : 60,
+                data : {
+                        title : "abrar4",
+                        img : "http://pbs.twimg.com/profile_images/436105065598689281/Fm7w2M89_normal.png"
+                }
+        }];
+        $("#slider-range").dropRangeSlider({markers : marks, arrows:false, valueLabels: "change"});
+        $(".draggable").draggable({
+            helper: 'clone',
+            start: function(event, ui) {
+            }
+        });
  
   });
 <% end %>
