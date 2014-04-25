@@ -1413,7 +1413,7 @@ function (a) {
             }).appendTo(this.container);
         },
         _bindDragElement:function () {
-            $(document).on('DOMNodeInserted', function(e) { 
+            $(this).livequery(function() {
                 $('.range-draggable').draggable({
                     helper: 'clone',
                     start: function(event, ui) {
