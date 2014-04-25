@@ -1413,14 +1413,16 @@ function (a) {
             }).appendTo(this.container);
         },
         _bindDragElement:function () {
-            $(".range-draggable").draggable({
-                helper: 'clone',
-                start: function(event, ui) {
-                    $(this).css({"z-index":999});
-                },
-                stop:function(event, ui){
-                    $(this).css({"z-index":'auto'});
-                }
+            $(document).on('DOMNodeInserted', function(e) { 
+                $('.range-draggable').draggable({
+                    helper: 'clone',
+                    start: function(event, ui) {
+                        $(this).css({"z-index":999});
+                    },
+                    stop:function(event, ui){
+                        $(this).css({"z-index":'auto'});
+                    }
+                });
             });
         }
     })
