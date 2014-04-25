@@ -1413,8 +1413,8 @@ function (a) {
             }).appendTo(this.container);
         },
         _bindDragElement:function () {
-            $(this).livequery(function() {
-                $('.range-draggable').draggable({
+            $('.range-draggable').livequery(function() {
+                $(this).draggable({
                     helper: 'clone',
                     start: function(event, ui) {
                         $(this).css({"z-index":999});
