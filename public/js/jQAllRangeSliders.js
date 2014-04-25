@@ -1417,7 +1417,7 @@ function (a) {
                 $(this).draggable({
                     helper: 'clone',
                     start: function(event, ui) {
-                        $(this).css({"z-index":999});
+                        $(this).css({"z-index":9999});
                     },
                     stop:function(event, ui){
                         $(this).css({"z-index":'auto'});
