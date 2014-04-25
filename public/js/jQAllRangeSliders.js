@@ -1417,7 +1417,8 @@ function (a) {
                 $(this).draggable({
                     helper: 'clone',
                     cursor: "move",
-                    zIndex: 100000
+                    zIndex: 100000,
+                    tolerance: "pointer"
                 });
             });
         }
