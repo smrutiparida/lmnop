@@ -1349,10 +1349,7 @@ function (a) {
             this.container.droppable({
                 drop: function (event, ui) {   
                     var data = ui.draggable.data();
-                    var pos = ui.draggable.offset(), dPos = $(this).offset();
-                    var rangeOff = (pos.left - dPos.left + ui.position.left)/parseFloat(that.container.width())*100;
-
-                    console.log(pos, dPos, ui.position.left, rangeOff);
+                    var rangeOff = (event.pageX - $(that.container).offset().left)/parseFloat(that.container.width())*100;
                     that._renderMarker({
                         pos : rangeOff,
                         data : data
