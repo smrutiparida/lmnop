@@ -1418,7 +1418,8 @@ function (a) {
                     helper: 'clone',
                     cursor: "move",
                     zIndex: 100000,
-                    tolerance: "pointer"
+                    tolerance: "pointer",
+                    cursorAt: { top: 0, left: 0 },
                 });
             });
         }
