@@ -22,7 +22,7 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 
 .twitter_signin{wdth:310px; margin:10px 0 10px 0;}
 .progressMain{width:90%; height:62px; margin:0 auto; position:relative;}
-.twitSec{width:31%; min-height:110px; padding:6px; display: inline-block; vertical-align:top !important; border:1px solid #d3d3d3; margin:0 8px 8px 0; position:relative; z-index:9999;  background-color:#fff;}
+.twitSec{width:31%; min-height:110px; padding:6px; display: inline-block; vertical-align:top !important; border:1px solid #d3d3d3; margin:0 8px 8px 0; position:relative;  background-color:#fff;}
 .twitSec:hover{border:1px solid #ccc; border-radius:3px;}
 
 .twitSec:hover .moreOptions{ opacity:0.9;}
@@ -60,7 +60,7 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 
 .tweetlist{width:90%; margin:0 auto; text-align:center; border:1px solid #d7d7d7; border-radius:4px; padding:10px; margin-bottom:10px; background:#daeffd;}
 
-.top_container{width:100%; margin:0 auto; background-color:#fff; padding-top:20px; margin-bottom:10px; border-bottom:1px solid #ccc; position:fixed; top:0; z-index:9;}
+.top_container{width:100%; margin:0 auto; background-color:#fff; padding-top:20px; margin-bottom:10px; border-bottom:1px solid #ccc; position:fixed; top:0; z-index:99999;}
 
 .moreT{width:99%;height:119px; border:1px solid #a1a1a1; position:absolute; bottom:-5px; right:-5px; z-index:1; border-left:0; border-top:0; background: url(../images/top_border.png) no-repeat right top; z-index:-1; webkit-transition: 200ms linear all; -moz-transition: 200ms linear all;  transition: 200ms linear all;}
 .moreT:after {

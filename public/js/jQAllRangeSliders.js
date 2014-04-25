@@ -1358,6 +1358,7 @@ function (a) {
             });
             this._createTooltip();
             this._renderMarkers();
+            this._bindDragElement();
         },
         destroy: function () {
             a.ui.rangeSlider.prototype.destroy.apply(this)
@@ -1410,6 +1411,17 @@ function (a) {
                 class : "ui-dropRangeSlider-marker",
                 data : marker.data
             }).appendTo(this.container);
+        },
+        _bindDragElement:function () {
+            $(".range-draggable").draggable({
+                helper: 'clone',
+                start: function(event, ui) {
+                    $(this).css({"z-index":999});
+                },
+                stop:function(event, ui){
+                    $(this).css({"z-index":'auto'});
+                }
+            });
         }
     })
 }(jQuery);
