@@ -20,12 +20,18 @@
                 }
         }];
         $("#slider-range").dropRangeSlider({markers : marks, arrows:false, valueLabels: "change"});
+        $("#slider-range").bind("valuesChanged", function(e, data){
+            console.log("Values just changed. min: " + data.values.min + " max: " + data.values.max);
+            search_params["low"] = data.values.min;
+            search_params["high"] = data.values.max;
+            $('#tweetlist').empty()
+            callServer('#tweetlist');
+        });
         $(".draggable").draggable({
             helper: 'clone',
             start: function(event, ui) {
             }
         });
- 
   });
 <% end %>
 
