@@ -1347,7 +1347,9 @@ function (a) {
             a.ui.rangeSlider.prototype._create.apply(this);
             var that = this;
             this.container.droppable({
+                accept:'.range-draggable',
                 drop: function (event, ui) {   
+                    console.log("dropped");
                     var data = ui.draggable.data();
                     var rangeOff = (event.pageX - $(that.container).offset().left)/parseFloat(that.container.width())*100;
                     that._renderMarker({
