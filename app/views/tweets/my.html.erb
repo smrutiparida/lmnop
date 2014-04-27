@@ -9,8 +9,8 @@
         $("#slider-range").dropRangeSlider({markers : marks, arrows:false, valueLabels: "change"});
         $("#slider-range").bind("valuesChanged", function(e, data){
             console.log("Values just changed. min: " + data.values.min + " max: " + data.values.max);
-            search_params["low"] = data.values.min;
-            search_params["high"] = data.values.max;
+            search_params["low"] = 1000 - data.values.max*10;
+            search_params["high"] = 1000 - data.values.min*10;
             $('#tweetlist').empty()
             callServer('#tweetlist');
         });
