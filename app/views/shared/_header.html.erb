@@ -381,7 +381,7 @@ function expand(ele, val){
         console.log("data")
       }
       
-      $('#slide-more').slideDown(500);
+      $('#slide-more').slideDown(00);
       callServer('#slide-more');
       //$('#topArrow').css('left', leftAlign + '%')
       //$('#topArrow').css('top',  '3.6%')
@@ -656,7 +656,11 @@ var callOfflineFunc = function offline_after_call(data, ele){
       $.tmpl("trendingTemplate", data["data"]["aggregations"]["hashtags_freq"]["buckets"].slice(0,20)).appendTo( "#trending" );
     }
     
-    $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text() + " UTC")); }); 
+    $(".timeCal").each(function(index){
+      if(date.indexOf("ago") == -1){
+        $(this).text(timeSince($(this).text() + " UTC"));
+      }
+    }); 
     return false;
   }
 
