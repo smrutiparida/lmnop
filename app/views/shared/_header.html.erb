@@ -657,8 +657,9 @@ var callOfflineFunc = function offline_after_call(data, ele){
     }
     
     $(".timeCal").each(function(index){
+      var date = $(this).text();
       if(date.indexOf("ago") == -1){
-        $(this).text(timeSince($(this).text() + " UTC"));
+        $(this).text(timeSince( date + " UTC"));
       }
     }); 
     return false;
