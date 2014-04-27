@@ -30,7 +30,7 @@
                 data: JSON.stringify(user_data),
                 success: function(data) { 
                   $('#tweetlist').empty()  
-                  updateRank(dropped_user_id, per*10);
+                  updateRank(data['user_id'], per*10);
                   console.log('done');
                   callServer('#tweetlist');},
             });
