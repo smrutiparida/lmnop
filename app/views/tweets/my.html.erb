@@ -28,11 +28,7 @@
                 type: 'POST',
                 url: 'http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user',
                 data: JSON.stringify(user_data),
-                success: function(data) { 
-                  $('#tweetlist').empty();
-                  updateRank(data['user_id'], per*10);
-                  console.log('done');
-                  callServer('#tweetlist');},
+                success: function(data) { },
             });
         });
   });
