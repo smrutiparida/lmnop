@@ -9,7 +9,7 @@
 }
 
 .ui-rangeSlider .ui-rangeSlider-innerBar{
-	height:10px;
+	height:4px;
 	border: 1px solid #aaaaaa;
 	border-radius: 4px;
 	margin:3px 6px;
@@ -18,18 +18,19 @@
 
 
 .ui-rangeSlider .ui-rangeSlider-handle{
-	width: 20px;
-	height: 20px;
+	width: 15px;
+	height: 15px;
 	border-radius: 40px;
 	background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ebf1f6), color-stop(50%,#abd3ee), color-stop(51%,#89c3eb), color-stop(100%,#d5ebfb));
 	border:0; outline:none;
 	cursor:col-resize;
+	margin-top:-1px;
 }
 
 .ui-rangeSlider .ui-rangeSlider-bar{
 	margin: 3px 0;
 	background:#c4c4c4;
-	height:11px;
+	height:5px;
 	cursor:move;
 	cursor:grab;
 	cursor: -moz-grab;
@@ -115,7 +116,7 @@ input.ui-editRangeSlider-inputValue{
 
 .ui-dropRangeSlider-marker {
   width : 3px;
-  height : 50%;
+  height : 16%;
   background-color:#2f7ed8;
   position : absolute;
   top:20%;

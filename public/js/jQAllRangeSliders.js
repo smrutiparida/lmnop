@@ -1353,6 +1353,8 @@ function (a) {
                     console.log("dropped");
                     var data = ui.draggable.data();
                     var rangeOff = (event.pageX - $(that.container).offset().left)/parseFloat(that.container.width())*100;
+                    data['pos'] = rangeOff;
+                    that.element.trigger('dropAction', data)
                     that._renderMarker({
                         pos : rangeOff,
                         data : data
