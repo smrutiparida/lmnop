@@ -4,6 +4,17 @@
   var markup = "<div class='twitSec range-draggable' id='${tweet_id}' data-count='${more_count}' data-img='${profile_image_url}' data-title='${name}' data-id='${user_id}'>{{if typeof(rt_user_id) != 'undefined' && rt_user_id != null && rt_user_id != ''}}<div class='tw_img' user_id='${rt_user_id}'><img src='${rt_profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a href='http://www.twitter.com/${rt_screen_name}' target='_blank'>${rt_name}</a><span class='timeCal flRt'>${created_at}</span></h1><span>@${rt_screen_name}</span><div class='clr'></div><p>{{html tweet_text}}</p><div class='retweeted'>Retweeted by<a href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a></div>{{else}}<div class='tw_img draggable' user_id='${user_id}'><img src='${profile_image_url}'/></div><h1><span><img src='/images/t_birrd_small.png'/></span><a user_id='${user_id}' href='http://www.twitter.com/${screen_name}' target='_blank'>${name}</a><span class='timeCal flRt'>${created_at}</span></h1><span>@${screen_name}</span><div class='clr'></div><p>{{html tweet_text}}</p>{{/if}}<div class='moreOptions'><ul><li><a href='#' class='showmenu_reply'><img src='/images/reply_icn.png'></a></li><li><a href='#' class='showmenu_retweet'><img src='/images/retweet_icn.png'></a></li><li><a href='#' class='make-favorite' tid='${tweet_id}'><img src='/images/favorite_icn.png'></a></li></ul></div>{{if more_count>1}}<span class='more'><a href='#' onclick='expand(this,\"${screen_name}\");'><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /><img src='/images/more_icn.png' /></a></span>{{/if}}</div>";
 
   
+
+
+<div class="mainDiv">
+  <div class="top_container">
+    <%= render 'shared/slider' %>
+    <div id="trending" class="tweetTags"></div>  
+  </div>  
+  <%= render 'shared/header' %>
+  <%= render 'shared/footer' %>
+</div>  
+
   $( document ).ready(function() {
         var marks = [];
         $("#slider-range").dropRangeSlider({markers : marks, arrows:false, valueLabels: "change"});
@@ -29,7 +40,7 @@
                 url: 'http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user',
                 data: JSON.stringify(user_data),
                 success: function(data) { 
-                  $('#tweetlist').empty()  
+                  $('#tweetlist').empty();
                   updateRank(data['user_id'], per*10);
                   console.log('done');
                   callServer('#tweetlist');},
@@ -37,15 +48,6 @@
         });
   });
 <% end %>
-
-<div class="mainDiv">
-  <div class="top_container">
-    <%= render 'shared/slider' %>
-    <div id="trending" class="tweetTags"></div>  
-  </div>  
-  <%= render 'shared/header' %>
-  <%= render 'shared/footer' %>
-</div>  
 
 
 
