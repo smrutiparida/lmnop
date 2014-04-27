@@ -19,42 +19,42 @@
                     mark['data'] = {'id' : key, 'img': data._source.ranks[key].profile_image_url, 
                         'title': data._source.ranks[key].name};
                     marks.push(mark);
-                    console.log(mark);
                 }
+                $("#slider-range").dropRangeSlider({markers : marks, arrows:false, valueLabels: "change"});
+                $("#slider-range").bind("valuesChanged", function(e, data){
+                    console.log("Values just changed. min: " + data.values.min + " max: " + data.values.max);
+                    search_params["low"] = 1000 - data.values.max*10;
+                    search_params["high"] = 1000 - data.values.min*10;
+                    $('#tweetlist').empty()
+                    callServer('#tweetlist');
+                });
+                $("#slider").bind("dropAction", function(e,data) {
+                    console.log(data);
+
+                    temp = {};
+                    temp["rank"] =  1000 - data['pos'] * 10;
+                    temp["set"] = true;
+                    temp["profile_image_url"] =  data['img'];
+                    temp["name"] = data['title'];
+                    user_data = {};
+                    user_data["user_id"] = user_id;
+                    user_data["ranks"] = {};
+                    user_data["ranks"][data['id']] = temp;
+                    $.ajax({
+                        type: 'POST',
+                        url: 'http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user',
+                        data: JSON.stringify(user_data),
+                        success: function(data) { 
+                          $('#tweetlist').empty();
+                          updateRank(data['id'], 1000 - data['pos'] * 10);
+                          console.log(user_data);
+                          callServer('#tweetlist');},
+                    });
+                });
             },
         });
         
-        $("#slider-range").dropRangeSlider({markers : marks, arrows:false, valueLabels: "change"});
-        $("#slider-range").bind("valuesChanged", function(e, data){
-            console.log("Values just changed. min: " + data.values.min + " max: " + data.values.max);
-            search_params["low"] = 1000 - data.values.max*10;
-            search_params["high"] = 1000 - data.values.min*10;
-            $('#tweetlist').empty()
-            callServer('#tweetlist');
-        });
-        $("#slider").bind("dropAction", function(e,data) {
-            console.log(data);
-            
-            temp = {};
-            temp["rank"] =  1000 - data['pos'] * 10;
-            temp["set"] = true;
-            temp["profile_image_url"] =  data['img'];
-            temp["name"] = data['title'];
-            user_data = {};
-            user_data["user_id"] = user_id;
-            user_data["ranks"] = {};
-            user_data["ranks"][data['id']] = temp;
-            $.ajax({
-                type: 'POST',
-                url: 'http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user',
-                data: JSON.stringify(user_data),
-                success: function(data) { 
-                  $('#tweetlist').empty();
-                  updateRank(data['id'], 1000 - data['pos'] * 10);
-                  console.log(user_data);
-                  callServer('#tweetlist');},
-            });
-        });
+        
   });
 <% end %>
 
