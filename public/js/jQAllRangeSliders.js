@@ -1411,11 +1411,34 @@ function (a) {
             }
         },
         _renderMarker:function(marker) {
-            this._createMarker({
-                left: marker.pos + "%",
-                class : "ui-dropRangeSlider-marker",
-                data : marker.data
-            }).appendTo(this.container);
+            var currMarkerPos = this._isMarkerExists(marker);
+            if (currMarkerPos == -1)  {
+                marker['markerUI'] = this._createMarker({
+                    left: marker.pos + "%",
+                    class : "ui-dropRangeSlider-marker",
+                    data : marker.data
+                }).appendTo(this.container);
+                console.log(marker);
+                this.options.markers.push(marker);
+            }
+            else {
+                if (this.options.markers.length > 0) {
+                    if (typeof this.options.markers[currMarkerPos].markerUI != 'undefined') {
+                        this.options.markers[currMarkerPos].markerUI.remove();
+                    }
+                    this.options.markers[currMarkerPos].markerUI = this._createMarker({
+                        left: marker.pos + "%",
+                        class : "ui-dropRangeSlider-marker",
+                        data : marker.data
+                    }).appendTo(this.container);
+                }
+            }
+        },
+        _isMarkerExists: function(marker) {
+            for(var i=0; i< this.options.markers.length; i++) {
+                if (this.options.markers[i].data.id == marker.data.id) return i;
+            }
+            return -1;
         },
         _bindDragElement:function () {
             $('.range-draggable').livequery(function() {
