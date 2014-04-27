@@ -10,16 +10,20 @@
             type: 'GET',
             url: 'http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user?user_id='+user_id,
             success: function(data) { 
+                data = JSON.parse(data);
                 console.log(data._source.ranks);
                 for(var key in data._source.ranks) {
+                    if(data._source.ranks[key].set == false) continue;
                     var mark = {};
                     mark['pos'] = (1000 - data._source.ranks[key].rank)/parseFloat(10);
                     mark['data'] = {'id' : key, 'img': data._source.ranks[key].profile_image_url, 
                         'title': data._source.ranks[key].name};
                     marks.push(mark);
+                    console.log(mark);
                 }
             },
         });
+        
         $("#slider-range").dropRangeSlider({markers : marks, arrows:false, valueLabels: "change"});
         $("#slider-range").bind("valuesChanged", function(e, data){
             console.log("Values just changed. min: " + data.values.min + " max: " + data.values.max);
