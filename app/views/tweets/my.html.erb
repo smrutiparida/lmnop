@@ -6,6 +6,20 @@
   
   $( document ).ready(function() {
         var marks = [];
+        $.ajax({
+            type: 'GET',
+            url: 'http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user?user_id='+user_id,
+            success: function(data) { 
+                console.log(data._source.ranks);
+                for(var key in data._source.ranks) {
+                    var mark = {};
+                    mark['pos'] = (1000 - data._source.ranks[key].rank)/parseFloat(10);
+                    mark['data'] = {'id' : key, 'img': data._source.ranks[key].profile_image_url, 
+                        'title': data._source.ranks[key].name};
+                    marks.push(mark);
+                }
+            },
+        });
         $("#slider-range").dropRangeSlider({markers : marks, arrows:false, valueLabels: "change"});
         $("#slider-range").bind("valuesChanged", function(e, data){
             console.log("Values just changed. min: " + data.values.min + " max: " + data.values.max);
@@ -20,6 +34,8 @@
             temp = {};
             temp["rank"] =  1000 - data['pos'] * 10;
             temp["set"] = true;
+            temp["profile_image_url"] =  data['img'];
+            temp["name"] = data['title'];
             user_data = {};
             user_data["user_id"] = user_id;
             user_data["ranks"] = {};
