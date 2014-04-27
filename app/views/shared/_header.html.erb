@@ -255,6 +255,9 @@ function urlify(all_tweets) {
 }
 
 function timeSince(date) {
+  if(date.indexOf("ago") != -1){
+    return date;
+  }
   //var split_data = date.split(" ");
   //var date_info  = split_data[0].split("-").map(function(item) {
   //                                                               return parseInt(item, 10);
