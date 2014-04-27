@@ -23,14 +23,14 @@
             user_data = {};
             user_data["user_id"] = user_id;
             user_data["ranks"] = {};
-            user_data["ranks"][data['user_id']] = temp;
+            user_data["ranks"][data['id']] = temp;
             $.ajax({
                 type: 'POST',
                 url: 'http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user',
                 data: JSON.stringify(user_data),
                 success: function(data) { 
                   $('#tweetlist').empty();
-                  updateRank(data['user_id'], per*10);
+                  updateRank(data['id'], per*10);
                   console.log(user_data);
                   callServer('#tweetlist');},
             });
