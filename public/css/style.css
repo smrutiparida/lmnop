@@ -451,6 +451,7 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
   padding: 5px;
   margin-bottom: 5px;
   position: relative;
+  height:auto;
 }
 .slide-more > .twitSec { width: 31.3% }
 

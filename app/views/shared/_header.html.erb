@@ -345,7 +345,7 @@ function expand(ele, val){
       find_ele_to_slide = $(tweet).next();
 
       if ($(find_ele_to_slide).length == 0 || find_ele_to_slide === undefined || typeof find_ele_to_slide === "undefined") {
-        $(tweet).after('<div id="slide-more" style="height:' + height + 'px;display:none"><div class="close_more"><a href="" onclick="return closeContainer_more();"><img src="/images/close_icn.png"></a></div><div id="topArrow" style="position:absolute;top:-.45%;left:50%;"></div></div>');
+        $(tweet).after('<div id="slide-more" style="height:auto;display:none"><div class="close_more"><a href="" onclick="return closeContainer_more();"><img src="/images/close_icn.png"></a></div><div id="topArrow" style="position:absolute;top:-.45%;left:50%;"></div></div>');
       }
       else {
         console.log(find_ele_to_slide)
