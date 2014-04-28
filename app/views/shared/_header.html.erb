@@ -1,4 +1,8 @@
 <script>
+
+$(document).ready(function() {
+	$('.my-sticky-element').waypoint('sticky');
+});
 <% if session.has_key?("user") %>
   var is_signed = true
   var user_id = <%= session[:user]["user_id"] %>
