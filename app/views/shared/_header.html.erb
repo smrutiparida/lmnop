@@ -645,6 +645,7 @@ var callOfflineFunc = function offline_after_call(data, ele){
       $("#trending").empty();
       $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"].slice(0,20)).appendTo( "#trending" );
     }
+    
     */
     
     var date = $(this).text();
