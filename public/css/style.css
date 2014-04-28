@@ -17,6 +17,7 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 .top_container.stuck {
         position:fixed;
         top:0;
+        max-height: 234px;
         z-index:999;
 }
 .twitSec button{ margin-left:6px !important;}
