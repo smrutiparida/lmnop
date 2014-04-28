@@ -99,7 +99,7 @@ class TweetsController < ApplicationController
       end
     end    
 
-    render :json => {:facets => frequency_data, :tweets => tweet_list, :cache=> cache}, :status => status
+    render :json => {:facets => frequency_data, :tweets => tweet_list, :cache=> cache, :success => true, :totalCount => tweet_list.length}, :status => status
   end  
 
   def reply

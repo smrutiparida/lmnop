@@ -136,11 +136,11 @@
     
     $.getJSON( '/tweets/offline', search_params, function( data ) {
 
-      if(data['success'] && data["cache"] == true){
+      if(data['success'] && data["cache"]){
         data = offlineData
       }
       else if (!data['success']){
-        if(offlineData["data"]["totalCount"] > 0){
+        if(offlineData["totalCount"] > 0){
           data = offlineData;
         }
         else{
