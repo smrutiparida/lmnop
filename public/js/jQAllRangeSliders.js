@@ -1446,7 +1446,7 @@ function (a) {
                     helper: 'clone',
                     cursor: "move",
                     zIndex: 100000,
-                    tolerance: "touch",
+                    tolerance: "intersect",
                     hoverClass: "drop-hover",
                     cursorAt: { top: 0, left: 0 },
                 });
