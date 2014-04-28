@@ -645,14 +645,8 @@ var callOfflineFunc = function offline_after_call(data, ele){
       $("#trending").empty();
       $.tmpl("trendingTemplate", data["data"]["facets"]["hashtag_frequency"]["terms"].slice(0,20)).appendTo( "#trending" );
     }
-
     */
-    
-    var date = $(this).text();
-
-    date = date.replace(/-/g,'/');
-    $(".timeCal").each(function(index){ $(this).text(timeSince(date));}); 
-    
+    $(".timeCal").each(function(index){ $(this).text(timeSince($(this).text())); }); 
     doDragDrop();
     return false;
   }
@@ -682,6 +676,7 @@ var callOfflineFunc = function offline_after_call(data, ele){
     $(".timeCal").each(function(index){
       var date = $(this).text();
       if(date.indexOf("ago") == -1){
+        date = date.replace(/-/g,'/');
         $(this).text(timeSince( date + " UTC"));
       }
     }); 
