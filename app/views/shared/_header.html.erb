@@ -200,7 +200,7 @@
   }
 
   function printNoData(){
-    return "<div class='tweetlist'><p>Sorry, There are no tweets from people with UserRank range " + search_params["low"] + " - " + search_params["high"] + " - because they didn't tweet in the last 24 hours. Please change the range in the slider to see tweet.<p><p>Or if you think there is a bug, please do send us a screenshot at <a href='mailto:amar@brizzlabs.com'>amar@brizzlabs.com</a> & we will try fixing it.</p></div>"
+    return "<div class='tweetlist'><p>Sorry, There are no tweets from people with UserRank range " + Math.ceil(search_params["low"]) + " - " + Math.ceil(search_params["high"]) + " - because they didn't tweet in the last 24 hours. Please change the range in the slider to see tweet.<p><p>Or if you think there is a bug, please do send us a screenshot at <a href='mailto:amar@brizzlabs.com'>amar@brizzlabs.com</a> & we will try fixing it.</p></div>"
   }
 
   function printConnectionIssue(){
