@@ -71,7 +71,7 @@ class TweetsController < ApplicationController
         output_params = session[:user]  
         client = get_auth_client(output_params)
         all_tweets = client.home_timeline({:count => 200})
-        #Rails.logger.info(all_tweets.to_json)
+        Rails.logger.info(all_tweets.to_json)
         all_tweets.each do |tweet|
           retweet_info = tweet.retweeted_status
           if retweet_info.user.id.blank? or retweet_info.user.screen_name.blank?
