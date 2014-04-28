@@ -6,8 +6,8 @@ require 'json'
 require 'twitter'
 
 class TweetsController < ApplicationController
-  @@consumer_secret = "Fhtou0sRRMw5jaGd6TDNAY25q0pvX0kuWhUG12SuZZIg7sVcA9"
-  @@consumer_key =  "bNEQCVbQ5G5fm1x0TTuWhCYAR"
+  @@consumer_secret = "ho9RwNBuOZ0EVJQ4BJtbYdwJJW4np47LgcclZVJJRZIwcxGRrI"
+  @@consumer_key =  "tM7jPwa7VW2agWKzauZALCmGY"
 
   def index
     Rails.logger.info(params)
@@ -197,7 +197,7 @@ class TweetsController < ApplicationController
     #auth_token_secret ="TWgjxFgp7T0T6GwEv7jAO3FlXLuKKtjPOoaKRYeOWmTSG"
     twitter_url = "https://api.twitter.com/oauth/request_token"
     post_params = get_params()
-    post_params['oauth_callback'] = url_encode('http://lmnopapp.com/tweets/my')
+    post_params['oauth_callback'] = url_encode('http://www.peoplefied.com/tweets/my')
     
     signature_base_string = signature_base_string("POST", twitter_url, post_params)
 
