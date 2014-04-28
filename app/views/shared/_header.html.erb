@@ -392,8 +392,9 @@ function expand(ele, val){
 
       $("#slide-more").width(($('#tweetlist').width()*97)/100);
       
-      $('#slide-more').slideDown(500);
+      
       callServer('#slide-more');
+      $('#slide-more').slideDown('slow');
       //$('#topArrow').css('left', leftAlign + '%')
       //$('#topArrow').css('top',  '3.6%')
       //$('#topArrow').css('position', 'absolute')
