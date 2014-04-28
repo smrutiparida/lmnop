@@ -5,6 +5,7 @@
 
   
   $( document ).ready(function() {
+        document.getElementById('rangeSelectvalue').innerHTML = "0 - 1000";
         document.getElementById("selectOpt").value = "mytweets";
         var marks = [];
         $.ajax({
@@ -33,6 +34,14 @@
                     document.getElementById('rangeSelectvalue').innerHTML = search_params["low"] + "-" + search_params["high"];
                     $('#tweetlist').empty()
                     callServer('#tweetlist');
+                    hideBird();
+                });
+                $("#slider-range").bind("valuesChanging", function(e, data){
+                    var param = {};
+                    param["low"] = Math.floor(1000 - data.values.max*10);
+                    param["high"] = Math.floor(1000 - data.values.min*10);
+                    document.getElementById('rangeSelectvalue').innerHTML = param["low"] + "-" + param["high"];
+                    bringBird();
                 });
                 $("#slider").bind("dropAction", function(e,data) {
                     console.log(data);
