@@ -1354,7 +1354,7 @@ function (a) {
             this.options.dropAreaSel.droppable({
                 accept:'.range-draggable',
                 tolerance: "touch",
-                hoverClass: "drop-hover",
+                hoverClass: "drop_over",
                 drop: function (event, ui) {   
                     var data = ui.draggable.data();
                     var rangeOff = (event.pageX - $(that.options.dropAreaSel).offset().left)/parseFloat(that.options.dropAreaSel.width())*100;
