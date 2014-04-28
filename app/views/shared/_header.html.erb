@@ -647,8 +647,8 @@ var callOfflineFunc = function offline_after_call(data, ele){
     }
     */
     
-    var date = $(this).text()
-    date = date.replace("-","/");
+    var date = $(this).text();
+    date = date.replace(/-/g,'/');
     $(".timeCal").each(function(index){ $(this).text(timeSince(date));}); 
     doDragDrop();
     return false;
