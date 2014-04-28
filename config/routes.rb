@@ -1,4 +1,6 @@
 Lmnop::Application.routes.draw do
+  root :to => 'tweets#index'
+
   get "railways/pnr"
   get "railways/profanity"
   get "tweets/index"
