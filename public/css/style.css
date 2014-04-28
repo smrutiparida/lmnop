@@ -446,12 +446,11 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
 
 #slide-more{
   width:97%;
-  background-color: #fff;
+  background-color: #d6e5eb;
   border: 1px solid #ccc;
   padding: 5px;
   margin-bottom: 5px;
   position: relative;
-  height:auto;
 }
 .slide-more > .twitSec { width: 31.3% }
 
