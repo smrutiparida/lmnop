@@ -348,7 +348,7 @@ function expand(ele, val){
 
       var tweet = $(ele).parent().parent();
       var tweet_to_be_loaded = parseInt($(tweet).attr('data-count'));
-      if(tweet_to_be_loaded > 50){
+      if(tweet_to_be_loaded > 50 && !is_my_tweets){
         tweet_to_be_loaded = 50;  
       }
 
