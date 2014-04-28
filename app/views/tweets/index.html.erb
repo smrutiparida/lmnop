@@ -46,6 +46,9 @@
         document.getElementById('rangeSelectvalue').innerHTML = values[0] + "-" + values[1];
         search_params["low"] = values[1];
         search_params["high"] = values[0];
+        search_params["q"] = "";
+        search_params["screen_name"] = "";
+        search_params["uniqueUser"] = true;
         $('#tweetlist').empty()
         callServer('#tweetlist');
       }
