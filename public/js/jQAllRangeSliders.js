@@ -1340,19 +1340,24 @@ function (a) {
     "use strict";
     a.widget("ui.dropRangeSlider", a.ui.rangeSlider, {
         options: {
-            markers : []
+            markers : [],
+            dropAreaSel: null
         },
         toolTip : null,
         _create: function () {
             a.ui.rangeSlider.prototype._create.apply(this);
             var that = this;
-            this.container.droppable({
+            if(this.options.dropAreaSel != null && typeof this.options.dropAreaSel == "string")
+                this.options.dropAreaSel = $(this.options.dropAreaSel);
+            else 
+                this.options.dropAreaSel = this.container;
+            this.options.dropAreaSel.droppable({
                 accept:'.range-draggable',
-                tolerance: "pointer",
+                tolerance: "touch",
+                hoverClass: "drop-hover",
                 drop: function (event, ui) {   
-                    console.log("dropped");
                     var data = ui.draggable.data();
-                    var rangeOff = (event.pageX - $(that.container).offset().left)/parseFloat(that.container.width())*100;
+                    var rangeOff = (event.pageX - $(that.options.dropAreaSel).offset().left)/parseFloat(that.options.dropAreaSel.width())*100;
                     data['pos'] = rangeOff;
                     that.element.trigger('dropAction', data)
                     that._renderMarker({
@@ -1418,7 +1423,6 @@ function (a) {
                     class : "ui-dropRangeSlider-marker",
                     data : marker.data
                 }).appendTo(this.container);
-                console.log(marker);
                 this.options.markers.push(marker);
             }
             else {
@@ -1447,7 +1451,6 @@ function (a) {
                     cursor: "move",
                     zIndex: 100000,
                     tolerance: "intersect",
-                    hoverClass: "drop-hover",
                     cursorAt: { top: 0, left: 0 },
                 });
             });
