@@ -352,12 +352,12 @@ function expand(ele, val){
         tweet_to_be_loaded = 50;  
       }
 
-      var height = 128 * Math.ceil(tweet_to_be_loaded/3);
+      var height = 132 * Math.ceil(tweet_to_be_loaded/3);
       //find element in the next row
       find_ele_to_slide = $(tweet).next();
 
       if ($(find_ele_to_slide).length == 0 || find_ele_to_slide === undefined || typeof find_ele_to_slide === "undefined") {
-        $(tweet).after('<div id="slide-more" style="height:auto;display:none"><div class="close_more"><a href="" onclick="return closeContainer_more();"><img src="/images/close_icn.png"></a></div><div id="topArrow" style="position:absolute;top:-.45%;left:50%;"></div></div>');
+        $(tweet).after('<div id="slide-more" style="height:' + height +'px;display:none"><div class="close_more"><a href="" onclick="return closeContainer_more();"><img src="/images/close_icn.png"></a></div><div id="topArrow" style="position:absolute;top:-.45%;left:50%;"></div></div>');
       }
       else {
         console.log(find_ele_to_slide)
@@ -381,7 +381,7 @@ function expand(ele, val){
 
         var leftAlign = 15 + count * 35;
         //if(diff == 100000){
-          $(tweet).after('<div id="slide-more" style="height:auto;display:none"><div class="close_more"><a href="" onclick="return closeContainer_more();"><img src="/images/close_icn.png"></a></div><div id="topArrow" style="position:absolute;top:-.45%;left:' + leftAlign + '%;"></div></div>');
+          $(tweet).after('<div id="slide-more" style="height:' + height +'px;display:none"><div class="close_more"><a href="" onclick="return closeContainer_more();"><img src="/images/close_icn.png"></a></div><div id="topArrow" style="position:absolute;top:-.45%;left:' + leftAlign + '%;"></div></div>');
         //}
         //else{
         //  $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;display:none"><div class="close_more"><a href="" onclick="return closeContainer_more();"><img src="/images/close_icn.png"></a></div><div id="topArrow" style="position:absolute;top:-.45%;left:' + leftAlign + '%;"></div></div>');  
