@@ -30,6 +30,10 @@
                     document.getElementById('rangeSelectvalue').innerHTML = search_params["low"] + "-" + search_params["high"];
                     $('#tweetlist').empty()
                     callServer('#tweetlist');
+                    hideBird();
+                });
+                $("#slider-range").bind("valuesChanging", function(e, data){
+                    bringBird();
                 });
                 $("#slider").bind("dropAction", function(e,data) {
                     console.log(data);
