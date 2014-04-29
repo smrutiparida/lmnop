@@ -53,11 +53,11 @@ var is_my_tweets = <%= @is_my_tweets %>;
     return false;
   }
 
-  
+
 
   function post_reply_data(id){
     var text = $('#myfield').val();
-    $('#' + id).find('.tweet_reply_reply').html('<img style="text-align:center" src="/images/loading.gif" />');
+    $('#' + id).find('.tweet_reply_reply').html('<div style="text-align:center;margin-top: 35px;"><img src="/images/loading.gif" /></div>');
     $.ajax({ type: "POST",
             url: "/tweets/reply", 
             data: { 'text': text, 'id': id } ,
@@ -80,7 +80,7 @@ var is_my_tweets = <%= @is_my_tweets %>;
   }
 
   function post_retweet_data(id){
-    $('#' + id).find('.tweet_reply_retweet').html('<img style="text-align:center" src="/images/loading.gif" />');
+    $('#' + id).find('.tweet_reply_retweet').html('<div style="text-align:center;margin-top: 35px;"><img src="/images/loading.gif" /></div>');
     $.ajax( {type: "POST",
             url: "/tweets/retweet", 
             data: { 'id': id },
@@ -97,7 +97,7 @@ var is_my_tweets = <%= @is_my_tweets %>;
             dataType: 'json'
           }).fail(function() {
             console.log( "error" );            
-            $('#' + id).find('.tweet_reply_reply').after("<div class='done_reply' style='display:block;'><h3>Sorry, Please Sign-In to retweet.</h3><div><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>").remove();            
+            $('#' + id).find('.tweet_reply_retweet').after("<div class='done_reply' style='display:block;'><h3>Sorry, Please Sign-In to retweet.</h3><div><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>").remove();            
           });
     //$.post( "/tweets/retweet", { 'id': id }, function(){
         //alert("success");
@@ -685,7 +685,7 @@ $( document ).ready(function() {
             dataType: 'json'
           }).fail(function() {
             console.log( "error" );            
-            $('#' + id).find('.tweet_reply_reply').after("<div class='done_reply' style='display:block;'><h3>Sorry, Please Sign-In to favorite this tweet.</h3><div><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>").remove();            
+                       
           });
 
       return false;
