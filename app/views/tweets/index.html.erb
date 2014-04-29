@@ -66,6 +66,8 @@
       }
     });
     var logData = null;
+    var newData = null;
+    var chart = null;
     $.ajax({
         url:"http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/slider_dist",
         type : "GET",
@@ -143,8 +145,8 @@
             });
             logData = convert(grph.data.counts)
             var rMinMax = $( "#slider-range" ).slider("values");
-            var newData = [];
-            var chart = $("#container").highcharts();
+            newData = [];
+            chart = $("#container").highcharts();
             for(var i=0; i<logData.length; i++) {
                 if (i>rMinMax[0] && i<rMinMax[1]) 
                     newData.push({ y: logData[i], color: "#0da9e2" });
