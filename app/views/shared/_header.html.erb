@@ -1,5 +1,5 @@
 <script>
-
+var is_my_tweets = <%= @is_my_tweets %>;
 $(document).ready(function() {
 	$('.top_container').waypoint('sticky');
 });
@@ -543,10 +543,56 @@ function set_url(tweet) {
         });
 }
 
+function DropDown(el) {
+  this.dd = el;
+  this.placeholder = this.dd.children('span');
+  this.opts = this.dd.find('ul.dropdown > li');
+  this.val = '';
+  this.index = -1;
+  this.initEvents();
+}
+DropDown.prototype = {
+  initEvents : function() {
+    var obj = this;
+
+    obj.dd.on('click', function(event){
+      $(this).toggleClass('active');
+      return false;
+    });
+
+    obj.opts.on('click',function(){
+      var opt = $(this);
+      obj.val = opt.text();
+      obj.index = opt.index();
+      obj.placeholder.text(obj.val);
+      if(obj.val == "My Tweets"){
+        window.location.href = '/tweets/my';  
+      }
+      else if(obj.val == "IPL7"){
+        window.location.href = '/tweets/index?topic=' + selectOption;   
+      }
+      else {
+        window.location.href = '/tweets/index';
+      }
+    });
+  },
+  getValue : function() {
+    return this.val;
+  },
+  getIndex : function() {
+    return this.index;
+  }
+}
+
 $( document ).ready(function() {
   //$('#modal-container-conv').modal('hide');
-
+  $(document).click(function() {
+    // all dropdowns
+    $('.wrapper-dropdown-1').removeClass('active');
+  });
   
+  var dd = new DropDown( $('#dd') );
+
   console.log("from on ready");
   $('#tweetlist').empty()
   callServer('#tweetlist');
@@ -562,7 +608,7 @@ $( document ).ready(function() {
     else{
       $(ele).hide(); 
     }
-    
+
     $('#tweetlist').empty()
     callServer('#tweetlist');    
   });

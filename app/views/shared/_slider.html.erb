@@ -1,40 +1,42 @@
-  <div id="slider">
-
-    <div class="heading">
-      <div class="signin">
-        <a id="modal-more" class="commonBtn2" href="#modal-container-more" data-toggle="modal" style="margin-right:3px;  border:0; outline:0;">How it works</a>
+  <div class="heading">
+    <div class="headingInner">
+      <div class="logo">
+        <h1>Peoplefied<img src="/images/beta.png" style="position:absolute; padding-left:3px;"></h1>
+      </div>
+      <div class="styled-select">
+        <select id="viewCountry"> 
+          <option selected="selected" value="in" style="height:20px; background-image:url(images/in.png); background-repeat:no-repeat;
+  background-position:3px 0; text-indent:25px;">India</option>
+          <option value="us">US</option>
+        </select>
+      </div>
+      <div class="top_more_Div">
+        <a id="modal-more" class="" href="#modal-container-more" data-toggle="modal" style="margin-right:10px;  border:0; outline:0;">How it works</a>
+        <a class="" href="http://blog.peoplefied.com" target="_blank" style="margin-right:3px;  border:0; outline:0;">Blog</a>
         <% if session[:user] %>
           <a id="" class="iframe commonBtn cboxElement" href="/tweets/logout" style="border:0; outline:none">Logout</a>
         <% else %>  
           <a id="" class="iframe commonBtn cboxElement" href="/tweets/auth" style="border:0; outline:none">Sign in with Twitter</a>
         <% end %>
       </div>
-      <h1>Peoplefied<img src="/images/beta.png" style="position:absolute; padding-left:3px;"></h1>
+      <div id="dd" class="wrapper-dropdown-1 blue" tabindex="1">
+        <% if params[:topic] %>
+          <span>IPL7</span>  
+        <% elsif @is_my_tweets %>  
+           <span>My Tweets</span>  
+        <% else %> 
+          <span>Best of Twitter</span>
+        <% end %>
+          <ul class="dropdown" tabindex="1">
+            <li><a href="#">Best of Twitter</a></li>
+            <li><a href="#">IPL7</a></li>
+            <li style="border-top:1px solid #F7A2AB"><a href="#">My Tweets</a></li>
+          </ul>
+      </div>
+      <div class="clr"></div>
     </div>
-    <div class="nav_selcet">
-      <span style="padding-right:15px;">
-        <b>Country</b>
-        <select id="viewCountry">
-          <option selected="selected" value="in">India</option>
-          <option value="us">US</option>
-        </select>  
-      </span>
-      <!--<span style="padding-right:15px;">
-        <b>View</b>
-        <select id="viewselect">
-          <option>Accounts</option> 
-          <option id="show">Tweets</option>
-        </select>
-      </span>-->
-      <span style="padding-right:15px;" id="tweetTime">
-        <b>Category</b>
-        <select onchange="showDivTag();" id="selectOpt">
-          <option value="all">Best of Twitter</option>
-          <option value="mytweets">My Tweets</option>
-          <option value="1">IPL7</option>
-        </select>
-      </span>
-    </div>
+  </div>
+  <div id="slider">
     <div class="progressMain" id="progressMainID">
       <div id="rangeSelectvalue"><p>1000 - 750</p></div>
       

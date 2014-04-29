@@ -10,6 +10,7 @@ class TweetsController < ApplicationController
   @@consumer_key =  "tM7jPwa7VW2agWKzauZALCmGY"
 
   def index
+    @is_my_tweets = false
     Rails.logger.info(params)
     Rails.logger.info(params[:topic])
   end
@@ -65,6 +66,7 @@ class TweetsController < ApplicationController
     status = 200
     tweet_list = []
     frequency_data = {}
+    @is_my_tweets = true
 
     unless session[:last_call] and  (Time.now.to_i - session[:last_call] ) < 90
       if(session[:user])
