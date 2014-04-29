@@ -17,7 +17,7 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 .twitSec button{ margin-left:6px !important;}
 
 .nav_selcet{width:100%; margin:0 auto; text-align:center; margin:10px 0 5px 0;}
-.heading{width:100%; margin:0 auto; background:#f1f1f1; border-bottom:1px solid #dedddd; padding:8px 0 10px 0; margin-bottom:20px;} 
+.heading{width:100%; margin:0 auto; background:#f1f1f1; border-bottom:1px solid #dedddd; padding:8px 0 10px 0;} 
 .signin{width:auto; position:absolute; right:6%; top:26%; z-index:99999;}
 
 .twitter_signin{wdth:310px; margin:10px 0 10px 0;}
@@ -61,7 +61,7 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 
 .tweetlist{width:90%; margin:0 auto; text-align:center; border:1px solid #d7d7d7; border-radius:4px; padding:10px; margin-bottom:10px; background:#daeffd;}
 
-.top_container{width:100%; margin:0 auto; background-color:#fff; padding-top:20px; margin-bottom:10px; border-bottom:1px solid #ccc; }
+.top_container{width:100%; margin:0 auto; background-color:#fff; margin-bottom:10px; border-bottom:1px solid #ccc; position: fixed;top: 0; z-index: 99999;}
 
 .moreT{width:99%;height:119px; border:1px solid #a1a1a1; position:absolute; bottom:-5px; right:-5px; z-index:1; border-left:0; border-top:0; background: url(../images/top_border.png) no-repeat right top; z-index:-1; webkit-transition: 200ms linear all; -moz-transition: 200ms linear all;  transition: 200ms linear all;}
 .moreT:after {
