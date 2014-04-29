@@ -42,6 +42,18 @@
         //document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
         //document.getElementById('blueColorScale').style.left = (ui.values[0])+"%";
         var values = processValues(ui.values);
+
+        rMinMax = $( "#slider-range" ).slider("values");
+        newData = [];
+        for(var i=0; i<logData.length; i++) {
+            if (i>rMinMax[0] && i<rMinMax[1]) 
+                newData.push({ y: logData[i], color: "#0da9e2" });
+            else 
+                newData.push({ y: logData[i], color: "#d2d2d3" });
+        }
+        chart.series[0].update({
+            data: newData
+        });
         
         document.getElementById('rangeSelectvalue').innerHTML = values[0] + "-" + values[1];
         search_params["low"] = values[1];
@@ -53,9 +65,6 @@
         callServer('#tweetlist');
       }
     });
-  });
-
-$(function () {
     
     $.ajax({
         url:"http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/slider_dist",
@@ -135,13 +144,13 @@ $(function () {
             var logData = convert(grph.data.counts)
             var rMinMax = $( "#slider-range" ).slider("values");
             var newData = [];
-            for(var i=0; i<grph.data.counts.length; i++) {
+            var chart = $("#container").highcharts();
+            for(var i=0; i<logData.length; i++) {
                 if (i>rMinMax[0] && i<rMinMax[1]) 
                     newData.push({ y: logData[i], color: "#0da9e2" });
                 else 
                     newData.push({ y: logData[i], color: "#d2d2d3" });
             }
-            var chart = $("#container").highcharts();
             chart.series[0].update({
                 data: newData
             });
