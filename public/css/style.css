@@ -13,13 +13,7 @@ h1{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 h2{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:13px; margin-bottom:0px; text-align:center;}
 h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:26px; margin-bottom:0px; text-align:left; line-height:35px;}
 
-.tweetMainDiv{width:90%; margin:0 auto; margin-top:10px;}
-.top_container.stuck {
-    position:fixed;
-    top:0;
-    max-height: 234px;
-    z-index:999;
-}
+.tweetMainDiv{width:90%; margin:0 auto; margin-top:174px;}
 .twitSec button{ margin-left:6px !important;}
 
 .nav_selcet{width:100%; margin:0 auto; text-align:center; margin:10px 0 5px 0;}

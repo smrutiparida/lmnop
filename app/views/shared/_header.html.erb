@@ -1,8 +1,6 @@
 <script>
 var is_my_tweets = <%= @is_my_tweets %>;
-$(document).ready(function() {
-	$('.top_container').waypoint('sticky');
-});
+
 <% if session.has_key?("user") %>
   var is_signed = true
   var user_id = <%= session[:user]["user_id"] %>
