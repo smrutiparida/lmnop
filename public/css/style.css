@@ -37,7 +37,7 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 .moreOptions ul li{ display:inline; text-decoration:none;}
 
 
-.tweet_reply{width:97.8%; height:110px; padding:10px 4px 4px 4px; position:absolute; left:0; top:124px; z-index:9999; background-color:#e5f2f7; border:1px solid #ccc; border-radius:3px; display:none;}
+.tweet_reply{width:97.8%; height:110px; padding:10px 4px 4px 4px; position:absolute; left:0; top:124px; z-index:700; background-color:#e5f2f7; border:1px solid #ccc; border-radius:3px; display:none;}
 .reply_action{width:96%; margin:0 auto; text-align:right;}
 .retwet_action{width:96%; margin:0 auto; text-align:center;}
 #tweet_retweet h3{font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:20px; margin-bottom:10px; text-align:center; line-height:20px;}
