@@ -61,7 +61,7 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 
 .tweetlist{width:90%; margin:0 auto; text-align:center; border:1px solid #d7d7d7; border-radius:4px; padding:10px; margin-bottom:10px; background:#daeffd;}
 
-.top_container{width:100%; margin:0 auto; background-color:#fff; margin-bottom:10px; border-bottom:1px solid #ccc; position: fixed;top: 0; z-index: 99999;}
+.top_container{width:100%; margin:0 auto; background-color:#fff; margin-bottom:10px; border-bottom:1px solid #ccc; position: fixed;top: 0; z-index: 999;}
 
 .moreT{width:99%;height:119px; border:1px solid #a1a1a1; position:absolute; bottom:-5px; right:-5px; z-index:1; border-left:0; border-top:0; background: url(../images/top_border.png) no-repeat right top; z-index:-1; webkit-transition: 200ms linear all; -moz-transition: 200ms linear all;  transition: 200ms linear all;}
 .moreT:after {
@@ -473,7 +473,7 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
 }
 
 .headingInner{width:89%; margin:0 auto;}
-.logo{width:220px; float:left; text-align:left;}
+.logo{width:205px; float:left; text-align:left;}
 .logo h1{ float:left; font-size:33px !important;}
 .top_more_Div{width:450px; float:right; text-align:right; margin-top:8px;}
 

@@ -71,7 +71,13 @@ var is_my_tweets = <%= @is_my_tweets %>;
               
             },
             headers: {'X-Transaction': 'POST Reply', 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
-            dataType: 'json'});
+            dataType: 'json',
+            statusCode: {
+              403: function() {
+                $('#' + id).find('.tweet_reply_reply').after("<div class='done_reply' style='display:block;'><h3>Sorry, Please Sign-In to reply.</h3><div><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>").remove();
+              }
+            }
+          });
     return false;
   }
 
@@ -90,7 +96,13 @@ var is_my_tweets = <%= @is_my_tweets %>;
               
             },
             headers: {'X-Transaction': 'POST Retweet', 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
-            dataType: 'json'});
+            dataType: 'json',
+            statusCode: {
+              403: function() {
+                $('#' + id).find('.tweet_reply_reply').after("<div class='done_reply' style='display:block;'><h3>Sorry, Please Sign-In to retweet.</h3><div><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>").remove();
+              }
+            }
+          });
 
     //$.post( "/tweets/retweet", { 'id': id }, function(){
         //alert("success");
@@ -675,7 +687,12 @@ $( document ).ready(function() {
               }
             },
             headers: {'X-Transaction': 'POST Favorite', 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')},
-            dataType: 'json'
+            dataType: 'json',
+            statusCode: {
+              403: function() {
+                $('#' + id).find('.tweet_reply_reply').after("<div class='done_reply' style='display:block;'><h3>Sorry, Please Sign-In to favorite this tweet.</h3><div><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>").remove();
+              }
+            }
           });
       return false;
   });
