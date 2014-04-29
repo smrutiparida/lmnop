@@ -63,7 +63,7 @@ var is_my_tweets = <%= @is_my_tweets %>;
             data: { 'text': text, 'id': id } ,
             success: function(data){
               if(data["message"] != ""){
-                $('#' + id).find('.tweet_reply_reply').after("<div class='done_reply tweet_reply' style='display:block;'><h3>" + data[message] + "</h3><div><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>").remove();
+                $('#' + id).find('.tweet_reply_reply').after("<div class='done_reply tweet_reply' style='display:block;'><h4 style='text-align:center'>" + data[message] + "</h4><div><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>").remove();
               }
               else {
                 $('#' + id).find('.tweet_reply_reply').after(doneTemplate).remove(); 
@@ -74,7 +74,7 @@ var is_my_tweets = <%= @is_my_tweets %>;
             dataType: 'json'
           }).fail(function() {
             console.log( "error" );            
-            $('#' + id).find('.tweet_reply_reply').after("<div class='done_reply tweet_reply' style='display:block;'><h3>Sorry, Please Sign-In to reply.</h3><div><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>").remove();            
+            $('#' + id).find('.tweet_reply_reply').after("<div class='done_reply tweet_reply' style='display:block;'><h4 style='text-align:center'>Sorry, Please Sign-In to reply.</h4><div><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>").remove();            
           });
     return false;
   }
@@ -86,7 +86,7 @@ var is_my_tweets = <%= @is_my_tweets %>;
             data: { 'id': id },
             success: function(data){
               if(data["message"] != ""){
-                $('#' + id).find('.tweet_reply_retweet').after("<div class='done_reply tweet_reply' style='display:block;'><h3>" + data[message] + "</h3><div><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>").remove();
+                $('#' + id).find('.tweet_reply_retweet').after("<div class='done_reply tweet_reply' style='display:block;'><h4 style='text-align:center'>" + data[message] + "</h4><div><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>").remove();
               }
               else {
                 $('#' + id).find('.tweet_reply_retweet').after(doneTemplate).remove();   
@@ -97,7 +97,7 @@ var is_my_tweets = <%= @is_my_tweets %>;
             dataType: 'json'
           }).fail(function() {
             console.log( "error" );            
-            $('#' + id).find('.tweet_reply_retweet').after("<div class='done_reply tweet_reply' style='display:block;'><h3>Sorry, Please Sign-In to retweet.</h3><div><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>").remove();            
+            $('#' + id).find('.tweet_reply_retweet').after("<div class='done_reply tweet_reply' style='display:block;'><h4 style='text-align:center'>Sorry, Please Sign-In to retweet.</h4><div><a href='#' class='btn btn-small' onclick='return closeContainer_done();'>Close</a></div></div>").remove();            
           });
     //$.post( "/tweets/retweet", { 'id': id }, function(){
         //alert("success");
