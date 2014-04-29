@@ -129,9 +129,17 @@ $(function () {
                 },
                 series: [{
                     showInLegend: false, 
-                    data: convert(grph.data.counts)
+                    data: []
                 }]
             });
+            var logData = convert(grph.data.counts)
+            var rMinMax = $( "#slider-range" ).slider("values");
+            for(var i=0; i<grph.data.counts.length; i++) {
+                if (i>rMinMax[0] && i<rMinMax[1]) 
+                    newData.push({ y: logData[i], color: "#0da9e2" });
+                else 
+                    newData.push({ y: logData[i], color: "#d2d2d3" });
+            }
           }
     });
     
