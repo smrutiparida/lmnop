@@ -58,6 +58,7 @@
 
 .ui-rangeSlider-container{
 	height:22px;
+        vertical-align: central;
 }
 
 .ui-rangeSlider-withArrows .ui-rangeSlider-container{
