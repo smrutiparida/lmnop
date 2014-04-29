@@ -83,13 +83,14 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 .twitSec:hover .moreT{ opacity:0.1;}
 .active{ background-color:#f06760 !important;}
 .more{ position:absolute; bottom:4px; right:6px; }
-.more a{ font:bold 20px Arial, Helvetica, sans-serif; color:#f06760; text-decoration:none;}
-.more a:hover{ text-decoration:none; -webkit-transition: all 1s ease;
+.more a:hover{ font:bold 20px Arial, Helvetica, sans-serif; color:#f06760; text-decoration:none;}
+.more a{ text-decoration:none; -webkit-transition: all 1s ease;
                -moz-transition: all 1s ease;
                -o-transition: all 1s ease;
                -ms-transition: all 1s ease;
                transition: all 1s ease;
-               -webkit-filter: grayscale(1);}
+               -webkit-filter: grayscale(1);
+        font:bold 20px Arial, Helvetica, sans-serif;}
 .more a img{ margin-right:2px; padding:0;}
 .more-shown{ text-decoration:none; -webkit-transition: all 1s ease;
              -moz-transition: all 1s ease;
