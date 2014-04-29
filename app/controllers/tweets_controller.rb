@@ -55,7 +55,7 @@ class TweetsController < ApplicationController
       output_params = split_params(resp.body)
 
       session["user"]= output_params
-
+      @is_my_tweets = true
 
     end
   end
@@ -66,7 +66,7 @@ class TweetsController < ApplicationController
     status = 200
     tweet_list = []
     frequency_data = {}
-    @is_my_tweets = true
+   
 
     unless session[:last_call] and  (Time.now.to_i - session[:last_call] ) < 90
       if(session[:user])
