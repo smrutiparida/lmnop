@@ -65,7 +65,7 @@
         callServer('#tweetlist');
       }
     });
-    
+    var logData = null;
     $.ajax({
         url:"http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/slider_dist",
         type : "GET",
@@ -141,7 +141,7 @@
                     data: []
                 }]
             });
-            var logData = convert(grph.data.counts)
+            logData = convert(grph.data.counts)
             var rMinMax = $( "#slider-range" ).slider("values");
             var newData = [];
             var chart = $("#container").highcharts();
