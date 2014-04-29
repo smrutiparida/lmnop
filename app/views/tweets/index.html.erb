@@ -42,6 +42,18 @@
         //document.getElementById('blueColorScale').style.width = (ui.values[ 1 ]-ui.values[ 0 ])+"%";
         //document.getElementById('blueColorScale').style.left = (ui.values[0])+"%";
         var values = processValues(ui.values);
+
+        rMinMax = $( "#slider-range" ).slider("values");
+        newData = [];
+        for(var i=0; i<logData.length; i++) {
+            if (i>rMinMax[0] && i<rMinMax[1]) 
+                newData.push({ y: logData[i], color: "#0da9e2" });
+            else 
+                newData.push({ y: logData[i], color: "#d2d2d3" });
+        }
+        chart.series[0].update({
+            data: newData
+        });
         
         document.getElementById('rangeSelectvalue').innerHTML = values[0] + "-" + values[1];
         search_params["low"] = values[1];
@@ -53,10 +65,9 @@
         callServer('#tweetlist');
       }
     });
-  });
-
-$(function () {
-    
+    var logData = null;
+    var newData = null;
+    var chart = null;
     $.ajax({
         url:"http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/slider_dist",
         type : "GET",
@@ -129,8 +140,21 @@ $(function () {
                 },
                 series: [{
                     showInLegend: false, 
-                    data: convert(grph.data.counts)
+                    data: []
                 }]
+            });
+            logData = convert(grph.data.counts)
+            var rMinMax = $( "#slider-range" ).slider("values");
+            newData = [];
+            chart = $("#container").highcharts();
+            for(var i=0; i<logData.length; i++) {
+                if (i>rMinMax[0] && i<rMinMax[1]) 
+                    newData.push({ y: logData[i], color: "#0da9e2" });
+                else 
+                    newData.push({ y: logData[i], color: "#d2d2d3" });
+            }
+            chart.series[0].update({
+                data: newData
             });
           }
     });

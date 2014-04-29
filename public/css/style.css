@@ -121,10 +121,7 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 
 #slider-range .drop_over{
     width:100%; 
-    background:#d5e7f4;
-    -moz-box-shadow: inset 0 0 5px 5px #bdd0dd;
-    -webkit-box-shadow: inset 0 0 5px 5px#bdd0dd;
-    box-shadow: inset 0 0 5px 5px #bdd0dd;
+    background:#eef7fd;
     border-radius:4px;
     border: 1px #bfd0dc dashed;
 }
