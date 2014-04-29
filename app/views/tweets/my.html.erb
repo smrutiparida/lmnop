@@ -45,7 +45,8 @@
                 });
                 $("#slider").bind("dropAction", function(e,data) {
                     console.log(data);
-
+                    var rank = 1000 - data['pos'] * 10;
+                    if(!confirm("Do you wish to set the rank of "+data['title']+" to"+rank)) return;
                     temp = {};
                     temp["rank"] =  1000 - data['pos'] * 10;
                     temp["set"] = true;
