@@ -188,9 +188,14 @@ var is_my_tweets = <%= @is_my_tweets %>;
             }
           })
         
-          temp = _.sortBy(temp, function(tweet){ return tweet.rank; });
+          //we want to sort only for outside tweets and not when show more happens. That means no sorting when uniquesuer= true
+          if (search_params["uniqueUser"]){
+            temp = _.sortBy(temp, function(tweet){ return tweet.rank; });
+            temp = temp.reverse();  
+          }
+          
           console.log(tweet_list)
-          tweet_list = temp.reverse()
+          tweet_list = temp
         
         if(temp.length < 1){
           $( "#tweetlist" ).html(printNoData(low, high));
