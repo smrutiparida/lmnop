@@ -45,7 +45,7 @@
                 $("#slider").bind("dropAction", function(e,data) {
                     console.log(data);
                     var rank = Math.floor(1000 - data['pos'] * 10);
-                    if(confirm("Do you wish to set the rank of "+data['title']+" to"+rank) == false) return false;
+                    if(confirm("Do you wish to set the rank of "+ data['title']+" to"+rank) == false) return false;
                     temp = {};
                     temp["rank"] =  1000 - data['pos'] * 10;
                     temp["set"] = true;
@@ -59,7 +59,7 @@
                         type: 'POST',
                         url: 'http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user',
                         data: JSON.stringify(user_data),
-                        success: function(data) { 
+                        success: function(return_val) { 
                           $('#tweetlist').empty();
                           console.log("came inside updating rank")
                           console.log(data['id'])
