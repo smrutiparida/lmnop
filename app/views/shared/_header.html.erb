@@ -129,12 +129,12 @@ var is_my_tweets = <%= @is_my_tweets %>;
 */
   function updateRank(droppedUser, newRank)
   {
-    console.log("came to update the rank");
+    //console.log("came to update the rank");
     _.each(offlineData["tweets"], function(tweet,index,list){
-      console.log(tweet.user_id + " " + tweet.name + " " + droppedUser)
+      //console.log(tweet.user_id + " " + tweet.name + " " + droppedUser)
       if(tweet.user_id == droppedUser){
         tweet.rank = newRank;
-        console.log("Rank updated for" + tweet.name);
+        console.log("Rank updated for" + tweet.name + "with rank " + tweet.rank);
       }
     })
   }
@@ -183,7 +183,7 @@ var is_my_tweets = <%= @is_my_tweets %>;
 
           temp = []
           _.each(tweet_list, function(tweet,index,list){
-            if(tweet.rank >= low && tweet.rank <= high){
+            if(parseInt(tweet.rank) >= low && parseInt(tweet.rank) <= high){
               temp.push(tweet)
             }
           })

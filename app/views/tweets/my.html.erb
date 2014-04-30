@@ -45,9 +45,9 @@
                 $("#slider").bind("dropAction", function(e,data) {
                     console.log(data);
                     var rank = Math.floor(1000 - data['pos'] * 10);
-                    if(confirm("Do you wish to set the rank of "+ data['title']+" to"+rank) == false) return false;
+                    if(confirm("Do you wish to set the rank of "+ data['title']+" to "+rank) == false) return false;
                     temp = {};
-                    temp["rank"] =  1000 - data['pos'] * 10;
+                    temp["rank"] =  rank;
                     temp["set"] = true;
                     temp["profile_image_url"] =  data['img'];
                     temp["name"] = data['title'];
@@ -63,9 +63,10 @@
                           $('#tweetlist').empty();
                           console.log("came inside updating rank")
                           console.log(data['id'])
-                          updateRank(data['id'], 1000 - data['pos'] * 10);
+                          updateRank(data['id'], rank);
                           console.log(user_data);
-                          callServer('#tweetlist');},
+                          callServer('#tweetlist');
+                       }
                     });
                 });
             },
