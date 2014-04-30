@@ -632,6 +632,6 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
   background-image:-ms-linear-gradient(top, #9bc7de, #8db7cd);
   background-image:-o-linear-gradient(top, #9bc7de, #8db7cd);
   background-image:linear-gradient(top, #9bc7de, #8db7cd);
-
-
 }
+
+.blue_text{ color:#0b8dc0;}
