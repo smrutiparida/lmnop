@@ -403,9 +403,9 @@ function expand(ele, val){
     callServer('#slide-more');
     
     $('#slide-more').slideDown('slow', function() {
-      $('html,body').animate({scrollTop: $('body').position().top + 50},'slow')
+      $('html,body').animate({scrollTop: $(tweet).position().top + 50},'slow')
       if(leftAlign >0 ){
-        $('#topArrow').css( "display", "block" )
+        $('#topArrow').css( "display", "block" )  
                         .css("position", "absolute")
                         .css("left", ($('#tweetlist').width() * leftAlign)/100)
                         .css("top", "-10px");
