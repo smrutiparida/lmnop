@@ -357,6 +357,7 @@ function expand(ele, val){
     //$(ele).text("show less");
 
     var tweet = $(ele).parent().parent();
+    var firstweet = tweet;
     var tweet_to_be_loaded = parseInt($(tweet).attr('data-count'));
     if(tweet_to_be_loaded > 50 && !is_my_tweets){
       tweet_to_be_loaded = 50;  
@@ -403,7 +404,7 @@ function expand(ele, val){
     callServer('#slide-more');
     
     $('#slide-more').slideDown('slow', function() {
-      $('html,body').animate({scrollTop: $(tweet).position().top + 20}, 1000)
+      $('html,body').animate({scrollTop: $(firstweet).position().top + 40}, 1000)
       if(leftAlign >0 ){
         $('#topArrow').css( "display", "block" )  
                         .css("position", "absolute")
