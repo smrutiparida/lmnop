@@ -606,12 +606,11 @@ $( document ).ready(function() {
 
   $( "#viewCountry" ).change(function() {
     search_params["country"] = $("#viewCountry option:selected").attr('value');
-    var ele = document.getElementById("selectOpt").options[2]
     if(search_params["country"] == "in"){
-      $(ele).show();
+      $('#ipl7-category').show();
     }
     else{
-      $(ele).hide(); 
+      $('#ipl7-category').hide(); 
     }
 
     $('#tweetlist').empty()
