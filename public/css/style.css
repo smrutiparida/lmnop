@@ -123,6 +123,10 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
     border: 1px #bfd0dc dashed;
 }
 
+#slider-range{
+  height: 6px;
+}
+
 .commonBtn{font:normal 12px Arial, Helvetica, sans-serif; color:#fff; background-color:#00abee; text-decoration:none; border-radius:10px; padding:3px 8px 3px 8px;-webkit-box-shadow: 2px 2px 4px 0px rgba(50, 50, 50, 0.54); -moz-box-shadow:1px 1px 1px 0px rgba(50, 50, 50, 0.54); box-shadow:1px 1px 1px 0px rgba(50, 50, 50, 0.54); outline: none !important; border:0 !important;
 }
 .commonBtn:hover{ text-decoration:none; background-color:#03a1de; color:#fff !important;}
