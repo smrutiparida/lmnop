@@ -347,7 +347,8 @@ function expand(ele, val){
     $(ele).removeClass('more-shown');
     console.log("data removed")
 
-  }else{
+  }
+  else{
     $(ele).addClass('more-shown');
     search_params["screen_name"] = val;//encodeURIComponent(val);
     search_params["uniqueUser"] = false;
@@ -355,67 +356,61 @@ function expand(ele, val){
 
     //$(ele).text("show less");
 
-      var tweet = $(ele).parent().parent();
-      var tweet_to_be_loaded = parseInt($(tweet).attr('data-count'));
-      if(tweet_to_be_loaded > 50 && !is_my_tweets){
-        tweet_to_be_loaded = 50;  
-      }
+    var tweet = $(ele).parent().parent();
+    var tweet_to_be_loaded = parseInt($(tweet).attr('data-count'));
+    if(tweet_to_be_loaded > 50 && !is_my_tweets){
+      tweet_to_be_loaded = 50;  
+    }
 
-      var height = 132 * Math.ceil(tweet_to_be_loaded/3);
-      //find element in the next row
-      find_ele_to_slide = $(tweet).next();
+    var height = 132 * Math.ceil(tweet_to_be_loaded/3);
+    //find element in the next row
+    find_ele_to_slide = $(tweet).next();
+    var leftAlign = 0;
 
-      if ($(find_ele_to_slide).length == 0 || find_ele_to_slide === undefined || typeof find_ele_to_slide === "undefined") {
-        $(tweet).after('<div id="slide-more" style="height:' + height +'px;display:none"><div class="close_more"><a href="" onclick="return closeContainer_more();"><img src="/images/close_icn.png"></a></div><div id="topArrow" style="position:absolute;top:-.45%;left:50%;"></div></div>');
-      }
-      else {
-        console.log(find_ele_to_slide)
-        position = $(tweet).position().top;
-        next_position = $(find_ele_to_slide).position().top;
-        var count = 2;
-        var diff = next_position - position;
-        while( diff < 50){
-          position = next_position;
-          tweet = find_ele_to_slide;
-          find_ele_to_slide = $(find_ele_to_slide).next();
-          if ($(find_ele_to_slide).length == 0 || find_ele_to_slide === undefined || typeof find_ele_to_slide === "undefined") {
-            diff = 100000;
-          }
-          else {
-            next_position = $(find_ele_to_slide).position().top
-            diff = next_position - position;  
-          }
-          count = count - 1;
+    if ($(find_ele_to_slide).length == 0 || find_ele_to_slide === undefined || typeof find_ele_to_slide === "undefined") {
+      $(tweet).after('<div id="slide-more" style="height:' + height +'px;display:none"><div class="close_more"><a href="" onclick="return closeContainer_more();"><img src="/images/close_icn.png"></a></div><div id="topArrow" style="position:absolute;top:-.45%;left:50%;"></div></div>');
+
+      //This case is very special case and happens when the tweet is clicked is the last tweet and occuring in the 1st,second or 3rd position. In such cases where to show the arrow.
+      //without writing all complex logic, I choose to not show the arrow.
+    }
+    else {
+      
+      position = $(tweet).position().top;
+      next_position = $(find_ele_to_slide).position().top;
+      var count = 2;
+      var diff = next_position - position;
+      while( diff < 50){
+        position = next_position;
+        tweet = find_ele_to_slide;
+        find_ele_to_slide = $(find_ele_to_slide).next();
+        if ($(find_ele_to_slide).length == 0 || find_ele_to_slide === undefined || typeof find_ele_to_slide === "undefined") {
+          diff = 100000;
+          count = 1
         }
-
-        var leftAlign = 15 + count * 25;
-        //if(diff == 100000){
-          $(tweet).after('<div id="slide-more" style="height:' + height +'px;display:none"><div class="close_more"><a href="" onclick="return closeContainer_more();"><img src="/images/close_icn.png"></a></div><div id="topArrow" style="display:none;"></div></div>');
-        //}
-        //else{
-        //  $(find_ele_to_slide).before('<div id="slide-more" style="height:' + height + 'px;display:none"><div class="close_more"><a href="" onclick="return closeContainer_more();"><img src="/images/close_icn.png"></a></div><div id="topArrow" style="position:absolute;top:-.45%;left:' + leftAlign + '%;"></div></div>');  
-        //}
-        
-        console.log("data")
+        else {
+          next_position = $(find_ele_to_slide).position().top
+          diff = next_position - position;  
+        }
+        count = count - 1;
       }
 
-      $("#slide-more").width(($('#tweetlist').width()*97)/100);
-      
-      
-      callServer('#slide-more');
-      $('#slide-more').slideDown('slow', function() {
-        $('#topArrow').css( "display", "block" )
-                      .css("position", "absolute")
-                      .css("left", ($('#tweetlist').width() * leftAlign)/100)
-                      .css("top", "-10px");
-      });
-      
-      //$('#topArrow').css('top',  '3.6%')
-      //$('#topArrow').css('position', 'absolute')
-      
-  }
-  
+      leftAlign = 15 + count * 25;
+      $(tweet).after('<div id="slide-more" style="height:' + height +'px;display:none"><div class="close_more"><a href="" onclick="return closeContainer_more();"><img src="/images/close_icn.png"></a></div><div id="topArrow" style="display:none;"></div></div>');
+    }
 
+    $("#slide-more").width(($('#tweetlist').width()*97)/100);
+
+    callServer('#slide-more');
+    
+    $('#slide-more').slideDown('slow', function() {
+      if(leftAlign >0 ){
+        $('#topArrow').css( "display", "block" )
+                        .css("position", "absolute")
+                        .css("left", ($('#tweetlist').width() * leftAlign)/100)
+                        .css("top", "-10px");
+      }
+    });
+  }
   return false;
 }
 
