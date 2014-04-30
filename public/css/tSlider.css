@@ -96,7 +96,7 @@ input.ui-editRangeSlider-inputValue{
 /*drop slider range*/
 .ui-rangeSlider-tooltip {
     width:150px;
-    bottom: 20px;
+    bottom: 8px;
     position: absolute;
     background: #fff;
     border: 1px solid #ccc;
