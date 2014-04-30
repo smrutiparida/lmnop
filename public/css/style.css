@@ -632,3 +632,8 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
 }
 
 .blue_text{ color:#0b8dc0;}
+
+.twitter-share-button{
+  vertical-align: bottom;
+  margin-right: 10px;
+}
