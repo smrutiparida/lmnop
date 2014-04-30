@@ -129,7 +129,9 @@ var is_my_tweets = <%= @is_my_tweets %>;
 */
   function updateRank(droppedUser, newRank)
   {
+    console.log("came to update the rank");
     _.each(offlineData["tweets"], function(tweet,index,list){
+      console.log(tweet.user_id + " " + tweet.name + " " + droppedUser)
       if(tweet.user_id == droppedUser){
         tweet.rank = newRank;
         console.log("Rank updated for" + tweet.name);

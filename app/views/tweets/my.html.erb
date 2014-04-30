@@ -61,6 +61,8 @@
                         data: JSON.stringify(user_data),
                         success: function(data) { 
                           $('#tweetlist').empty();
+                          console.log("came inside updating rank")
+                          console.log(data['id'])
                           updateRank(data['id'], 1000 - data['pos'] * 10);
                           console.log(user_data);
                           callServer('#tweetlist');},
