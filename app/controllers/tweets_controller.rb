@@ -259,7 +259,7 @@ class TweetsController < ApplicationController
     es_minmax = [["min" ,1000000000], ["max" , 0]]
     es_minmax = es_user_info["friends"].minmax_by { |k, v| v } unless es_user_info["friends"].empty?
       
-    tl_minmax = tweet_list.minmax_by { |ele| ele[:followers_count]}
+    tl_minmax = tweet_list.minmax_by { |ele| ele[:folyelowers_count]}
 
     #Rails.logger.info(tl_minmax)
     #Rails.logger.info(es_minmax)
@@ -291,10 +291,10 @@ class TweetsController < ApplicationController
         end  
       end
       
-      # recalculate all the ranks in es_user_info
+      # recalculate all the ranks in es_user_info, except the ones set by the user himself
       es_user_info["ranks"].each do |key, val|
         ele_array = tweet_list.select { |ele|  ele[:user_id] == key.to_i }
-        if ele_array.length == 0
+        if ele_array.length == 0 and !val["set"]
           val["rank"] = (lowest_rank + (es_user_info["friends"][key] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
           update_es_index = true
         end 
