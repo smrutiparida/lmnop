@@ -403,6 +403,7 @@ function expand(ele, val){
     callServer('#slide-more');
     
     $('#slide-more').slideDown('slow', function() {
+      $('html,body').animate({scrollTop: $(body).position().top + 100})
       if(leftAlign >0 ){
         $('#topArrow').css( "display", "block" )
                         .css("position", "absolute")
