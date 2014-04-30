@@ -188,8 +188,9 @@ var is_my_tweets = <%= @is_my_tweets %>;
             }
           })
         
-          console.log(temp)
-          tweet_list = temp
+          temp = _.sortBy(temp, function(tweet){ return tweet.rank; });
+          console.log(tweet_list)
+          tweet_list = temp.reverse()
         
         if(temp.length < 1){
           $( "#tweetlist" ).html(printNoData(low, high));
