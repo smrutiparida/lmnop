@@ -55,9 +55,8 @@ class TweetsController < ApplicationController
       output_params = split_params(resp.body)
 
       session["user"]= output_params
-      @is_my_tweets = true
-
     end
+    @is_my_tweets = true
   end
   
   def offline
