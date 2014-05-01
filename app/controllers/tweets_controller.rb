@@ -98,6 +98,7 @@ class TweetsController < ApplicationController
           tweet_list.each do |x|
             x[:rank] = (lowest_rank + (x[:followers_count] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
           end  
+        end  
 
         
         
