@@ -1369,6 +1369,24 @@ function (a) {
             this._createTooltip();
             this._renderMarkers();
             this._bindDragElement();
+            this.innerBar.on('click', function(e) {
+                var clickedPos = ((event.pageX - $(that.innerBar).offset().left)/parseFloat(that.innerBar.width())*100);
+                var currRage = that.values();
+                if(clickedPos < currRage.min) {
+                    that.values(clickedPos, currRage.max);
+                }
+                else if(clickedPos > currRage.max) {
+                    that.values(currRage.min, clickedPos);
+                }
+                else if(clickedPos > currRage.min && clickedPos < currRage.max) {
+                    var rangeDiff = currRage.max - currRage.min;
+                    var clickOffsetFromMin = clickedPos - currRage.min;
+                    if(clickOffsetFromMin <= rangeDiff/2)
+                        that.values(clickedPos, currRage.max);
+                    else 
+                        that.values(currRage.min, clickedPos);
+                }
+            });
         },
         destroy: function () {
             a.ui.rangeSlider.prototype.destroy.apply(this)
