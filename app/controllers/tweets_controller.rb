@@ -85,10 +85,21 @@ class TweetsController < ApplicationController
         end  
 
         es_user_info = queryRankFromES(session[:user]["user_id"]);
-        
-        es_user_info = es_user_info.has_key?("_source") ? es_user_info["_source"] : {}
 
-        tweet_list = updateRank(es_user_info, tweet_list, session[:user]["user_id"])
+        if(es_user_info.has_key("found") and es_user_info["found"] != "error")        
+          es_user_info = es_user_info.has_key?("_source") ? es_user_info["_source"] : {}
+          tweet_list = updateRank(es_user_info, tweet_list, session[:user]["user_id"])
+        else
+          tl_minmax = tweet_list.minmax_by { |ele| ele[:followers_count]}
+          highest_fc = tl_minmax[1][:followers_count]
+          lowest_fc =  tl_minmax[0][:followers_count]
+          lowest_rank = 1
+          highest_rank = 1000
+          tweet_list.each do |x|
+            x[:rank] = (lowest_rank + (x[:followers_count] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
+          end  
+
+        
         
         tweet_map = tweet_list.group_by{ |s| s[:screen_name] }
         tweet_map.each { |k,v| frequency_data[k] = v.length}
@@ -350,7 +361,8 @@ class TweetsController < ApplicationController
     begin
       x = Net::HTTP.get("54.254.80.93","/tweet-store/index.php/api/TweetsUnique/user?user_id=" + user_id.to_s)
     rescue Exception=>e
-      Rails.logger.info(e)
+      Rails.logger.info("elastic search down")
+      x["found"] = "error"
     end       
     x = "{}" if x.empty?
     #Rails.logger.info(x)
