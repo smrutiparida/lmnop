@@ -309,15 +309,23 @@ class TweetsController < ApplicationController
       #Rails.logger.info(item[:followers_count])
 
       unless es_user_info["friends"].has_key?(item[:user_id].to_s) and es_user_info["friends"][item[:user_id].to_s] == item[:followers_count]
-        es_user_info["friends"][item[:user_id]] = item[:followers_count] 
+        es_user_info["friends"][item[:user_id]] = item[:followers_count]
         update_es_index = true
         #Rails.logger.info("updating with new friends" + item[:user_id].to_s)
       end  
       
       #set ranks if user has explicitly set any
-      if es_user_info["ranks"].has_key?(item[:user_id].to_s) and es_user_info["ranks"][item[:user_id].to_s]["set"]
-        #Rails.logger.info("updating rank of user id" + item[:name].to_s)
+      if es_user_info["ranks"].has_key?(item[:user_id].to_s) 
+        #if es_user_info["ranks"][item[:user_id].to_s]["set"]
+          #Rails.logger.info("updating rank of user id" + item[:name].to_s)
         item[:rank] = es_user_info["ranks"][item[:user_id].to_s]["rank"]
+      else
+        highest_fc = es_minmax[1][1]
+        lowest_fc =  es_minmax[0][1]
+        new_rank = (lowest_rank + (item[:followers_count] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
+        es_user_info["ranks"][item[:user_id]] = { "rank" => new_rank , "set" => false}
+        item[:rank] = new_rank
+        update_es_index = true
       end  
     end  
     
