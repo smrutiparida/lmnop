@@ -72,7 +72,7 @@ class TweetsController < ApplicationController
         output_params = session[:user]  
         client = get_auth_client(output_params)
         all_tweets = client.home_timeline({:count => 200})
-        Rails.logger.info(all_tweets.to_json)
+        #Rails.logger.info(all_tweets.to_json)
         all_tweets.each do |tweet|
           retweet_info = tweet.retweeted_status
           if retweet_info.user.id.blank? or retweet_info.user.screen_name.blank?
@@ -86,7 +86,7 @@ class TweetsController < ApplicationController
 
         es_user_info = queryRankFromES(session[:user]["user_id"]);
 
-        if(es_user_info.has_key("found") and es_user_info["found"] != "error")        
+        if(es_user_info.has_key?("found") and es_user_info["found"] != "error")        
           es_user_info = es_user_info.has_key?("_source") ? es_user_info["_source"] : {}
           tweet_list = updateRank(es_user_info, tweet_list, session[:user]["user_id"])
         else
