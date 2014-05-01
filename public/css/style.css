@@ -646,7 +646,7 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
   padding: 0;
 }
 
-.grid li {
+.grid div {
   display: block;
   float: left;
   padding: 7px;
