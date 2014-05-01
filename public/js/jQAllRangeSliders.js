@@ -1369,7 +1369,7 @@ function (a) {
             this._createTooltip();
             this._renderMarkers();
             this._bindDragElement();
-            this.innerBar.on('click', function(e) {
+            this.container.on('click', function(e) {
                 var clickedPos = ((event.pageX - $(that.innerBar).offset().left)/parseFloat(that.innerBar.width())*100);
                 var currRage = that.values();
                 if(clickedPos < currRage.min) {
