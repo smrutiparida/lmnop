@@ -121,7 +121,7 @@ h3{ font-family: 'Open Sans',sans-serif;color:#000; font-weight: 300; font-size:
 }
 
 #slider-range{
-  height: 6px;
+    height: 6px;
 }
 
 .commonBtn{font:normal 12px Arial, Helvetica, sans-serif; color:#fff; background-color:#00abee; text-decoration:none; border-radius:10px; padding:3px 8px 3px 8px;-webkit-box-shadow: 2px 2px 4px 0px rgba(50, 50, 50, 0.54); -moz-box-shadow:1px 1px 1px 0px rgba(50, 50, 50, 0.54); box-shadow:1px 1px 1px 0px rgba(50, 50, 50, 0.54); outline: none !important; border:0 !important;
@@ -479,33 +479,33 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
 .top_more_Div{width:450px; float:right; text-align:right; margin-top:8px;}
 
 .styled-select {
-   width:80px;
-   float:left;
-   margin-top: 5px;
-   margin-right:6px;
-   overflow: hidden;
-   background: #F8F8F8;
-   height: 30px;
-   border-radius:2px;
-   outline:none !important;
- }
- 
+    width:80px;
+    float:left;
+    margin-top: 5px;
+    margin-right:6px;
+    overflow: hidden;
+    background: #F8F8F8;
+    height: 30px;
+    border-radius:2px;
+    outline:none !important;
+}
+
 
 .styled-select select {
-  width: 100%;
-  border: 0;
-  outline:none !important;
-  line-height: 1.5;
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  text-indent: 0.01px;
-  text-overflow: '';
-  appearance: none;
-  background: transparent  url(../images/smart_arrows.png) no-repeat scroll 97% 8px;
-  @media (-webkit-min-device-pixel-ratio: 2),
-    (min-resolution: 192dpi) {
-      background: transparent url(../images/smart_arrows.png) no-repeat scroll 97% 8px;
-      background-size: 16px 144px;
+    width: 100%;
+    border: 0;
+    outline:none !important;
+    line-height: 1.5;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 0.01px;
+    text-overflow: '';
+    appearance: none;
+    background: transparent  url(../images/smart_arrows.png) no-repeat scroll 97% 8px;
+    @media (-webkit-min-device-pixel-ratio: 2),
+        (min-resolution: 192dpi) {
+        background: transparent url(../images/smart_arrows.png) no-repeat scroll 97% 8px;
+        background-size: 16px 144px;
     }
 }
 
@@ -522,12 +522,12 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
 
 .wrapper-dropdown-1 {
     position: absolute; 
-  top:10px; left:0; right:0;
+    top:10px; left:0; right:0;
     width: 150px;
     padding: 7px;
     margin: 0 auto;
-  float:left;
-  border-radius:2px;
+    float:left;
+    border-radius:2px;
     /* Styles */
     background: #9bc7de;
     color: #fff;
@@ -558,13 +558,13 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
     top: 100%;
     left: -25px;
     right: 0;
-  z-index:9999;
+    z-index:9999;
 
     /* Styles */
     background: #fff;
     list-style: none;
     font-weight: normal; /* Cancels previous font-weight: bold; */
-  border:1px solid #eee;
+    border:1px solid #eee;
     /* Hiding */
     opacity: 0;
     pointer-events: none;
@@ -595,14 +595,14 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
 }
 
 .wrapper-dropdown-1.active {
-  background: #9bc7de;
-  background: -moz-linear-gradient(left,  #9bc7de 0%, #9bc7de 78%, #ffffff 78%, #ffffff 100%);
-  background: -webkit-gradient(linear, left top, right top, color-stop(0%,#9bc7de), color-stop(78%,#9bc7de), color-stop(78%,#ffffff), color-stop(100%,#ffffff));
-  background: -webkit-linear-gradient(left,  #9bc7de 0%,#9bc7de 78%,#ffffff 78%,#ffffff 100%);
-  background: -o-linear-gradient(left,  #9bc7de 0%,#9bc7de 78%,#ffffff 78%,#ffffff 100%);
-  background: -ms-linear-gradient(left,  #9bc7de 0%,#9bc7de 78%,#ffffff 78%,#ffffff 100%);
-  background: linear-gradient(to right,  #9bc7de 0%,#9bc7de 78%,#ffffff 78%,#ffffff 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9bc7de', endColorstr='#ffffff',GradientType=1 );
+    background: #9bc7de;
+    background: -moz-linear-gradient(left,  #9bc7de 0%, #9bc7de 78%, #ffffff 78%, #ffffff 100%);
+    background: -webkit-gradient(linear, left top, right top, color-stop(0%,#9bc7de), color-stop(78%,#9bc7de), color-stop(78%,#ffffff), color-stop(100%,#ffffff));
+    background: -webkit-linear-gradient(left,  #9bc7de 0%,#9bc7de 78%,#ffffff 78%,#ffffff 100%);
+    background: -o-linear-gradient(left,  #9bc7de 0%,#9bc7de 78%,#ffffff 78%,#ffffff 100%);
+    background: -ms-linear-gradient(left,  #9bc7de 0%,#9bc7de 78%,#ffffff 78%,#ffffff 100%);
+    background: linear-gradient(to right,  #9bc7de 0%,#9bc7de 78%,#ffffff 78%,#ffffff 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#9bc7de', endColorstr='#ffffff',GradientType=1 );
 }
 
 /* No CSS3 support */
@@ -622,18 +622,44 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
 
 
 .blue {
-  background: #9bc7de;
-  border:1px solid #379AA4;
-  background-image:-webkit-linear-gradient(top, #9bc7de, #8db7cd);
-  background-image:-moz-linear-gradient(top, #9bc7de, #8db7cd);
-  background-image:-ms-linear-gradient(top, #9bc7de, #8db7cd);
-  background-image:-o-linear-gradient(top, #9bc7de, #8db7cd);
-  background-image:linear-gradient(top, #9bc7de, #8db7cd);
+    background: #9bc7de;
+    border:1px solid #379AA4;
+    background-image:-webkit-linear-gradient(top, #9bc7de, #8db7cd);
+    background-image:-moz-linear-gradient(top, #9bc7de, #8db7cd);
+    background-image:-ms-linear-gradient(top, #9bc7de, #8db7cd);
+    background-image:-o-linear-gradient(top, #9bc7de, #8db7cd);
+    background-image:linear-gradient(top, #9bc7de, #8db7cd);
 }
 
 .blue_text{ color:#0b8dc0;}
 
 .twitter-share-button{
-  vertical-align: bottom;
-  margin-right: 10px;
+    vertical-align: bottom;
+    margin-right: 10px;
+}
+@media handheld, only screen and (max-width: 767px) {
+
+
+    .mainDiv {
+        width: 100%;
+        min-width: 0;
+        margin-left: 0px;
+        margin-right: 0px;
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .twitSec {
+        width: auto;
+        float: none;
+        margin-left: 0px;
+        margin-right: 0px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+    .heading{
+        text-align:center;	
+    }
 }
