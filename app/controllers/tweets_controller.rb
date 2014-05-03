@@ -363,7 +363,7 @@ class TweetsController < ApplicationController
       x = Net::HTTP.get("54.254.80.93","/tweet-store/index.php/api/TweetsUnique/user?user_id=" + user_id.to_s)
     rescue Exception=>e
       Rails.logger.info(" ")
-      x["found"] = "error"
+      x= '{"found" : "error"}'
     end 
     Rails.logger.info("what is the data")
     Rails.logger.info(x)
