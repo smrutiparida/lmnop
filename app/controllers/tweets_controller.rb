@@ -360,14 +360,16 @@ class TweetsController < ApplicationController
     #Rails.logger.info("inside queryRankFromES")
     x = "{}"
     begin
-      x = Net::HTTP.get("54.254.80.93","/tweet-store/index.php/api/TweetsUnique/user?user_id=" + user_id.to_s)
+      http = Net::HTTP.new("54.254.80.93")
+      http.read_timeout = 5
+      x = http.get("/tweet-store/index.php/api/TweetsUnique/user?user_id=" + user_id.to_s)
     rescue Exception=>e
-      Rails.logger.info(" ")
+      Rails.logger.info("ElasticSearch Down")
       x= '{"found" : "error"}'
+    rescue Net::ReadTimeout => e
+      Rails.logger.info("ElasticSearch Read Timeout")
+      x = '{"found" : "error"}'      
     end 
-    Rails.logger.info("what is the data")
-    Rails.logger.info(x)
-    Rails.logger.info(JSON.parse x)
     x = "{}" if x.empty?
     #Rails.logger.info(x)
     JSON.parse x
