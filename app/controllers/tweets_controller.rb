@@ -321,7 +321,7 @@ class TweetsController < ApplicationController
       #Rails.logger.info(item[:followers_count])
 
       unless es_user_info["friends"].has_key?(item[:user_id].to_s) and es_user_info["friends"][item[:user_id].to_s] == item[:followers_count]
-        es_user_info["friends"][item[:user_id]] = item[:followers_count]
+        es_user_info["friends"][item[:user_id].to_s] = item[:followers_count]
         update_es_index = true
         #Rails.logger.info("updating with new friends" + item[:user_id].to_s)
       end  
@@ -335,7 +335,7 @@ class TweetsController < ApplicationController
         highest_fc = es_minmax[1][1]
         lowest_fc =  es_minmax[0][1]
         new_rank = (lowest_rank + (item[:followers_count] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
-        es_user_info["ranks"][item[:user_id]] = { "rank" => new_rank , "set" => false}
+        es_user_info["ranks"][item[:user_id].to_s] = { "rank" => new_rank , "set" => false}
         item[:rank] = new_rank
         update_es_index = true
       end  
@@ -362,9 +362,12 @@ class TweetsController < ApplicationController
     begin
       x = Net::HTTP.get("54.254.80.93","/tweet-store/index.php/api/TweetsUnique/user?user_id=" + user_id.to_s)
     rescue Exception=>e
-      Rails.logger.info("elastic search down")
+      Rails.logger.info(" ")
       x["found"] = "error"
-    end       
+    end 
+    Rails.logger.info("what is the data")
+    Rails.logger.info(x)
+    Rails.logger.info(JSON.parse x)
     x = "{}" if x.empty?
     #Rails.logger.info(x)
     JSON.parse x
