@@ -362,16 +362,17 @@ class TweetsController < ApplicationController
     begin
       http = Net::HTTP.new("54.254.80.93")
       http.read_timeout = 5
-      x = http.get("/tweet-store/index.php/api/TweetsUnique/user?user_id=" + user_id.to_s)
+      resp = http.get("/tweet-store/index.php/api/TweetsUnique/user?user_id=" + user_id.to_s)
+      x = resp.body
     rescue Exception=>e
       Rails.logger.info("ElasticSearch Down")
-      x= '{"found" : "error"}'
+      x = '{"found" : "error"}'
     rescue Net::ReadTimeout => e
       Rails.logger.info("ElasticSearch Read Timeout")
       x = '{"found" : "error"}'      
     end 
     x = "{}" if x.empty?
-    #Rails.logger.info(x)
+    Rails.logger.info(x)
     JSON.parse x
   end  
 
