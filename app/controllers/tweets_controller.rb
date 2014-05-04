@@ -373,7 +373,13 @@ class TweetsController < ApplicationController
     end 
     x = "{}" if x.empty?
     Rails.logger.info(x)
-    JSON.parse x
+    begin
+      JSON.parse x
+    rescue JSON::ParserError => e
+      Rails.logger.info("JSON parse erro")
+      x = '{"found" : "error"}'
+      JSON.parse x
+    end    
   end  
 
   def get_auth_client(output_params)
