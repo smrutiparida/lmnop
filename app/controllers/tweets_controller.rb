@@ -75,13 +75,13 @@ class TweetsController < ApplicationController
         #Rails.logger.info(all_tweets.to_json)
         all_tweets.each do |tweet|
           retweet_info = tweet.retweeted_status
-          retweet_info.nil? ? Rails.logger.info("true") : Rails.logger.info("false")
+          #retweet_info.nil? ? Rails.logger.info("true") : Rails.logger.info("false")
 
-          if retweet_info.blank? or retweet_info.user.id.blank? or retweet_info.user.screen_name.blank?
-            #Rails.logger.info("in IF")
-            tweet_list.push({ :rt_user_id => nil, :rt_screen_name => "" , :rt_profile_image_url => "", :rt_name => "" ,:user_id => tweet.user.id, :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.attrs[:id_str] ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})            
+          if retweet_info.nil?
+            Rails.logger.info("in IF")
+            tweet_list.push({ :rt_user_id => "", :rt_screen_name => "" , :rt_profile_image_url => "", :rt_name => "" ,:user_id => tweet.user.id, :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.attrs[:id_str] ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})            
           else            
-            #Rails.logger.info("IN BUT")
+            Rails.logger.info("IN BUT")
             tweet_list.push({ :rt_user_id => retweet_info.user.id.to_s, :rt_screen_name => retweet_info.user.screen_name.to_s , :rt_profile_image_url => retweet_info.user.profile_image_url.to_s, :rt_name => retweet_info.user.name.to_s ,:user_id => tweet.user.id, :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.attrs[:id_str] ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => retweet_info.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})
           end  
         end  
