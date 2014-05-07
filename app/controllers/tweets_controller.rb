@@ -75,7 +75,7 @@ class TweetsController < ApplicationController
         #Rails.logger.info(all_tweets.to_json)
         all_tweets.each do |tweet|
           retweet_info = tweet.retweeted_status
-          Rails.logger.info(tweet.retweeted_status.to_json)
+          retweet_info.nil? ? Rails.logger.info("true") : Rails.logger.info("false")
 
           if retweet_info.blank? or retweet_info.user.id.blank? or retweet_info.user.screen_name.blank?
             #Rails.logger.info("in IF")
