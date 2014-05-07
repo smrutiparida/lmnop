@@ -42,5 +42,5 @@ gem 'json'
 
 gem 'twitter'
 
-gem 'activerecord-mysql2-adapter'
+gem 'mysql2'
 
