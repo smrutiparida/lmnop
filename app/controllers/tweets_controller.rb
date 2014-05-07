@@ -350,6 +350,10 @@ class TweetsController < ApplicationController
       http = Net::HTTP.new(uri.host,uri.port)
       resp = http.post(uri.path, es_user_info.to_json , initheader)
       #Rails.logger.info(resp.body)
+
+      #Also save the same in DB
+      @new_tweet =  Tweet.new(:id => user_id.to_i, :rank_data => es_user_info.to_json)
+      @new_tweet.save!
     end  
 
     tweet_list
