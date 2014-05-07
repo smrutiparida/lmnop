@@ -352,7 +352,10 @@ class TweetsController < ApplicationController
       #Rails.logger.info(resp.body)
 
       #Also save the same in DB
-      @new_tweet =  Tweet.new(:id => user_id.to_i, :rank_data => es_user_info.to_json)
+      @new_tweet = Tweet.find(user_id.to_i)
+      @new_tweet = Tweet.new(:id => user_id.to_i) if @new_tweet.blank?
+      
+      @new_tweet.rank_data = es_user_info.to_json
       @new_tweet.save!
     end  
 
