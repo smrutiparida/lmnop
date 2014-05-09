@@ -109,9 +109,9 @@ input.ui-editRangeSlider-inputValue{
 
 
 .ui-dropRangeSlider-marker {
-    width : 3px;
-    height : 45%;
-    background-color:#f06760;
+    width : 5px;
+    height : 25%;
+    background-color:#00abee;
     position : absolute;
-    top:5%;
+    top:12%;
 }
