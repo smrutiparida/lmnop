@@ -355,7 +355,8 @@ class TweetsController < ApplicationController
 
       #Also save the same in DB
       #@new_tweet = Tweet.find(user_id.to_i)
-      @new_tweet = Tweet.find_or_create_by(id: user_id.to_i)
+      @new_tweet = Tweet.find_by_id(user_id.to_i) || Tweet.create(:id => user_id.to_i)
+      #@new_tweet = Tweet.find_or_create_by(id: user_id.to_i)
       #@new_tweet = Tweet.new(:id => user_id.to_i) if @new_tweet.blank?
       
       @new_tweet.rank_data = es_user_info.to_json
