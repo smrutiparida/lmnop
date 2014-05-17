@@ -1,7 +1,10 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  @@consumer_secret = "ho9RwNBuOZ0EVJQ4BJtbYdwJJW4np47LgcclZVJJRZIwcxGRrI"
-  @@consumer_key =  "tM7jPwa7VW2agWKzauZALCmGY"
+  #the below 2 is from smruti.parida@gmail.com . We got permission to brizztv account for custom timelines account. Hence creating new key and secret
+  #@@consumer_secret = "ho9RwNBuOZ0EVJQ4BJtbYdwJJW4np47LgcclZVJJRZIwcxGRrI"
+  #@@consumer_key =  "tM7jPwa7VW2agWKzauZALCmGY"
+  @@consumer_secret = "6NGRDnZr5ESl5dW0bgVdDWBi7fxgjYRTVYNfbdTlifARzWwppK"
+  @@consumer_key =  "oZ35s173qnlnlXAXV07Ng43Qa"
   def get_auth_client(output_params)
 
     client = Twitter::REST::Client.new do |config|
