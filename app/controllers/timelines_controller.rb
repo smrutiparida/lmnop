@@ -14,6 +14,7 @@ class TimelinesController < ApplicationController
       response = client.post("https://api.twitter.com/1.1/beta/timelines/custom/create.json", params={:name => "newstest"})
       Rails.logger.info(response)
       render :json => response.to_json
+    end  
   end
 
   def destroy
