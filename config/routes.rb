@@ -11,6 +11,7 @@ Lmnop::Application.routes.draw do
   post "tweets/retweet" => 'tweets#retweet'
   post "tweets/favorite" => 'tweets#favorite'
   post 'tweets/reply' => 'tweets#reply'
+  get  'timelines/create' => 'timelines#create'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
