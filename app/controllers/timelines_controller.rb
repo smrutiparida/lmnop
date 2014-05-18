@@ -47,11 +47,12 @@ class TimelinesController < ApplicationController
     
     #Rails.logger.info(x["data"]["tweets"])
 
-    x["data"]["tweets"].each do |tweet|
+    x["data"]["tweets"].reverse_each do |tweet|
       Rails.logger.info(tweet["tweet_id"])
       response = client.post("/1.1/beta/timelines/custom/add.json", params={:tweet_id => tweet["tweet_id"].to_s, :id => "custom-467906368129609729"})
       Rails.logger.info(response)
     end  
+    render :json => {:success => 'Timeline updated'}
   end
 
   def remove
