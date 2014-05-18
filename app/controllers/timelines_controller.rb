@@ -31,8 +31,8 @@ class TimelinesController < ApplicationController
       http = Net::HTTP.new("54.254.80.93")
       http.read_timeout = 5
       resp = http.get(search_url)
-      x = resp.body
-      Rails.logger.info(x)
+      x = JSON.parse resp.body
+    #  Rails.logger.info(x)
     rescue Exception=>e
       Rails.logger.info("ElasticSearch Down")
       x = '{"found" : "error"}'
@@ -45,11 +45,11 @@ class TimelinesController < ApplicationController
     output_params["oauth_token_secret"] = "KKR6stuigeuMEvSvPRdC8Q4Ybi1cSSTDPDUXlmriG9saU"
     client = get_auth_client(output_params)
     
-    Rails.logger.info(x["data"]["tweets"])
+    #Rails.logger.info(x["data"]["tweets"])
 
     x["data"]["tweets"].each do |tweet|
-      x.logger.info(tweet)
-      response = client.post("https://api.twitter.com/1.1/beta/timelines/custom/add.json", params={:tweet_id => tweet.tweet_id.to_s, :id => "custom-467906368129609729"})
+      x.logger.info(tweet["tweet_id"])
+      response = client.post("https://api.twitter.com/1.1/beta/timelines/custom/add.json", params={:tweet_id => tweet["tweet_id"].to_s, :id => "custom-467906368129609729"})
       x.logger.info(response)
     end  
   end
