@@ -48,9 +48,9 @@ class TimelinesController < ApplicationController
     #Rails.logger.info(x["data"]["tweets"])
 
     x["data"]["tweets"].each do |tweet|
-      x.logger.info(tweet["tweet_id"])
+      Rails.logger.info(tweet["tweet_id"])
       response = client.post("https://api.twitter.com/1.1/beta/timelines/custom/add.json", params={:tweet_id => tweet["tweet_id"].to_s, :id => "custom-467906368129609729"})
-      x.logger.info(response)
+      Rails.logger.info(response)
     end  
   end
 
