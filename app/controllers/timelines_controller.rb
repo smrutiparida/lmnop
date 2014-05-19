@@ -45,7 +45,7 @@ class TimelinesController < ApplicationController
   def curate
     x = make_request()
     client = get_auth_client()
-  	client.connection_options=({ :headers => { :accept => 'application/json'} })
+  	client.connection_options=({ :headers => { :'Content-Type' => 'application/json'} })
 
     
     request_data = {}
