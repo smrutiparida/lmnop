@@ -27,6 +27,56 @@ class TimelinesController < ApplicationController
   end
 
   def add
+    
+    x = make_request()
+    client = get_auth_client(output_params)
+
+    x["data"]["tweets"].reverse_each do |tweet|
+      Rails.logger.info(tweet["tweet_id"])
+      response = client.post("/1.1/beta/timelines/custom/add.json", params={:tweet_id => tweet["tweet_id"].to_s, :id => "custom-467906368129609729"})
+      Rails.logger.info(response)
+    end  
+    render :json => {:success => 'Timeline updated'}
+  end
+
+  def remove
+  end
+
+  def curate
+    x = make_request()
+    client = get_auth_client(output_params)
+  	client.connection_options=({ :headers => { :accept => 'application/json'} })
+
+    
+    request_data = {}
+    request_data["id"] = "custom-467906368129609729"
+    request_data["changes"] = []
+    
+    x["data"]["tweets"].reverse_each do |tweet|
+      temp = {}
+      temp["op"] = "add"
+      temp["tweet_id"] = tweet["tweet_id"].to_s
+      request_data["changes"].add(temp)
+    end  
+    
+    response = client.post("/1.1/beta/timelines/custom/curate.json", params=request_data)
+    Rails.logger.info(response)
+    render :json => {:success => 'Curation Timeline updated'}
+
+  end
+  
+  def get_auth_client(output_params)
+
+    client = Twitter::REST::Client.new do |config|
+      config.consumer_key        = @@consumer_key
+      config.consumer_secret     = @@consumer_secret
+      config.access_token        = "447737360-mwOPhkQ2skhArUgv9fVDW4S7Vu484OF9rTkg8bxG"
+      config.access_token_secret = "KKR6stuigeuMEvSvPRdC8Q4Ybi1cSSTDPDUXlmriG9saU"
+    end
+    client
+  end  
+
+  def make_request()
     search_url = "/tweet-store/index.php/api/TweetsUnique/get?&low=750&high=1000&size=50&top=0&q=&uniqueUser=true&country=in&screen_name=&topic=&in_reply_to_status_id="
     x = "{}"
     begin
@@ -42,36 +92,6 @@ class TimelinesController < ApplicationController
       Rails.logger.info("ElasticSearch Read Timeout")
       x = '{"found" : "error"}'      
     end 
-    output_params = {}
-    output_params["oauth_token"] = "447737360-mwOPhkQ2skhArUgv9fVDW4S7Vu484OF9rTkg8bxG"
-    output_params["oauth_token_secret"] = "KKR6stuigeuMEvSvPRdC8Q4Ybi1cSSTDPDUXlmriG9saU"
-    client = get_auth_client(output_params)
-    
-    #Rails.logger.info(x["data"]["tweets"])
-
-    x["data"]["tweets"].reverse_each do |tweet|
-      Rails.logger.info(tweet["tweet_id"])
-      response = client.post("/1.1/beta/timelines/custom/add.json", params={:tweet_id => tweet["tweet_id"].to_s, :id => "custom-467906368129609729"})
-      Rails.logger.info(response)
-    end  
-    render :json => {:success => 'Timeline updated'}
+    x
   end
-
-  def remove
-  end
-
-  def curate
-  	
-  end
-  
-  def get_auth_client(output_params)
-
-    client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = @@consumer_key
-      config.consumer_secret     = @@consumer_secret
-      config.access_token        = output_params["oauth_token"]
-      config.access_token_secret = output_params["oauth_token_secret"]
-    end
-    client
-  end  
 end
