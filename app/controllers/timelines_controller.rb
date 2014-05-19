@@ -56,7 +56,7 @@ class TimelinesController < ApplicationController
       temp = {}
       temp["op"] = "add"
       temp["tweet_id"] = tweet["tweet_id"].to_s
-      request_data["changes"].add(temp)
+      request_data["changes"].push(temp)
     end  
     
     response = client.post("/1.1/beta/timelines/custom/curate.json", params=request_data)
