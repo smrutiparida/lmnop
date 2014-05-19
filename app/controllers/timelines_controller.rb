@@ -45,9 +45,12 @@ class TimelinesController < ApplicationController
   def curate
     x = make_request()
     client = get_auth_client()
-  	client.connection_options=({ :headers => { :'Content-Type' => 'application/json'} })
+    header_info = {}
+    content_type_info = {}
+    content_type_info['content-type'.to_sym] = 'application/json'
+    header_info[:headers] = content_type_info
+  	client.connection_options = header_info
 
-    
     request_data = {}
     request_data["id"] = "custom-467906368129609729"
     request_data["changes"] = []
@@ -58,7 +61,7 @@ class TimelinesController < ApplicationController
       temp["tweet_id"] = tweet["tweet_id"].to_s
       request_data["changes"].push(temp)
     end  
-    
+    Rails.logger.info(request_data)
     response = client.post("/1.1/beta/timelines/custom/curate.json", params=request_data)
     Rails.logger.info(response)
     render :json => {:success => 'Curation Timeline updated'}
