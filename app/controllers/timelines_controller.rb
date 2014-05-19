@@ -6,6 +6,7 @@ require 'json'
 require 'twitter'
 require 'faraday'
 require 'faraday/request/multipart'
+require 'faraday_middleware'
 
 class TimelinesController < ApplicationController
   @@consumer_secret = "YbhyKkfgPA8bK1UrWVIKxaUkDcm5nnGk5QLdKue9k"

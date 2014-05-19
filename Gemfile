@@ -44,3 +44,4 @@ gem 'twitter'
 
 gem 'mysql2'
 
+gem 'faraday_middleware'
