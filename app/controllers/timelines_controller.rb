@@ -4,6 +4,8 @@ require 'nokogiri'
 require 'open-uri'
 require 'json'
 require 'twitter'
+require 'faraday'
+require 'faraday/request/multipart'
 
 class TimelinesController < ApplicationController
   @@consumer_secret = "YbhyKkfgPA8bK1UrWVIKxaUkDcm5nnGk5QLdKue9k"
@@ -51,16 +53,31 @@ class TimelinesController < ApplicationController
     header_info[:headers] = content_type_info
   	client.connection_options = header_info
 
+    client.middleware = Faraday::RackBuilder.new do |faraday|
+      #send application/json in post
+      faraday.request :json
+      # Checks for files in the payload, otherwise leaves everything untouched
+      #faraday.request :multipart
+      # Encodes as "application/x-www-form-urlencoded" if not already encoded
+      faraday.request :url_encoded
+      # Handle error responses
+      faraday.response :raise_error
+      # Parse JSON response bodies
+      faraday.response :parse_json
+      # Set default HTTP adapter
+      faraday.adapter :net_http
+    end
+
     request_data = {}
     request_data["id"] = "custom-467906368129609729"
-    #request_data["changes"] = []
+    request_data["changes"] = []
     
-    #x["data"]["tweets"].reverse_each do |tweet|
-    #  temp = {}
-    #  temp["op"] = "add"
-    #  temp["tweet_id"] = tweet["tweet_id"].to_s
-    #  request_data["changes"].push(temp)
-    #end  
+    x["data"]["tweets"].reverse_each do |tweet|
+      temp = {}
+      temp["op"] = "add"
+      temp["tweet_id"] = tweet["tweet_id"].to_s
+      request_data["changes"].push(temp)
+    end  
     Rails.logger.info(request_data)
     response = client.post("/1.1/beta/timelines/custom/curate.json", request_data)
     Rails.logger.info(response)
