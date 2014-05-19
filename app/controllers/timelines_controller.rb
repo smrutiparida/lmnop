@@ -52,7 +52,7 @@ class TimelinesController < ApplicationController
     #content_type_info = {}
     #content_type_info['content-type'.to_sym] = 'application/json'
     #header_info[:headers] = content_type_info
-  	#client.connection_options = header_info
+  	client.connection_options = {:headers => {:'content-type' => 'application/json'}}
 
     client.middleware = Faraday::RackBuilder.new do |faraday|
       #send application/json in post
