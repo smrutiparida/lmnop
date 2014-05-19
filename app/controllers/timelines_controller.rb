@@ -48,11 +48,11 @@ class TimelinesController < ApplicationController
   def curate
     x = make_request()
     client = get_auth_client()
-    header_info = {}
-    content_type_info = {}
-    content_type_info['content-type'.to_sym] = 'application/json'
-    header_info[:headers] = content_type_info
-  	client.connection_options = header_info
+    #header_info = {}
+    #content_type_info = {}
+    #content_type_info['content-type'.to_sym] = 'application/json'
+    #header_info[:headers] = content_type_info
+  	#client.connection_options = header_info
 
     client.middleware = Faraday::RackBuilder.new do |faraday|
       #send application/json in post
@@ -81,7 +81,7 @@ class TimelinesController < ApplicationController
       request_data["changes"].push(temp)
     end  
     Rails.logger.info(request_data)
-    response = client.post("/1.1/beta/timelines/custom/curate.json", {})
+    response = client.post("/1.1/beta/timelines/custom/curate.json", request_data)
     Rails.logger.info(response)
     render :json => {:success => 'Curation Timeline updated'}
 
