@@ -80,7 +80,7 @@ class TimelinesController < ApplicationController
       request_data["changes"].push(temp)
     end  
     Rails.logger.info(request_data)
-    response = client.post("/1.1/beta/timelines/custom/curate.json", request_data)
+    response = client.post("/1.1/beta/timelines/custom/curate.json", {})
     Rails.logger.info(response)
     render :json => {:success => 'Curation Timeline updated'}
 
