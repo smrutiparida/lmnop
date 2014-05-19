@@ -29,7 +29,7 @@ class TimelinesController < ApplicationController
   def add
     
     x = make_request()
-    client = get_auth_client(output_params)
+    client = get_auth_client()
 
     x["data"]["tweets"].reverse_each do |tweet|
       Rails.logger.info(tweet["tweet_id"])
@@ -44,7 +44,7 @@ class TimelinesController < ApplicationController
 
   def curate
     x = make_request()
-    client = get_auth_client(output_params)
+    client = get_auth_client()
   	client.connection_options=({ :headers => { :accept => 'application/json'} })
 
     
@@ -65,7 +65,7 @@ class TimelinesController < ApplicationController
 
   end
   
-  def get_auth_client(output_params)
+  def get_auth_client()
 
     client = Twitter::REST::Client.new do |config|
       config.consumer_key        = @@consumer_key
