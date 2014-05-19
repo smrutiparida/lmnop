@@ -6,6 +6,8 @@ require 'json'
 require 'twitter'
 
 class TimelinesController < ApplicationController
+  @@consumer_secret = "YbhyKkfgPA8bK1UrWVIKxaUkDcm5nnGk5QLdKue9k"
+  @@consumer_key =  "mQbKmq0yNCpDpvEEQvwGrw"
   def create  
     output_params = {}
     output_params["oauth_token"] = "447737360-mwOPhkQ2skhArUgv9fVDW4S7Vu484OF9rTkg8bxG"
@@ -62,4 +64,14 @@ class TimelinesController < ApplicationController
   	
   end
   
+  def get_auth_client(output_params)
+
+    client = Twitter::REST::Client.new do |config|
+      config.consumer_key        = @@consumer_key
+      config.consumer_secret     = @@consumer_secret
+      config.access_token        = output_params["oauth_token"]
+      config.access_token_secret = output_params["oauth_token_secret"]
+    end
+    client
+  end  
 end
