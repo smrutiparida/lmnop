@@ -7,16 +7,18 @@ require 'twitter'
 require 'faraday'
 require 'faraday/request/multipart'
 require 'faraday_middleware'
+require 'logger'
+require 'simple_oauth'
 
 class TimelinesController < ApplicationController
   @@consumer_secret = "YbhyKkfgPA8bK1UrWVIKxaUkDcm5nnGk5QLdKue9k"
   @@consumer_key =  "mQbKmq0yNCpDpvEEQvwGrw"
+  @@access_token =  "447737360-mwOPhkQ2skhArUgv9fVDW4S7Vu484OF9rTkg8bxG"
+  @@access_token_secret = "KKR6stuigeuMEvSvPRdC8Q4Ybi1cSSTDPDUXlmriG9saU"
+
   def create  
-    output_params = {}
-    output_params["oauth_token"] = "447737360-mwOPhkQ2skhArUgv9fVDW4S7Vu484OF9rTkg8bxG"
-    output_params["oauth_token_secret"] = "KKR6stuigeuMEvSvPRdC8Q4Ybi1cSSTDPDUXlmriG9saU"
-    client = get_auth_client(output_params)
-    response = client.post("https://api.twitter.com/1.1/beta/timelines/custom/create.json", params={:name => "newstest"})
+    client = get_auth_client()
+    response = client.post("/1.1/beta/timelines/custom/create.json", params={:name => "newstest"})
     Rails.logger.info(response)
     render :json => response.to_json
   end
@@ -47,14 +49,22 @@ class TimelinesController < ApplicationController
 
   def curate
     x = make_request()
-    client = get_auth_client()
+    post_url = 'https://api.twitter.com/1.1/beta/timelines/custom/curate.json'
+    uri = URI.parse(post_url)
+    credentials = { :consumer_key    => @@consumer_key, :consumer_secret => @@consumer_secret, :token => @@access_token, :token_secret => @@access_token_secret}
+    
+    auth_key = SimpleOAuth::Header.new(:post, uri, {}, credentials)
+    logger.info(auth_key.to_s)  
+    #client = get_auth_client()
     #header_info = {}
     #content_type_info = {}
     #content_type_info['content-type'.to_sym] = 'application/json'
     #header_info[:headers] = content_type_info
-  	client.connection_options = {:headers => {:'content-type' => 'application/json'}}
+  	#client.connection_options = {:headers => {:'content-type' => 'application/json'}}
 
-    client.middleware = Faraday::RackBuilder.new do |faraday|
+    client = Faraday.new('https://api.twitter.com') do |faraday|
+      f.headers['Authorization'] = auth_key.to_s
+      f.headers['Accept'] = 'application/json'
       #send application/json in post
       faraday.request :json
       # Checks for files in the payload, otherwise leaves everything untouched
@@ -66,8 +76,9 @@ class TimelinesController < ApplicationController
       # Parse JSON response bodies
       faraday.response :parse_json
       # Set default HTTP adapter
-      faraday.response :logger
-      faraday.adapter :net_http
+      faraday.use Faraday::Response::Logger, Logger.new(STDOUT)
+      #faraday.adapter :net_http
+      faraday.adapter Faraday.default_adapter
     end
 
     request_data = {}
@@ -81,7 +92,10 @@ class TimelinesController < ApplicationController
       request_data["changes"].push(temp)
     end  
     Rails.logger.info(request_data)
-    response = client.post("/1.1/beta/timelines/custom/curate.json", {:body => request_data})
+    response = @conn.post '/1.1/beta/timelines/custom/curate.json', request_data do |r|
+      r.headers['Content-Type'] = 'application/json'
+    end
+    #response = client.post("/1.1/beta/timelines/custom/curate.json", request_data)
     Rails.logger.info(response)
     render :json => {:success => 'Curation Timeline updated'}
 
@@ -92,8 +106,8 @@ class TimelinesController < ApplicationController
     client = Twitter::REST::Client.new do |config|
       config.consumer_key        = @@consumer_key
       config.consumer_secret     = @@consumer_secret
-      config.access_token        = "447737360-mwOPhkQ2skhArUgv9fVDW4S7Vu484OF9rTkg8bxG"
-      config.access_token_secret = "KKR6stuigeuMEvSvPRdC8Q4Ybi1cSSTDPDUXlmriG9saU"
+      config.access_token        = @@access_token
+      config.access_token_secret = @@access_token_secret
     end
     client
   end  

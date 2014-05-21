@@ -16,6 +16,10 @@ class TweetsController < ApplicationController
     Rails.logger.info(params[:topic])
   end
   
+  def mobile
+    render :nothing => true, :status => 200, :content_type => 'text/html'
+  end
+
   def my
     return redirect_to '/tweets/auth' unless session[:user] or (params["oauth_token"] and params["oauth_verifier"])
 
