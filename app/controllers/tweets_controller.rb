@@ -17,50 +17,14 @@ class TweetsController < ApplicationController
   end
   
   def mobile
-    render :nothing => true, :status => 200, :content_type => 'text/html'
+    render :nothing => true, :status => 403 unless session[:user] or (params["oauth_token"] and params["oauth_verifier"])
+    set_session_key()
+    render :nothing => true, :status => 200, :content_type => 'application/json'
   end
 
   def my
     return redirect_to '/tweets/auth' unless session[:user] or (params["oauth_token"] and params["oauth_verifier"])
-
-    if session[:user]
-      output_params = session[:user]
-      session.delete(:last_call)
-    else  
-     
-      twitter_url = "https://api.twitter.com/oauth/access_token"
-      post_params = get_params()
-      post_params["oauth_token"] = params["oauth_token"]
-      post_params["oauth_verifier"] = params["oauth_verifier"]
-      
-      signature_base_string = signature_base_string("POST", twitter_url, post_params)
-
-      logger.info(signature_base_string) 
-
-      post_params['oauth_signature'] = url_encode(sign(@@consumer_secret + '&' + post_params["oauth_token"] , signature_base_string))
-      
-      post_params.delete("oauth_verifier")
-
-      data = "OAuth " + post_params.map{|k,v| "#{k}=\"#{v}\""}.join(', ')
-
-      logger.info(data)
-      
-      uri = URI.parse(twitter_url)
-
-      initheader = {"Content-type"=> "application/x-www-form-urlencoded","Accept"=> "*/*","Authorization" => data}
-      http = Net::HTTP.new(uri.host,uri.port)
-      http.use_ssl = true
-      http.verify_mode = OpenSSL::SSL::VERIFY_NONE # read into this
-      
-      resp = http.post(uri.path, "oauth_verifier=" + params["oauth_verifier"] , initheader)
-
-      logger.info(resp.body)
-
-      ##now set a infinite cookie and get the tweeer timeline
-      output_params = split_params(resp.body)
-
-      session["user"]= output_params
-    end
+    set_session_key()
     @is_my_tweets = true
   end
   
@@ -250,6 +214,18 @@ class TweetsController < ApplicationController
   
   private 
 
+  def set_session_key()
+    if session[:user]
+      output_params = session[:user]
+      session.delete(:last_call)
+    else  
+      auth_data = {}
+      auth_data[:oauth_token] = params["oauth_token"]
+      auth_data[:oauth_verifier] = params["oauth_verifier"]
+      make_twitter_auth(auth_data)  
+    end
+  end
+    
   def split_params(str)
     name_val = str.split('&')
     my_map = {}
@@ -260,7 +236,41 @@ class TweetsController < ApplicationController
     my_map  
   end
 
- 
+  def make_twitter_auth(auth_data)
+    twitter_url = "https://api.twitter.com/oauth/access_token"
+    post_params = get_params()
+    post_params["oauth_token"] = auth_data[:oauth_token]
+    post_params["oauth_verifier"] = auth_data[:oauth_verifier]
+    
+    signature_base_string = signature_base_string("POST", twitter_url, post_params)
+
+    logger.info(signature_base_string) 
+
+    post_params['oauth_signature'] = url_encode(sign(@@consumer_secret + '&' + post_params["oauth_token"] , signature_base_string))
+    
+    post_params.delete("oauth_verifier")
+
+    data = "OAuth " + post_params.map{|k,v| "#{k}=\"#{v}\""}.join(', ')
+
+    logger.info(data)
+    
+    uri = URI.parse(twitter_url)
+
+    initheader = {"Content-type"=> "application/x-www-form-urlencoded","Accept"=> "*/*","Authorization" => data}
+    http = Net::HTTP.new(uri.host,uri.port)
+    http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE # read into this
+    
+    resp = http.post(uri.path, "oauth_verifier=" + params["oauth_verifier"] , initheader)
+
+    logger.info(resp.body)
+
+    ##now set a infinite cookie and get the tweeer timeline
+    output_params = split_params(resp.body)
+
+    session["user"]= output_params
+    output_params
+  end  
 
   def updateRank(es_user_info, tweet_list, user_id)
     #Rails.logger.info("inside updateRank")
