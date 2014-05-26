@@ -158,10 +158,12 @@ class TweetsController < ApplicationController
       id_arr.push(params[:id].to_i)
       begin 
         params[:is_favorite] ? client.unfavorite(id_arr) : client.favorite(id_arr)  
-      rescue Twitter::Error::Unauthorized
+      rescue Twitter::Error::Unauthorized => e
         message = "Authorization failed. Login again."
         return_type = false
-      rescue Twitter::Error::NotFound  
+      rescue Twitter::Error::NotFound  => e
+        Rails.logger.info(e.message)
+        Rails.logger.info(e.backtrace)
         message = "Could not retweet. Please rfresh the page."
         return_type = false
       end 
