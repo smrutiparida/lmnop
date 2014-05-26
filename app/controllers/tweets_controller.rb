@@ -9,6 +9,9 @@ class TweetsController < ApplicationController
 
   @@consumer_secret = "ho9RwNBuOZ0EVJQ4BJtbYdwJJW4np47LgcclZVJJRZIwcxGRrI"
   @@consumer_key =  "tM7jPwa7VW2agWKzauZALCmGY"
+
+  @@consumer_secret_mobile = "qgHrrfMfOKQ4NTv3RSvuBDWEKLopiLhXQxAMRkT7La6k841uxI"
+  @@consumer_key_mobile =  "0uGRm9lAgRejBEFaYfgGZePTa"
   
   def index
     @is_my_tweets = false
@@ -17,12 +20,14 @@ class TweetsController < ApplicationController
   end
   
   def mobile
+    session[:mobile] = true
     render :nothing => true, :status => 403 unless session[:user] or (params["oauth_token"] and params["oauth_verifier"])
     set_session_key()
     render :nothing => true, :status => 200, :content_type => 'application/json'
   end
 
   def my
+    session[:mobile] = false
     return redirect_to '/tweets/auth' unless session[:user] or (params["oauth_token"] and params["oauth_verifier"])
     set_session_key()
     @is_my_tweets = true
@@ -412,8 +417,13 @@ class TweetsController < ApplicationController
   def get_auth_client(output_params)
 
     client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = @@consumer_key
-      config.consumer_secret     = @@consumer_secret
+      if session[:mobile]
+        config.consumer_key        = @@consumer_key_mobile
+        config.consumer_secret     = @@consumer_secret_mobile
+      else  
+        config.consumer_key        = @@consumer_key
+        config.consumer_secret     = @@consumer_secret
+      end  
       config.access_token        = output_params["oauth_token"]
       config.access_token_secret = output_params["oauth_token_secret"]
     end
@@ -425,7 +435,7 @@ class TweetsController < ApplicationController
     post_params['oauth_version'] = "1.0"
     post_params['oauth_timestamp'] = Time.now.to_i.to_s
     post_params['oauth_signature_method'] = 'HMAC-SHA1'
-    post_params['oauth_consumer_key'] = @@consumer_key
+    post_params['oauth_consumer_key'] = session[:mobile] ? @@consumer_key_mobile : @@consumer_key
     post_params['oauth_nonce'] = rand(10 ** 30).to_s.rjust(30,'0')
     
     post_params
