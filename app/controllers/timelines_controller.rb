@@ -116,7 +116,7 @@ class TimelinesController < ApplicationController
     search_url = "/tweet-store/index.php/api/TweetsUnique/get?&low=750&high=1000&size=50&top=0&q=&uniqueUser=true&country=in&screen_name=&topic=&in_reply_to_status_id="
     x = "{}"
     begin
-      http = Net::HTTP.new("54.254.80.93")
+      http = Net::HTTP.new("54.254.76.28")
       http.read_timeout = 5
       resp = http.get(search_url)
       x = JSON.parse resp.body

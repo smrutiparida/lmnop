@@ -163,8 +163,7 @@ class TweetsController < ApplicationController
         return_type = false
       rescue Twitter::Error::NotFound  => e
         Rails.logger.info(e.message)
-        Rails.logger.info(e.backtrace)
-        message = "Could not retweet. Please rfresh the page."
+        message = "Could not retweet. Please refresh the page."
         return_type = false
       end 
       status = 200
@@ -368,7 +367,7 @@ class TweetsController < ApplicationController
     # updare es_user_info and write back to the server    
     if update_es_index
       #Rails.logger.info(es_user_info.to_json)
-      es_url = "http://54.254.80.93/tweet-store/index.php/api/TweetsUnique/user"
+      es_url = "http://54.254.76.28/tweet-store/index.php/api/TweetsUnique/user"
       uri = URI.parse(es_url)
       initheader = {"Content-Type"=> "application/json"}
       http = Net::HTTP.new(uri.host,uri.port)
@@ -393,7 +392,7 @@ class TweetsController < ApplicationController
     #Rails.logger.info("inside queryRankFromES")
     x = "{}"
     begin
-      http = Net::HTTP.new("54.254.80.93")
+      http = Net::HTTP.new("54.254.76.28")
       http.read_timeout = 5
       resp = http.get("/tweet-store/index.php/api/TweetsUnique/user?user_id=" + user_id.to_s)
       x = resp.body
