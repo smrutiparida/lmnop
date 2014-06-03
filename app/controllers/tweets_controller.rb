@@ -56,9 +56,10 @@ class TweetsController < ApplicationController
     ranks = Tweet.find_by_id(data["user_id"])
     unless ranks.nil?
       x = JSON.parse ranks.rank_data
+      Rails.logger.info(x)
       data["ranks"].each do |user_id, json_data|
-        x.ranks[user_id] = json_data
-        Rails.logger.info("rank updated")
+        x[ranks][user_id] = json_data
+        Rails.logger.info(x[ranks][user_id])
       end
       ranks.rank_data = x.to_json
       ranks.save! 
