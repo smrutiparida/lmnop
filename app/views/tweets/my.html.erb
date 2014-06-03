@@ -7,11 +7,7 @@
         document.getElementById('rangeSelectvalue').innerHTML = "0 - 1000";
        
         var marks = [];
-        $.ajax({
-            type: 'GET',
-            url: 'http://www.peoplefied.com/tweets/rank?user_id='+user_id,
-            success: function(data) { 
-                data = JSON.parse(data);
+        $.get('/tweets/rank?user_id='+user_id, function(data) { 
                 if(data.found == true) {
                     for(var key in data._source.ranks) {
                         if(data._source.ranks[key].set == false) continue;
@@ -69,7 +65,7 @@
                        }
                     });
                 });
-            },
+            
         });
   });
 <% end %>

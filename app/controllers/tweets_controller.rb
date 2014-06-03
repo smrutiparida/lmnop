@@ -47,8 +47,8 @@ class TweetsController < ApplicationController
       x = JSON.parse ranks.rank_data
       data = {:found => true, :'_source' => x}
     end
-    
-    render :json => {:data => data}, :status => 200
+
+    render :json => data, :status => 200
   end  
 
   def offline
