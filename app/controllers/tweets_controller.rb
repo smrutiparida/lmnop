@@ -57,20 +57,18 @@ class TweetsController < ApplicationController
           #retweet_info.nil? ? Rails.logger.info("true") : Rails.logger.info("false")
 
           if retweet_info.nil?
-            Rails.logger.info("in IF")
+            #Rails.logger.info("in IF")
             tweet_list.push({ :rt_user_id => "", :rt_screen_name => "" , :rt_profile_image_url => "", :rt_name => "" ,:user_id => tweet.user.id, :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.attrs[:id_str] ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => tweet.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})            
           else            
-            Rails.logger.info("IN BUT")
+            #Rails.logger.info("IN BUT")
             tweet_list.push({ :rt_user_id => retweet_info.user.id.to_s, :rt_screen_name => retweet_info.user.screen_name.to_s , :rt_profile_image_url => retweet_info.user.profile_image_url.to_s, :rt_name => retweet_info.user.name.to_s ,:user_id => tweet.user.id, :followers_count => tweet.user.followers_count, :rank => tweet.user.followers_count, :tweet_id => tweet.attrs[:id_str] ,:profile_image_url => tweet.user.profile_image_url.to_s, :name => tweet.user.name, :screen_name => tweet.user.screen_name, :created_at => tweet.created_at, :tweet_text => retweet_info.text,:in_reply_to_status_id => tweet.in_reply_to_status_id})
           end  
         end  
 
         es_user_info = queryRankFromES(session[:user]["user_id"]);
 
-        if(es_user_info.has_key?("found") and es_user_info["found"] != "error")        
-          es_user_info = es_user_info.has_key?("_source") ? es_user_info["_source"] : {}
-          tweet_list = updateRank(es_user_info, tweet_list, session[:user]["user_id"])
-        else
+        if(es_user_info.has_key?("found") and es_user_info["found"] != "error")                  
+          Rails.logger.info("data empty")
           tl_minmax = tweet_list.minmax_by { |ele| ele[:followers_count]}
           highest_fc = tl_minmax[1][:followers_count]
           lowest_fc =  tl_minmax[0][:followers_count]
@@ -78,7 +76,10 @@ class TweetsController < ApplicationController
           highest_rank = 1000
           tweet_list.each do |x|
             x[:rank] = (lowest_rank + (x[:followers_count] - lowest_fc) / ((highest_fc - lowest_fc)/(highest_rank - lowest_rank))).ceil
-          end  
+          end
+        else    
+          Rails.logger.info("data not empty")
+          tweet_list = updateRank(es_user_info, tweet_list, session[:user]["user_id"]) 
         end  
 
         
@@ -377,11 +378,11 @@ class TweetsController < ApplicationController
     # updare es_user_info and write back to the server    
     if update_es_index
       #Rails.logger.info(es_user_info.to_json)
-      es_url = "http://54.254.76.28/tweet-store/index.php/api/TweetsUnique/user"
-      uri = URI.parse(es_url)
-      initheader = {"Content-Type"=> "application/json"}
-      http = Net::HTTP.new(uri.host,uri.port)
-      resp = http.post(uri.path, es_user_info.to_json , initheader)
+      ##es_url = "http://54.254.76.28/tweet-store/index.php/api/TweetsUnique/user"
+      ##uri = URI.parse(es_url)
+      ##initheader = {"Content-Type"=> "application/json"}
+      ##http = Net::HTTP.new(uri.host,uri.port)
+      ##resp = http.post(uri.path, es_user_info.to_json , initheader)
       #Rails.logger.info(resp.body)
 
       #Also save the same in DB
@@ -400,28 +401,31 @@ class TweetsController < ApplicationController
   
   def queryRankFromES(user_id)
     #Rails.logger.info("inside queryRankFromES")
+    
     x = "{}"
     begin
-      http = Net::HTTP.new("54.254.76.28")
-      http.read_timeout = 5
-      resp = http.get("/tweet-store/index.php/api/TweetsUnique/user?user_id=" + user_id.to_s)
-      x = resp.body
+    ##  http = Net::HTTP.new("54.254.76.28")
+    ##  http.read_timeout = 5
+    ##  resp = http.get("/tweet-store/index.php/api/TweetsUnique/user?user_id=" + user_id.to_s)
+      tweet = Tweet.find_by_id(user_id.to_i)
+      x = tweet.rank_data unless tweet.nil?
     rescue Exception=>e
       Rails.logger.info("ElasticSearch Down")
       x = '{"found" : "error"}'
-    rescue Net::ReadTimeout => e
-      Rails.logger.info("ElasticSearch Read Timeout")
-      x = '{"found" : "error"}'      
+    ##rescue Net::ReadTimeout => e
+    ##  Rails.logger.info("ElasticSearch Read Timeout")
+    ##  x = '{"found" : "error"}'      
     end 
-    x = "{}" if x.empty?
-    Rails.logger.info(x)
+    ##x = "{}" if x.empty?
+    ##Rails.logger.info(x)
     begin
       JSON.parse x
     rescue JSON::ParserError => e
-      Rails.logger.info("JSON parse erro")
+      Rails.logger.info("JSON parse error")
       x = '{"found" : "error"}'
       JSON.parse x
     end    
+    Rails.logger.info(x.to_json)
   end
 
 
