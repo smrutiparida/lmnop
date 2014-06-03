@@ -53,8 +53,17 @@ class TweetsController < ApplicationController
 
   def user
     data = JSON.parse(params[:data])
-    Rails.logger.info(data)
-    render :json => {}, :status => 200
+    ranks = Tweet.find_by_id(data["user_id"])
+    unless ranks.nil?
+      x = JSON.parse ranks.rank_data
+      data["ranks"].each do |user_id, json_data|
+        x.ranks[user_id] = json_data
+        Rails.logger.info("rank updated")
+      end
+      ranks.rank_data = x.to_json
+      ranks.save! 
+    end
+    render :json => {:success => true}, :status => 200
   end  
 
   def offline
