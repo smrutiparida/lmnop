@@ -18,6 +18,11 @@ class TweetsController < ApplicationController
     Rails.logger.info(params)
     Rails.logger.info(params[:topic])
   end
+
+  def logged
+    return_val = session.has_key?("user") ? true : false
+    render :json => {:logged=> return_val}, :status => 200
+  end  
   
   def mobile
     session[:mobile] = true
