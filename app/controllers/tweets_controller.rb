@@ -187,6 +187,7 @@ class TweetsController < ApplicationController
     else  
       flash[:notice] = "You have successfully logged out."
       redirect_to "/tweets/index"
+    end  
   end  
   
   def auth
