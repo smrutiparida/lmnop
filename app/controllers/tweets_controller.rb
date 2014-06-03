@@ -51,6 +51,10 @@ class TweetsController < ApplicationController
     render :json => data, :status => 200
   end  
 
+  def user
+    render :json => {}, :status => 200
+  end  
+
   def offline
     #render :json => {}, :status => :ok unless session[:user]
     cache = true

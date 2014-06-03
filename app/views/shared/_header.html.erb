@@ -505,7 +505,7 @@ function doDragDrop(){
       per = Math.floor(100 - per);
       var dropped_user_id = $(ui.draggable).attr('user_id');
 
-      console.log(per + "\t" + dropped_user_id);
+      //console.log(per + "\t" + dropped_user_id);
 
       temp = {}
       temp["rank"] =  per * 10;
@@ -521,7 +521,7 @@ function doDragDrop(){
 
       $.ajax({
           type: 'POST',
-          url: 'http://54.254.76.28/tweet-store/index.php/api/TweetsUnique/user',
+          url: '/tweets/user',
           data: JSON.stringify(user_data),
           success: function(data) { 
             $('#tweetlist').empty()  
