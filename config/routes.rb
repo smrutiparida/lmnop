@@ -9,6 +9,7 @@ Lmnop::Application.routes.draw do
   get "tweets/offline"
   get "tweets/logout"
   get "tweets/logged"
+  get "tweets/mlogout"
   post "tweets/retweet" => 'tweets#retweet'
   post "tweets/favorite" => 'tweets#favorite'
   post 'tweets/reply' => 'tweets#reply'
