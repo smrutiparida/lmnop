@@ -41,7 +41,7 @@
                 $("#slider").bind("dropAction", function(e,data) {
                     console.log(data);
                     var rank = Math.floor(1000 - data['pos'] * 10);
-                    if(confirm("Do you wish to set the rank of "+ data['title']+" to "+rank) == false) return false;
+                    
                     temp = {};
                     temp["rank"] =  rank;
                     temp["set"] = true;
@@ -53,7 +53,7 @@
                     user_data["ranks"][data['id']] = temp;
                     $.ajax({
                         type: 'POST',
-                        url: 'http://54.254.76.28/tweet-store/index.php/api/TweetsUnique/user',
+                        url: '/tweets/user',
                         data: JSON.stringify(user_data),
                         success: function(return_val) { 
                           $('#tweetlist').empty();
