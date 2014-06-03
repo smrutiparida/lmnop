@@ -54,7 +54,7 @@
                     $.ajax({
                         type: 'POST',
                         url: '/tweets/user',
-                        data: JSON.stringify(user_data),
+                        data: { 'data': JSON.stringify(user_data)},
                         success: function(return_val) { 
                           $('#tweetlist').empty();
                           console.log("came inside updating rank")

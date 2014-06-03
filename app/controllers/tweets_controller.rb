@@ -52,7 +52,7 @@ class TweetsController < ApplicationController
   end  
 
   def user
-    data = JSON.parse(params)
+    data = JSON.parse(params[:data])
     Rails.logger.info(data)
     render :json => {}, :status => 200
   end  
