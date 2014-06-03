@@ -42,11 +42,8 @@ class TweetsController < ApplicationController
     rank_id = params[:user_id] ? params[:user_id] : ""
     ranks = Tweet.find_by_id(rank_id.to_i)
 
-    data = {"found": false}
-    unless ranks.nil?
-      data["found"] = true
-      data["_source"] = ranks.rank_data
-    end  
+    data = ranks.nil? ? {:found => false} : {:found => true, :'_source' => ranks.rank_data}
+    
     render :json => {:data => data}, :status => 200
   end  
 
