@@ -38,6 +38,18 @@ class TweetsController < ApplicationController
     @is_my_tweets = true
   end
   
+  def rank
+    rank_id = params[:user_id] ? params[:user_id] : ""
+    ranks = Tweet.find_by_id(rank_id.to_i)
+
+    data = {"found": false}
+    unless ranks.nil?
+      data["found"] = true
+      data["_source"] = ranks.rank_data
+    end  
+    render :json => {:data => data}, :status => 200
+  end  
+
   def offline
     #render :json => {}, :status => :ok unless session[:user]
     cache = true

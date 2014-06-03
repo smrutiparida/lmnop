@@ -9,7 +9,7 @@
         var marks = [];
         $.ajax({
             type: 'GET',
-            url: 'http://54.254.76.28/tweet-store/index.php/api/TweetsUnique/user?user_id='+user_id,
+            url: 'http://www.peoplefied.com/tweets/rank?user_id='+user_id,
             success: function(data) { 
                 data = JSON.parse(data);
                 if(data.found == true) {
