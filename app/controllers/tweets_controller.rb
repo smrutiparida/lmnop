@@ -180,9 +180,13 @@ class TweetsController < ApplicationController
   end
 
   def logout
+    return_type = session[:mobile] ? "json" : "html"
     reset_session
-    flash[:notice] = "You have successfully logged out."
-    redirect_to "/tweets/index"
+    if return_type == "json"
+      render :json => {:logout => true }, :status => 200
+    else  
+      flash[:notice] = "You have successfully logged out."
+      redirect_to "/tweets/index"
   end  
   
   def auth
