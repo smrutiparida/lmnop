@@ -191,7 +191,7 @@ class TweetsController < ApplicationController
       output_params = session[:user]
       client = get_auth_client(output_params)
       id_arr = []
-      id_arr.push(params[:id].to_i)
+      id_arr.push(params[:id].to_s)
       begin 
         params[:is_favorite] ? client.unfavorite(id_arr) : client.favorite(id_arr)  
       rescue Twitter::Error::Unauthorized => e
