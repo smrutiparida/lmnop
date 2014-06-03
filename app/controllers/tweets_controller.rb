@@ -425,7 +425,7 @@ class TweetsController < ApplicationController
       x = '{"found" : "error"}'
       JSON.parse x
     end    
-    Rails.logger.info(x.to_json)
+    #Rails.logger.info(x.to_json)
   end
 
 
