@@ -781,7 +781,7 @@ var empty_function = function empty_function(){
   return;
 }
 
-function callServer(ele, additional_calls = empty_function)
+function callServer(ele, additional_calls)
 {
   if(window.location.href.indexOf("/tweets/my") != -1){
     //$("#tweetlist").empty();
@@ -789,6 +789,11 @@ function callServer(ele, additional_calls = empty_function)
   }
   else {
     //$("#tweetlist").empty();
+   if(typeof additional_calls === "undefined"){
+    callSearchServer(callServerFunc, ele, empty_function);
+   }
+   else 
+   {
     callSearchServer(callServerFunc, ele, additional_calls);
    }
     
