@@ -22,8 +22,24 @@
     return new_obj;
   }
 
+var autoRefresh = function (){
+  $("#expandedlist").empty();
+  $('#verynewtweets').show();
+  console.log("refreshing now")
+  search_params["since_ts"] = Math.round(new Date().getTime()/1000) - 10;
+  callServer("#expandedlist",aprams);
+  search_params["since_ts"] = "";
+}
+
   $( document ).ready(function() {
      
+    setInterval(autoRefresh, 10000);
+
+    $('#verynewtweets').on('click',function(){
+      $('#verynewtweets').hide();
+      $("#expandedlist").appendTo('#tweetlist');
+    });
+ 
       $( "#rangeSelectvalue" ).hide();
       //document.getElementById('blueColorScale').style.width = (30)+"%";
       //document.getElementById('blueColorScale').style.left = (0)+"%";
@@ -166,7 +182,9 @@
   </div>  
   <%= render 'shared/header' %>
   <%= render 'shared/footer' %>
-</div>  
+</div>
+<div id="verynewtweets" class="refreshBtn"></div>
+<div id="expandedlist"></div>
     
    
 

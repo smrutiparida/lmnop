@@ -663,3 +663,26 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
         text-align:center;	
     }
 }
+
+.refreshBtn {
+    position:fixed;
+    top:29%;
+    left:45%;
+    z-index:9999999999999;
+    background-color:#dadbdd;
+    -moz-border-radius:42px;
+    -webkit-border-radius:42px;
+    border-radius:42px;
+    border:1px solid #c7c6c6;
+    display:inline-block;
+    cursor:pointer;
+    color:#ec616f;
+    font-family:arial;
+    font-size:13px;
+    padding:3px 23px;
+    text-decoration:none;
+}
+.refreshBtn:hover {
+    background-color:#c9cbcf;
+    text-decoration:none;
+}
