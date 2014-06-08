@@ -26,14 +26,14 @@ var autoRefresh = function (){
   $("#expandedlist").empty();
   console.log("refreshing now")
   search_params["since_ts"] = Math.round(new Date().getTime()/1000) - 5*60;
-  callServer("#expandedlist").done(function(){
+  callServer("#expandedlist",function(){
     console.log("done now")
     new_tweet_count = $("#expandedlist > .twitSec").length;
       if(new_tweet_count > 0){
         $('#verynewtweets').text(  new_tweet_count + ' tweets')
         $('#verynewtweets').show();
       }
-  });
+    });
   
   search_params["since_ts"] = "";
 }

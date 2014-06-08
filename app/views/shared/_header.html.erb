@@ -225,7 +225,7 @@ var is_my_tweets = <%= @is_my_tweets %>;
     return "<div class='tweetlist'><p>Oops! Something went wrong. Please check us again.</p></div>"
   }
 
-  function callSearchServer(func_call, ele) {
+  function callSearchServer(func_call, ele, additional_calls) {
     
     //$(ele).html('<img src="/images/loading.gif" />');
     $.getJSON( search_url, search_params, function( data ) {
@@ -241,7 +241,7 @@ var is_my_tweets = <%= @is_my_tweets %>;
       {
         $(ele).html(printConnectionIssue());
       }
-    });
+    }).done(additional_calls);
   }
 
 function preProcessTermFrequency(array_term_frequency){
@@ -776,7 +776,7 @@ var callOfflineFunc = function offline_after_call(data, ele){
     return false;
   }
 
-function callServer(ele)
+function callServer(ele, additional_calls =  function(){ return;})
 {
   if(window.location.href.indexOf("/tweets/my") != -1){
     //$("#tweetlist").empty();
@@ -785,7 +785,7 @@ function callServer(ele)
   else {
     //$("#tweetlist").empty();
    
-    callSearchServer(callServerFunc, ele);
+    callSearchServer(callServerFunc, ele, additional_calls);
   }
   return false;
 }
