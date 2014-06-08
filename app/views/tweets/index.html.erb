@@ -40,11 +40,11 @@ var autoRefresh = function (){
 
   $( document ).ready(function() {
      
-    setInterval(autoRefresh, 300000);
+    setInterval(autoRefresh, 30000);
 
     $('#verynewtweets').on('click',function(){
       $('#verynewtweets').hide();
-      $("#expandedlist > .twitSec").prependTo('#tweetlist').show('slow');;
+      $("#expandedlist > .twitSec").hide().prependTo('#tweetlist').fadeIn('slow');;
     });
  
       $( "#rangeSelectvalue" ).hide();
