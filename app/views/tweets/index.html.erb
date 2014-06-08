@@ -26,8 +26,8 @@ var autoRefresh = function (){
   $("#expandedlist").empty();
   $('#verynewtweets').show();
   console.log("refreshing now")
-  search_params["since_ts"] = Math.round(new Date().getTime()/1000) - 10;
-  callServer("#expandedlist",aprams);
+  search_params["since_ts"] = Math.round(new Date().getTime()/1000) - 30;
+  callServer("#expandedlist");
   search_params["since_ts"] = "";
 }
 
