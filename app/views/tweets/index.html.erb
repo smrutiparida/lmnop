@@ -24,20 +24,24 @@
 
 var autoRefresh = function (){
   $("#expandedlist").empty();
-  $('#verynewtweets').show();
   console.log("refreshing now")
-  search_params["since_ts"] = Math.round(new Date().getTime()/1000) - 30;
+  search_params["since_ts"] = Math.round(new Date().getTime()/1000) - 5*60;
   callServer("#expandedlist");
+  new_tweet_count = $("#expandedlist > .twitSec").length;
+  if(new_tweet_count > 0){
+    $('#verynewtweets').text(  new_tweet_count + ' tweets')
+    $('#verynewtweets').show();
+  }
   search_params["since_ts"] = "";
 }
 
   $( document ).ready(function() {
      
-    setInterval(autoRefresh, 10000);
+    setInterval(autoRefresh, 30000);
 
     $('#verynewtweets').on('click',function(){
       $('#verynewtweets').hide();
-      $("#expandedlist").appendTo('#tweetlist');
+      $("#expandedlist > .twitSec").prependTo('#tweetlist');
     });
  
       $( "#rangeSelectvalue" ).hide();

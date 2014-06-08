@@ -666,7 +666,7 @@ input[type="range"]:hover ~ #rangevalue,input[type="range"]:active ~ #rangevalue
 
 .refreshBtn {
     position:fixed;
-    top:29%;
+    top:25%;
     left:45%;
     z-index:9999999999999;
     background-color:#dadbdd;
