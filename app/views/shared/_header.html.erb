@@ -776,7 +776,12 @@ var callOfflineFunc = function offline_after_call(data, ele){
     return false;
   }
 
-function callServer(ele, additional_calls =  function(){ return;})
+var empty_function = function empty_function(){
+  console.log("empty function");
+  return;
+}
+
+function callServer(ele, additional_calls = empty_function)
 {
   if(window.location.href.indexOf("/tweets/my") != -1){
     //$("#tweetlist").empty();
@@ -784,8 +789,9 @@ function callServer(ele, additional_calls =  function(){ return;})
   }
   else {
     //$("#tweetlist").empty();
-   
     callSearchServer(callServerFunc, ele, additional_calls);
+   }
+    
   }
   return false;
 }
