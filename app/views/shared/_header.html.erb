@@ -299,6 +299,9 @@ function timeSince(date)
   //var seconds = Math.floor((curTime.getTime() - (new Date(date)).getTime() + timezoneDiff) / 1000);
   //var seconds = Math.floor((curTime.getTime() - (new Date(date_info[0],date_info[1] -1,date_info[2],time_info[0],time_info[1],time_info[2])).getTime() + timezoneDiff) / 1000);
   var seconds = Math.floor((curTime.getTime() - (Date.parse(date)))/1000);
+  if (seconds < 0){
+    seconds = 0;
+  }
   var interval = Math.floor(seconds / 31536000);
   if (interval > 0) {
     return interval + "y ago";
