@@ -15,5 +15,11 @@ class TimelinesController < ApplicationController
     #end  
     render :text => text
   end  
+
+  def show
+    text = ""
+    $all_users.each { |key,val| text += key + " was awake till " + val + ", "}
+    rendet :text => text
+  end
   
 end
