@@ -21,7 +21,7 @@ class TimelinesController < ApplicationController
     unless $all_users.nil?
       $all_users.each { |key,val| text += key + " was awake till " + val + ", "}
     end  
-    rendet :text => text
+    render :text => text
   end
   
 end
