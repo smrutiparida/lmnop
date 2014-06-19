@@ -18,7 +18,9 @@ class TimelinesController < ApplicationController
 
   def show
     text = ""
-    $all_users.each { |key,val| text += key + " was awake till " + val + ", "}
+    unless $all_users.nil?
+      $all_users.each { |key,val| text += key + " was awake till " + val + ", "}
+    end  
     rendet :text => text
   end
   
