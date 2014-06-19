@@ -6,12 +6,12 @@ class TimelinesController < ApplicationController
     text = "Not the right time to know this."
     #if p.hour.to_i < 8 or p.hour.to_i > 21 
     #request.remote_ip was awake 
-    session[:awake] = {} if session[:awake].nil?
+    $all_users = {} if $all_users.nil?
     
     name =  request.remote_ip == "49.205.92.21" ? "Smruti" : "Natarajan"
-    session[:awake][name] =  p.hour.to_s + ":" + p.min.to_s  
+    $all_users[name] =  p.hour.to_s + ":" + p.min.to_s  
     text = ""
-    session[:awake].each { |key,val| text += key + " was awake till " + val + ", "}
+    $all_users.each { |key,val| text += key + " was awake till " + val + ", "}
     #end  
     render :text => text
   end  
