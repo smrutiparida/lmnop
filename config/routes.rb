@@ -16,7 +16,7 @@ Lmnop::Application.routes.draw do
   post "tweets/favorite" => 'tweets#favorite'
   post 'tweets/reply' => 'tweets#reply'
   get 'tweets/mobile' => 'tweets#mobile'
-  get 'timelines/show' => 'timelines#show'
+  get 'timelines/index' => 'timelines#index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.
