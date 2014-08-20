@@ -36,7 +36,7 @@ var is_my_tweets = <%= @is_my_tweets %>;
   $.template("conversationTemplate", conversationTemplate);
   
   
-  var search_url = "http://54.254.76.28/tweet-store/index.php/api/TweetsUnique/get?"
+  var search_url = "http://191.236.193.84/tweet-store/index.php/api/TweetsUnique/get?"
 
   function closeContainer_reply(){
     $(".tweet_reply_reply").each(function(){$(this).find('#myfield').val(''); $(this).hide().remove();});
@@ -518,7 +518,7 @@ function doDragDrop(){
       user_data["ranks"] = {}
       user_data["ranks"][dropped_user_id] = temp
 
-      //$.post( "http://54.254.76.28/tweet-store/index.php/api/TweetsUnique/user_rank", user_data, function( data ) {
+      //$.post( "http://191.236.193.84/tweet-store/index.php/api/TweetsUnique/user_rank", user_data, function( data ) {
       //  alert("dropped");
       //});
 
@@ -625,7 +625,7 @@ $( document ).ready(function() {
     $('#tweetlist').empty()
     callServer('#tweetlist');  
     $.ajax({
-        url:"http://54.254.76.28/tweet-store/index.php/api/TweetsUnique/slider_dist?country="+search_params["country"],
+        url:"http://191.236.193.84/tweet-store/index.php/api/TweetsUnique/slider_dist?country="+search_params["country"],
         type : "GET",
         success:function(result){
             console.log(result);

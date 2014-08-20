@@ -408,7 +408,7 @@ class TweetsController < ApplicationController
     # updare es_user_info and write back to the server    
     if update_es_index
       #Rails.logger.info(es_user_info.to_json)
-      ##es_url = "http://54.254.76.28/tweet-store/index.php/api/TweetsUnique/user"
+      ##es_url = "http://191.236.193.84/tweet-store/index.php/api/TweetsUnique/user"
       ##uri = URI.parse(es_url)
       ##initheader = {"Content-Type"=> "application/json"}
       ##http = Net::HTTP.new(uri.host,uri.port)
@@ -434,7 +434,7 @@ class TweetsController < ApplicationController
     
     x = "{}"
     begin
-    ##  http = Net::HTTP.new("54.254.76.28")
+    ##  http = Net::HTTP.new("191.236.193.84")
     ##  http.read_timeout = 5
     ##  resp = http.get("/tweet-store/index.php/api/TweetsUnique/user?user_id=" + user_id.to_s)
       tweet = Tweet.find_by_id(user_id.to_i)
