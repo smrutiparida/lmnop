@@ -766,7 +766,7 @@ var callOfflineFunc = function offline_after_call(data, ele){
     
     if ( search_params["q"] == "" && search_params["screen_name"] == "") {
       $("#trending").empty();
-      $.tmpl("trendingTemplate", data["data"]["aggregations"]["hashtags_freq"]["buckets"].slice(0,20)).appendTo( "#trending" );
+//      $.tmpl("trendingTemplate", data["data"]["aggregations"]["hashtags_freq"]["buckets"].slice(0,20)).appendTo( "#trending" );
     }
     
     $(".timeCal").each(function(index){
